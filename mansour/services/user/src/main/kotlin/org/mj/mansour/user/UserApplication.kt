@@ -1,11 +1,11 @@
-package org.mj.mansour.backend
+package org.mj.mansour.user
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class MansourBackendApplication
+class UserApplication
 
 fun main(args: Array<String>) {
-    runApplication<MansourBackendApplication>(*args)
+    runApplication<UserApplication>(*args)
 }
