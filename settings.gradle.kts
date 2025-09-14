@@ -6,7 +6,7 @@ rootProject.name = "mansour-backend"
 
 val parentProjectName = "mansour"
 val baseDir = File(settingsDir, parentProjectName)
-val projectGroupDirs = listOf("services", "systems")
+val projectGroupDirs = listOf("infrastructure", "services", "systems")
 
 projectGroupDirs.forEach { groupName ->
     val groupDir = File(baseDir, groupName)
@@ -16,9 +16,9 @@ projectGroupDirs.forEach { groupName ->
             if (projectDir.isDirectory) {
                 val projectName = projectDir.name
 
-                val includePath = "$parentProjectName:$groupName:$projectName" // e.g., "mansour:services:user"
-                val projectRefPath = ":$includePath" // e.g., ":mansour:services:user"
-                val buildFileName = "$groupName-$projectName.gradle.kts"
+                val includePath = "$parentProjectName:$groupName:$projectName" // e.g., "mansour:services:user-service"
+                val projectRefPath = ":$includePath" // e.g., ":mansour:services:user-service"
+                val buildFileName = "$projectName.gradle.kts"
 
                 include(includePath)
                 project(projectRefPath).buildFileName = buildFileName

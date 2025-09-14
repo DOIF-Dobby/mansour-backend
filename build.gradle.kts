@@ -17,6 +17,7 @@ idea {
 val directoryModules =
     arrayOf(
         ":mansour",
+        ":mansour:infrastructure",
         ":mansour:services",
         ":mansour:systems",
     )
@@ -53,6 +54,11 @@ subprojects {
     dependencyManagement {
         imports {
             mavenBom("org.springframework.boot:spring-boot-dependencies:3.5.5")
+            mavenBom("org.springframework.cloud:spring-cloud-dependencies:2025.0.0")
+        }
+
+        dependencies {
+            dependency("io.github.oshai:kotlin-logging-jvm:7.0.13")
         }
     }
 
@@ -80,8 +86,15 @@ subprojects {
         }
     }
 
-    // services 하위 스프링 부트 모듈들에 대해 스프링 부트 플러그인 적용
-    if (project.path.startsWith(":mansour:services:") && project.path != ":mansour:services") {
+    // 스프링 부트 애플리케이션이 될 모듈들의 부모 경로 목록 정의
+    val bootModuleParentPaths =
+        listOf(
+            ":mansour:services",
+            ":mansour:infrastructure",
+        )
+
+    // 스프링 부트 모듈들에 대해 스프링 부트 플러그인 적용
+    if (bootModuleParentPaths.any { parentPath -> project.path.startsWith("$parentPath:") }) {
         apply(plugin = "org.springframework.boot")
 
         tasks.jar {
