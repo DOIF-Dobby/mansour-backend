@@ -38,3 +38,8 @@ out/
 
 ### Kotlin ###
 .kotlin
+
+### Secret ###
+**/src/main/resources/.env
+**/src/main/resources/private-key
+**/src/main/resources/public-key

@@ -30,3 +30,6 @@ projectGroupDirs.forEach { groupName ->
 }
 
 include(parentProjectName)
+
+include("mansour:shared-domain")
+project(":mansour:shared-domain").buildFileName = "shared-domain.gradle.kts"

@@ -1,0 +1,25 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: auth-service
+
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  access-token:
+    private-key-path: classpath:private-key
+
+oauth2:
+  provider:
+    GOOGLE:
+      client-id: ${GOOGLE_CLIENT_ID}
+      client-secret: ${GOOGLE_CLIENT_SECRET}
+      scope:
+        - email
+        - profile

@@ -60,6 +60,14 @@ subprojects {
         dependencies {
             dependency("io.github.oshai:kotlin-logging-jvm:7.0.13")
         }
+
+        dependencies {
+            dependencySet("io.jsonwebtoken:0.13.0") {
+                entry("jjwt-api")
+                entry("jjwt-impl")
+                entry("jjwt-jackson")
+            }
+        }
     }
 
     dependencies {

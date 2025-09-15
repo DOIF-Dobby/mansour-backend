@@ -9,15 +9,29 @@ spring:
       server:
         webflux:
           routes:
+            # auth-service
+            - id: auth-service-route
+              uri: lb://auth-service
+              predicates:
+                - Path=/api/auth/**
+              filters:
+                - StripPrefix=2
+
+            # user-service
             - id: user-service-route
               uri: lb://user-service
               predicates:
                 - Path=/api/users/**
               filters:
                 - StripPrefix=2
+                - Authentication
 
 eureka:
   client:
     enabled: true # 유레카 클라이언트 활성화
     service-url:
       defaultZone: http://localhost:8761/eureka/
+
+jwt:
+  access-token:
+    public-key-path: classpath:public-key
