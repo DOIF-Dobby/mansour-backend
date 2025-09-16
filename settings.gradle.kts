@@ -6,7 +6,7 @@ rootProject.name = "mansour-backend"
 
 val parentProjectName = "mansour"
 val baseDir = File(settingsDir, parentProjectName)
-val projectGroupDirs = listOf("infrastructure", "services", "systems")
+val projectGroupDirs = listOf("infrastructure", "services", "systems", "contracts")
 
 projectGroupDirs.forEach { groupName ->
     val groupDir = File(baseDir, groupName)

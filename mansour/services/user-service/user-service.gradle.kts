@@ -8,4 +8,6 @@ dependencies {
     implementation(project(":mansour:shared-domain"))
     implementation(project(":mansour:systems:system-core"))
     implementation(project(":mansour:systems:system-api"))
+
+    implementation(project(":mansour:contracts:user-service-contract"))
 }

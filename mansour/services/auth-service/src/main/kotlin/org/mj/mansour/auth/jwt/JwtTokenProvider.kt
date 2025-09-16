@@ -24,13 +24,14 @@ class JwtTokenProvider(
         KeyFactory.getInstance("RSA").generatePrivate(keySpec)
     }
 
-    fun generateToken(subject: String): String {
+    fun generateToken(subject: String, claims: Map<String, Any>): String {
         val issuedAt = Date()
         val expiredMills = issuedAt.time + properties.expiration.toMillis()
         val expiration = Date(expiredMills)
 
         return Jwts.builder()
             .subject(subject)
+            .claims(claims)
             .issuedAt(issuedAt)
             .expiration(expiration)
             .signWith(privateKey)

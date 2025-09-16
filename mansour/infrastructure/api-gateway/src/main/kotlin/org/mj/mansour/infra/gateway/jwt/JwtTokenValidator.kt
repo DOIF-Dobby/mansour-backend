@@ -7,7 +7,7 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 import java.security.KeyFactory
 import java.security.PublicKey
-import java.security.spec.PKCS8EncodedKeySpec
+import java.security.spec.X509EncodedKeySpec
 import java.util.Base64
 
 @Component
@@ -18,10 +18,10 @@ class JwtTokenValidator(
     private val publicKey: PublicKey by lazy {
         val resource = ClassPathResource(properties.publicKeyPath.removePrefix("classpath:"))
 
-        val privateKeyBase64 = resource.inputStream.readBytes().toString(Charsets.UTF_8).trim()
+        val publicKeyBase64 = resource.inputStream.readBytes().toString(Charsets.UTF_8).trim()
 
-        val keyBytes = Base64.getDecoder().decode(privateKeyBase64)
-        val keySpec = PKCS8EncodedKeySpec(keyBytes)
+        val keyBytes = Base64.getDecoder().decode(publicKeyBase64)
+        val keySpec = X509EncodedKeySpec(keyBytes)
         KeyFactory.getInstance("RSA").generatePublic(keySpec)
     }
 

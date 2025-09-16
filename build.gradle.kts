@@ -20,6 +20,7 @@ val directoryModules =
         ":mansour:infrastructure",
         ":mansour:services",
         ":mansour:systems",
+        ":mansour:contracts",
     )
 
 allprojects {

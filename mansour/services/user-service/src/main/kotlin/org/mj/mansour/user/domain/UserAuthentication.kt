@@ -24,8 +24,6 @@ class UserAuthentication(
 
     @Column(nullable = false)
     val providerId: String,
-
-    var password: String? = null,
 ) {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
