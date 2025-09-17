@@ -17,4 +17,10 @@ class UserService(
         val user = userRepository.findByIdWithAuthentications(userId) ?: throw UserNotFoundException()
         return user.toResponse()
     }
+
+    @Transactional
+    fun deleteUser(userId: Long) {
+        val user = userRepository.findByIdWithAuthentications(userId) ?: throw UserNotFoundException()
+        user.delete()
+    }
 }
