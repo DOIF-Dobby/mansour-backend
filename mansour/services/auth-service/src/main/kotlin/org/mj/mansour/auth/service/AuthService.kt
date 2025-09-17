@@ -25,7 +25,7 @@ class AuthService(
      */
     fun loginWithOAuth2(provider: String, authorizationCode: String): String {
         val clientRegistration = findClientRegistration(clientRegistrationRepository, provider)
-        val accessToken = oAuth2TokenExchanger.exchange(clientRegistration, provider, authorizationCode)
+        val accessToken = oAuth2TokenExchanger.exchange(clientRegistration, authorizationCode)
         val attributes = oAuth2UserInfoFetcher.fetch(clientRegistration, accessToken)
 
         val userInfo = OAuth2UserInfo.from(provider, attributes)
@@ -36,8 +36,8 @@ class AuthService(
             provider = userInfo.provider,
             providerId = userInfo.providerId,
         )
-
         val userResponse = userServiceClient.findOrCreateUser(request).data ?: throw OAuth2AuthenticationException()
+
         return jwtTokenProvider.generateToken(
             subject = userResponse.userId.toString(),
             claims = mapOf(
