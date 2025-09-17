@@ -1,6 +1,7 @@
 package org.mj.mansour.user.controller
 
 import org.mj.mansour.contract.user.UserResponse
+import org.mj.mansour.system.core.logging.log
 import org.mj.mansour.system.web.response.ApiResponse
 import org.mj.mansour.system.web.response.UnitApiResponse
 import org.mj.mansour.system.webmvc.util.ApiHeaderUtils
@@ -16,8 +17,8 @@ class UserController(
     @GetMapping("/hello")
     fun hello(): UnitApiResponse {
         val currentUserId = ApiHeaderUtils.getCurrentUserId()
-        println("currentUserId = $currentUserId")
-        
+        log.info { "currentUserId = $currentUserId" }
+
         return ApiResponse.ok()
     }
 
