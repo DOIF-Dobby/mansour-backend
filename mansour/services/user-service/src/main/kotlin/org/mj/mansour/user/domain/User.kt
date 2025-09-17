@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
 import org.mansour.shared.domain.AuthProvider
 import org.mansour.shared.domain.Email
+import org.mj.mansour.system.data.jpa.BaseDeletedEntity
 
 @Entity
 @Table(name = "users")
@@ -19,7 +20,7 @@ class User(
 
     @Column(nullable = false)
     var username: String,
-) {
+) : BaseDeletedEntity() {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
