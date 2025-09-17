@@ -17,7 +17,7 @@ class OAuth2TokenExchanger {
     /**
      * 주어진 OAuth2 제공자와 인증 코드를 사용하여 액세스 토큰을 교환합니다.
      */
-    fun exchange(clientRegistration: ClientRegistration, provider: String, authorizationCode: String): OAuth2AccessToken {
+    fun exchange(clientRegistration: ClientRegistration, authorizationCode: String): OAuth2AccessToken {
         val authorizationRequest = OAuth2AuthorizationRequest
             .authorizationCode()
             .clientId(clientRegistration.clientId)
