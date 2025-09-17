@@ -1,6 +1,7 @@
 package org.mj.mansour.infra.gateway.filter
 
 import org.mj.mansour.infra.gateway.jwt.JwtTokenValidator
+import org.mj.mansour.system.web.header.ApiHeaders
 import org.springframework.cloud.gateway.filter.GatewayFilter
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory
 import org.springframework.http.HttpHeaders
@@ -31,7 +32,7 @@ class AuthenticationGatewayFilterFactory(
             try {
                 val subject = jwtTokenValidator.getSubject(token)
                 val mutatedRequest = request.mutate()
-                    .header("X-User-Id", subject)
+                    .header(ApiHeaders.X_USER_ID, subject)
                     .build()
 
                 chain.filter(exchange.mutate().request(mutatedRequest).build())

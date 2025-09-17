@@ -1,17 +1,31 @@
 package org.mj.mansour.user.controller
 
-import org.mj.mansour.system.api.response.ApiResponse
-import org.mj.mansour.system.api.response.UnitApiResponse
+import org.mj.mansour.contract.user.UserResponse
+import org.mj.mansour.system.web.response.ApiResponse
+import org.mj.mansour.system.web.response.UnitApiResponse
+import org.mj.mansour.system.webmvc.util.ApiHeaderUtils
+import org.mj.mansour.user.service.UserService
 import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestHeader
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-class UserController {
+class UserController(
+    private val userService: UserService,
+) {
 
     @GetMapping("/hello")
-    fun hello(@RequestHeader("X-User-Id") userId: String): UnitApiResponse {
-        println("userId = $userId")
+    fun hello(): UnitApiResponse {
+        val currentUserId = ApiHeaderUtils.getCurrentUserId()
+        println("currentUserId = $currentUserId")
+        
         return ApiResponse.ok()
+    }
+
+    @GetMapping
+    fun getUser(): ApiResponse<UserResponse> {
+        val currentUserId = ApiHeaderUtils.getCurrentUserId()
+        val user = userService.getUser(userId = currentUserId)
+
+        return ApiResponse.ok(data = user)
     }
 }

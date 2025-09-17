@@ -2,5 +2,5 @@ dependencies {
     implementation("jakarta.persistence:jakarta.persistence-api")
     implementation("org.springframework.data:spring-data-jpa")
 
-    implementation(project(":mansour:systems:system-core"))
+    implementation(project(MansourModules.SYSTEM_CORE))
 }

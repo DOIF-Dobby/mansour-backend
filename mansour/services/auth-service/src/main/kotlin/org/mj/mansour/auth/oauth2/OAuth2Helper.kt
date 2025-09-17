@@ -1,5 +1,6 @@
 package org.mj.mansour.auth.oauth2
 
+import org.mj.mansour.auth.oauth2.exception.OAuth2UnsupportedProviderException
 import org.springframework.security.oauth2.client.registration.ClientRegistration
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 

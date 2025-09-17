@@ -1,4 +1,4 @@
 dependencies {
 
-    implementation(project(":mansour:shared-domain"))
+    implementation(project(MansourModules.SHARED_DOMAIN))
 }

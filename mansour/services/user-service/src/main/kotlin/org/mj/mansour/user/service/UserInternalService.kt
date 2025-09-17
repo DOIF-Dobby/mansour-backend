@@ -4,8 +4,6 @@ import org.mansour.shared.domain.Email
 import org.mj.mansour.contract.user.FindOrCreateUser
 import org.mj.mansour.contract.user.UserResponse
 import org.mj.mansour.user.domain.User
-import org.mj.mansour.user.domain.UserAuthentication
-import org.mj.mansour.user.domain.UserAuthenticationRepository
 import org.mj.mansour.user.domain.UserRepository
 import org.mj.mansour.user.mapper.toResponse
 import org.springframework.stereotype.Service
@@ -14,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class UserInternalService(
     private val userRepository: UserRepository,
-    private val userAuthenticationRepository: UserAuthenticationRepository,
 ) {
 
     /**
@@ -22,22 +19,16 @@ class UserInternalService(
      */
     @Transactional
     fun findOrCreateUser(payload: FindOrCreateUser): UserResponse {
-        val authentication = userAuthenticationRepository.findByProviderAndProviderId(payload.provider, payload.providerId)
+        val findUser = userRepository.findByEmailWithAuthentications(payload.email)
 
-        val userAuthentication = if (authentication != null) {
-            authentication
+        val user = if (findUser != null) {
+            findUser
         } else {
             val newUser = User(email = Email(payload.email), username = payload.username)
+            newUser.addAuthentication(provider = payload.provider, providerId = payload.providerId)
             userRepository.save(newUser)
-
-            val userAuthentication = UserAuthentication(
-                user = newUser,
-                provider = payload.provider,
-                providerId = payload.providerId
-            )
-            userAuthenticationRepository.save(userAuthentication)
         }
 
-        return userAuthentication.toResponse()
+        return user.toResponse()
     }
 }

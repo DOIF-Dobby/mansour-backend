@@ -9,6 +9,14 @@ spring:
       server:
         webflux:
           routes:
+            - id: block-internal-api-route
+              uri: no://op
+              predicates:
+                - Path=/api/users/internal/**, /api/auth/internal/**
+              filters:
+                - SetStatus=404
+              order: -1
+
             # auth-service
             - id: auth-service-route
               uri: lb://auth-service

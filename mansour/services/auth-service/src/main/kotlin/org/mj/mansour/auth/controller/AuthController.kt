@@ -2,7 +2,7 @@ package org.mj.mansour.auth.controller
 
 import org.mj.mansour.auth.oauth2.OAuth2RedirectUrlResolver
 import org.mj.mansour.auth.service.AuthService
-import org.mj.mansour.system.api.response.ApiResponse
+import org.mj.mansour.system.web.response.ApiResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping

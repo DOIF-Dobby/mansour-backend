@@ -2,10 +2,10 @@ package org.mj.mansour.auth.service
 
 import org.mj.mansour.auth.client.UserServiceClient
 import org.mj.mansour.auth.jwt.JwtTokenProvider
-import org.mj.mansour.auth.oauth2.OAuth2AuthenticationException
 import org.mj.mansour.auth.oauth2.OAuth2TokenExchanger
 import org.mj.mansour.auth.oauth2.OAuth2UserInfo
 import org.mj.mansour.auth.oauth2.OAuth2UserInfoFetcher
+import org.mj.mansour.auth.oauth2.exception.OAuth2AuthenticationException
 import org.mj.mansour.auth.oauth2.findClientRegistration
 import org.mj.mansour.contract.user.FindOrCreateUser
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
@@ -43,8 +43,7 @@ class AuthService(
             claims = mapOf(
                 "email" to userResponse.email,
                 "username" to userResponse.username,
-                "provider" to userResponse.provider.name,
-                "providerId" to userResponse.providerId,
+                "authentications" to userResponse.authentications
             )
         )
     }

@@ -8,9 +8,10 @@ dependencies {
     runtimeOnly("io.jsonwebtoken:jjwt-impl")
     runtimeOnly("io.jsonwebtoken:jjwt-jackson")
 
-    implementation(project(":mansour:shared-domain"))
-    implementation(project(":mansour:systems:system-core"))
-    implementation(project(":mansour:systems:system-api"))
+    implementation(project(MansourModules.SHARED_DOMAIN))
+    implementation(project(MansourModules.SYSTEM_CORE))
+    implementation(project(MansourModules.SYSTEM_WEB))
+    implementation(project(MansourModules.SYSTEM_WEBMVC))
 
-    implementation(project(":mansour:contracts:user-service-contract"))
+    implementation(project(MansourModules.CONTRACTS_USER_API))
 }

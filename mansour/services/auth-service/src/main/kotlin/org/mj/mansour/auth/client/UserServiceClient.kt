@@ -2,7 +2,7 @@ package org.mj.mansour.auth.client
 
 import org.mj.mansour.contract.user.FindOrCreateUser
 import org.mj.mansour.contract.user.UserResponse
-import org.mj.mansour.system.api.response.ApiResponse
+import org.mj.mansour.system.web.response.ApiResponse
 import org.springframework.cloud.openfeign.FeignClient
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody

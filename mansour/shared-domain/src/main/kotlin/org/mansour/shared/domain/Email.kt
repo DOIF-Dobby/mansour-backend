@@ -1,6 +1,7 @@
 package org.mansour.shared.domain
 
 import jakarta.persistence.Embeddable
+import org.mansour.shared.domain.exception.InvalidEmailException
 
 @Embeddable
 data class Email(

@@ -12,4 +12,6 @@ dependencies {
         version = "4.2.6.Final",
         classifier = "osx-aarch_64",
     )
+
+    implementation(project(MansourModules.SYSTEM_WEB))
 }

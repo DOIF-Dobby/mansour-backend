@@ -14,11 +14,11 @@ class OAuth2RedirectUrlResolver(
      *
      * @param provider OAuth2 제공자의 이름 (예: "google", "facebook")
      * @return 생성된 리다이렉트 URL
-     * @throws OAuth2UnsupportedProviderException 지원되지 않는 제공자일 경우
+     * @throws org.mj.mansour.auth.oauth2.exception.OAuth2UnsupportedProviderException 지원되지 않는 제공자일 경우
      */
     fun resolveRedirectUrl(provider: String): String {
         val clientRegistration = findClientRegistration(clientRegistrationRepository, provider)
-        
+
         return UriComponentsBuilder
             .fromUriString(clientRegistration.providerDetails.authorizationUri)
             .queryParam("client_id", clientRegistration.clientId)

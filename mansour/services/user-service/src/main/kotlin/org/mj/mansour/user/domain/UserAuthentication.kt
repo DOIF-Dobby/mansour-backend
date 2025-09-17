@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne
 import org.mansour.shared.domain.AuthProvider
 
 @Entity
-class UserAuthentication(
+class UserAuthentication internal constructor(
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     val user: User,
