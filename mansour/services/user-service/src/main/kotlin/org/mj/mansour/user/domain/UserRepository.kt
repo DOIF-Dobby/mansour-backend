@@ -7,7 +7,7 @@ interface UserRepository : NoDeleteJpaRepository<User, Long> {
 
     @Query(
         value = """
-        select u
+        select distinct u
         from User u
         left join fetch u.authentications a
         where u.email.address = :email
@@ -18,7 +18,7 @@ interface UserRepository : NoDeleteJpaRepository<User, Long> {
 
     @Query(
         value = """
-        select u
+        select distinct u
         from User u
         left join fetch u.authentications a
         where u.id = :userId
