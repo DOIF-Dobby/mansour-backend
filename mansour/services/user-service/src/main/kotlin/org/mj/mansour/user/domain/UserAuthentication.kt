@@ -11,6 +11,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.JoinColumn
 import jakarta.persistence.ManyToOne
 import org.mansour.shared.domain.AuthProvider
+import org.mj.mansour.system.data.jpa.BaseEntity
 
 @Entity
 class UserAuthentication internal constructor(
@@ -24,7 +25,7 @@ class UserAuthentication internal constructor(
 
     @Column(nullable = false)
     val providerId: String,
-) {
+) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0L

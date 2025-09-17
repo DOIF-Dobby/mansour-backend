@@ -44,8 +44,8 @@ class BaseResourceMessageSource : ResourceBundleMessageSource() {
     }
 }
 
-val messageAccessor = BaseResourceMessageSource.getAccessor()
-
 fun getBundleMessage(code: String, args: Array<Any>? = null, defaultMessage: String = ""): String {
-    return messageAccessor.getMessage(code, args, defaultMessage)
+    return BaseResourceMessageSource
+        .getAccessor()
+        .getMessage(code, args, defaultMessage)
 }

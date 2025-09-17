@@ -6,6 +6,7 @@ import org.mj.mansour.system.web.response.ApiResponse
 import org.mj.mansour.system.web.response.UnitApiResponse
 import org.mj.mansour.system.webmvc.util.ApiHeaderUtils
 import org.mj.mansour.user.service.UserService
+import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -28,5 +29,13 @@ class UserController(
         val user = userService.getUser(userId = currentUserId)
 
         return ApiResponse.ok(data = user)
+    }
+
+    @DeleteMapping
+    fun deleteUser(): UnitApiResponse {
+        val currentUserId = ApiHeaderUtils.getCurrentUserId()
+        userService.deleteUser(userId = currentUserId)
+
+        return ApiResponse.ok()
     }
 }
