@@ -1,4 +1,4 @@
-package org.mansour.shared.domain
+package org.mansour.shared.domain.enums
 
 enum class AuthProvider {
     GOOGLE,

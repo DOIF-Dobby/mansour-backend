@@ -1,7 +1,7 @@
 package org.mj.mansour.user.service
 
 import org.mansour.shared.domain.Email
-import org.mj.mansour.contract.user.FindOrCreateUser
+import org.mj.mansour.contract.user.FindOrCreateUserRequest
 import org.mj.mansour.contract.user.UserResponse
 import org.mj.mansour.user.domain.User
 import org.mj.mansour.user.domain.UserRepository
@@ -18,7 +18,7 @@ class UserInternalService(
      * 사용자를 찾거나 생성합니다.
      */
     @Transactional
-    fun findOrCreateUser(payload: FindOrCreateUser): UserResponse {
+    fun findOrCreateUser(payload: FindOrCreateUserRequest): UserResponse {
         val findUser = userRepository.findByEmailWithAuthentications(payload.email)
 
         val user = if (findUser != null) {

@@ -1,5 +1,6 @@
 package org.mj.mansour.auth.controller
 
+import org.mj.mansour.auth.dto.LoginWithOAuth2Request
 import org.mj.mansour.auth.oauth2.OAuth2RedirectUrlResolver
 import org.mj.mansour.auth.service.AuthService
 import org.mj.mansour.system.web.response.ApiResponse
@@ -22,12 +23,9 @@ class AuthController(
     }
 
     @PostMapping("/login/{provider}")
-    fun loginWithOAuth2(@PathVariable provider: String, @RequestBody request: LoginRequest): ApiResponse<String> {
+    fun loginWithOAuth2(@PathVariable provider: String, @RequestBody request: LoginWithOAuth2Request): ApiResponse<String> {
         val token = authService.loginWithOAuth2(provider, request.authorizationCode)
         return ApiResponse.ok(data = token)
     }
 }
 
-data class LoginRequest(
-    val authorizationCode: String,
-)

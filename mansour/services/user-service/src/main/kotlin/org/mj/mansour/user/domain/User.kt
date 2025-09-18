@@ -8,8 +8,8 @@ import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Table
-import org.mansour.shared.domain.AuthProvider
 import org.mansour.shared.domain.Email
+import org.mansour.shared.domain.enums.AuthProvider
 import org.mj.mansour.system.data.jpa.BaseDeletedEntity
 
 @Entity
@@ -24,6 +24,7 @@ class User(
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     val id: Long = 0L
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)

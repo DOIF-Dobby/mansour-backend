@@ -8,4 +8,5 @@ object MansourModules {
     const val SHARED_DOMAIN = ":mansour:shared-domain"
 
     const val CONTRACTS_USER_API = ":mansour:contracts:user-service-contract"
+    const val CONTRACTS_ASSET_API = ":mansour:contracts:asset-service-contract"
 }

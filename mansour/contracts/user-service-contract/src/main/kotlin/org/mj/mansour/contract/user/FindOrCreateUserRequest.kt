@@ -1,8 +1,8 @@
 package org.mj.mansour.contract.user
 
-import org.mansour.shared.domain.AuthProvider
+import org.mansour.shared.domain.enums.AuthProvider
 
-data class FindOrCreateUser(
+data class FindOrCreateUserRequest(
     val email: String,
     val username: String,
     val provider: AuthProvider,

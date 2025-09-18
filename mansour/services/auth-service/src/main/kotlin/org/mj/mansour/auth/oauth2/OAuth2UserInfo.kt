@@ -1,6 +1,6 @@
 package org.mj.mansour.auth.oauth2
 
-import org.mansour.shared.domain.AuthProvider
+import org.mansour.shared.domain.enums.AuthProvider
 
 data class OAuth2UserInfo(
     val provider: AuthProvider,

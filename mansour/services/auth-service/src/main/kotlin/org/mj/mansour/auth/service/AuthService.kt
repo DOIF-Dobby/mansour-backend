@@ -7,7 +7,7 @@ import org.mj.mansour.auth.oauth2.OAuth2UserInfo
 import org.mj.mansour.auth.oauth2.OAuth2UserInfoFetcher
 import org.mj.mansour.auth.oauth2.exception.OAuth2AuthenticationException
 import org.mj.mansour.auth.oauth2.findClientRegistration
-import org.mj.mansour.contract.user.FindOrCreateUser
+import org.mj.mansour.contract.user.FindOrCreateUserRequest
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.stereotype.Service
 
@@ -30,7 +30,7 @@ class AuthService(
 
         val userInfo = OAuth2UserInfo.from(provider, attributes)
 
-        val request = FindOrCreateUser(
+        val request = FindOrCreateUserRequest(
             email = userInfo.email,
             username = userInfo.username,
             provider = userInfo.provider,
