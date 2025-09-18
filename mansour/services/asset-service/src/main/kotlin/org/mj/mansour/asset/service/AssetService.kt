@@ -4,6 +4,7 @@ import org.mj.mansour.asset.domain.AssetRepository
 import org.mj.mansour.asset.domain.Stock
 import org.mj.mansour.asset.dto.RegisterStockRequest
 import org.mj.mansour.asset.exception.AssetNotFoundException
+import org.mj.mansour.asset.exception.DuplicateAssetException
 import org.mj.mansour.asset.mapper.toResponse
 import org.mj.mansour.contract.asset.AssetResponse
 import org.springframework.stereotype.Service
@@ -16,9 +17,14 @@ class AssetService(
 
     @Transactional
     fun registerStock(request: RegisterStockRequest) {
+        if (assetRepository.findBySymbol(request.symbol) != null) {
+            throw DuplicateAssetException(symbol = request.symbol)
+        }
+
+
         val stock = Stock(
             symbol = request.symbol,
-            nameKor = request.name,
+            name = request.name,
             market = request.market
         )
 

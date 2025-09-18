@@ -10,12 +10,12 @@ import org.mansour.shared.domain.enums.AssetType
 @DiscriminatorValue("STOCK")
 class Stock(
     symbol: String,
-    nameKor: String,
+    name: String,
 
     @Enumerated(EnumType.STRING)
     val market: MarketType
 ) : Asset(
     symbol = symbol,
-    name = nameKor,
+    name = name,
     assetType = AssetType.STOCK
 )
