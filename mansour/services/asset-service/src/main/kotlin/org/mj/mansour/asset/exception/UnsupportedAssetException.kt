@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus
 
 class UnsupportedAssetException : ApiException(
     code = "ASSET_UNSUPPORTED",
-    httpStatus = HttpStatus.INTERNAL_SERVER_ERROR,
+    httpStatus = HttpStatus.BAD_REQUEST,
     messageProperty = "asset.unsupported",
 )
