@@ -34,6 +34,15 @@ spring:
                 - StripPrefix=2
                 - Authentication
 
+            # asset-service
+            - id: asset-service-route
+              uri: lb://asset-service
+              predicates:
+                - Path=/api/assets/**
+              filters:
+                - StripPrefix=2
+                - Authentication
+
 eureka:
   client:
     enabled: true # 유레카 클라이언트 활성화

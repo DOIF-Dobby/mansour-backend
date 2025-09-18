@@ -1,6 +1,6 @@
 package org.mj.mansour.user.controller
 
-import org.mj.mansour.contract.user.FindOrCreateUser
+import org.mj.mansour.contract.user.FindOrCreateUserRequest
 import org.mj.mansour.contract.user.UserResponse
 import org.mj.mansour.system.web.response.ApiResponse
 import org.mj.mansour.system.web.response.UnitApiResponse
@@ -18,7 +18,7 @@ class UserInternalController(
 ) {
 
     @PostMapping("/find-or-create")
-    fun findOrCreateUser(@RequestBody request: FindOrCreateUser): ApiResponse<UserResponse> {
+    fun findOrCreateUser(@RequestBody request: FindOrCreateUserRequest): ApiResponse<UserResponse> {
         val userResponse = userInternalService.findOrCreateUser(request)
         return ApiResponse.ok(data = userResponse)
     }

@@ -21,7 +21,7 @@ abstract class Asset(
     val symbol: String,
 
     @Column(nullable = false)
-    var nameKor: String,
+    val name: String,
 
     @Enumerated(EnumType.STRING)
     @Column(name = "asset_type", insertable = false, updatable = false)

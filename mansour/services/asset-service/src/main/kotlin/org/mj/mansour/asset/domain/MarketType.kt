@@ -1,4 +1,4 @@
-package org.mj.mansour.asset.domain.stock
+package org.mj.mansour.asset.domain
 
 enum class MarketType {
     KOSPI,
