@@ -11,6 +11,7 @@ import jakarta.persistence.Table
 import org.mansour.shared.domain.Email
 import org.mansour.shared.domain.enums.AuthProvider
 import org.mj.mansour.system.data.jpa.BaseDeletedEntity
+import org.mj.mansour.user.exception.DuplicateAuthenticationException
 
 @Entity
 @Table(name = "users")
@@ -19,7 +20,7 @@ class User(
     val email: Email,
 
     @Column(nullable = false)
-    var username: String,
+    var username: String
 ) : BaseDeletedEntity() {
 
     @Id
@@ -28,7 +29,10 @@ class User(
     val id: Long = 0L
 
     @OneToMany(mappedBy = "user", cascade = [CascadeType.ALL], orphanRemoval = true)
-    val authentications: MutableList<UserAuthentication> = mutableListOf()
+    private val _authentications: MutableList<UserAuthentication> = mutableListOf()
+
+    val authentications: List<UserAuthentication>
+        get() = _authentications.toList()
 
     /**
      * 사용자 인증 정보를 추가합니다.
@@ -37,12 +41,17 @@ class User(
      * @param providerId 인증 제공자의 ID
      */
     fun addAuthentication(provider: AuthProvider, providerId: String) {
+        // 이미 해당 제공자에 대한 인증 정보가 있는지 확인
+        if (_authentications.any { it.provider == provider }) {
+            throw DuplicateAuthenticationException(provider)
+        }
+
         val authentication = UserAuthentication(
             user = this,
             provider = provider,
             providerId = providerId
         )
-        authentications.add(authentication)
+        _authentications.add(authentication)
     }
 
 }

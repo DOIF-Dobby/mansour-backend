@@ -4,6 +4,7 @@ object MansourModules {
     const val SYSTEM_WEBMVC = ":mansour:systems:system-webmvc"
     const val SYSTEM_DATA = ":mansour:systems:system-data"
     const val SYSTEM_DATA_JPA = ":mansour:systems:system-data-jpa"
+    const val SYSTEM_FEIGN_SUPPORT = ":mansour:systems:system-feign-support"
 
     const val SHARED_DOMAIN = ":mansour:shared-domain"
 

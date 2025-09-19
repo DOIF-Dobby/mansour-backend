@@ -1,7 +1,17 @@
 package org.mj.mansour.contract.asset
 
+import com.fasterxml.jackson.annotation.JsonSubTypes
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import org.mansour.shared.domain.enums.AssetType
 
+@JsonTypeInfo(
+    use = JsonTypeInfo.Id.NAME,
+    include = JsonTypeInfo.As.PROPERTY,
+    property = "assetType"
+)
+@JsonSubTypes(
+    JsonSubTypes.Type(value = StockResponse::class, name = "STOCK")
+)
 interface AssetResponse {
     val id: Long
     val assetType: AssetType

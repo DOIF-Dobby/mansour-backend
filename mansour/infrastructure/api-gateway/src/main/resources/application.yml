@@ -43,6 +43,15 @@ spring:
                 - StripPrefix=2
                 - Authentication
 
+            # activity-service
+            - id: activity-service-route
+              uri: lb://activity-service
+              predicates:
+                - Path=/api/activities/**
+              filters:
+                - StripPrefix=2
+                - Authentication
+
 eureka:
   client:
     enabled: true # 유레카 클라이언트 활성화

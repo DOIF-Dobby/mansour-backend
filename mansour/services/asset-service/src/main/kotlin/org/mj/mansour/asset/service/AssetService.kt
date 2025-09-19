@@ -7,6 +7,7 @@ import org.mj.mansour.asset.exception.AssetNotFoundException
 import org.mj.mansour.asset.exception.DuplicateAssetException
 import org.mj.mansour.asset.mapper.toResponse
 import org.mj.mansour.contract.asset.AssetResponse
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -34,6 +35,12 @@ class AssetService(
     @Transactional(readOnly = true)
     fun getAssetBySymbol(symbol: String): AssetResponse {
         val asset = assetRepository.findBySymbol(symbol) ?: throw AssetNotFoundException()
+        return asset.toResponse()
+    }
+
+    @Transactional(readOnly = true)
+    fun getAssetById(assetId: Long): AssetResponse {
+        val asset = assetRepository.findByIdOrNull(assetId) ?: throw AssetNotFoundException()
         return asset.toResponse()
     }
 }

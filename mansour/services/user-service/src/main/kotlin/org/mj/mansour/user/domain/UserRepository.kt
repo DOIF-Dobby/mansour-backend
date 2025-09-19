@@ -9,7 +9,7 @@ interface UserRepository : NoDeleteJpaRepository<User, Long> {
         value = """
         select distinct u
         from User u
-        left join fetch u.authentications a
+        left join fetch u._authentications a
         where u.email.address = :email
         and u.deleted = false
     """
@@ -20,7 +20,7 @@ interface UserRepository : NoDeleteJpaRepository<User, Long> {
         value = """
         select distinct u
         from User u
-        left join fetch u.authentications a
+        left join fetch u._authentications a
         where u.id = :userId
         and u.deleted = false
     """
