@@ -17,6 +17,10 @@ spring:
         format_sql: true
         default_batch_fetch_size: 1000
 
+  kafka:
+    consumer:
+      group-id: activity-service-group
+
 eureka:
   client:
     enabled: true

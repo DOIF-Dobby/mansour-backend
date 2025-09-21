@@ -7,3 +7,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9092

@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue
 import jakarta.persistence.GenerationType
 import jakarta.persistence.Id
 import jakarta.persistence.OneToMany
+import org.mj.mansour.activity.exception.DuplicateInterestAssetException
 import org.mj.mansour.system.data.jpa.BaseEntity
 
 @Entity
@@ -33,6 +34,10 @@ class InterestAssetGroup(
      * 관심 자산을 그룹에 추가합니다.
      */
     fun addInterestAsset(assetId: Long) {
+        if (_assets.any { it.assetId == assetId }) {
+            throw DuplicateInterestAssetException()
+        }
+
         val asset = InterestAsset(
             group = this,
             assetId = assetId
