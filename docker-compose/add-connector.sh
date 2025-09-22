@@ -18,7 +18,8 @@ curl -X POST http://localhost:18083/connectors \
       "tombstones.on.delete": "false",
       "transforms": "outbox",
       "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
-      "transforms.outbox.table.field.event.key": "id"
+      "transforms.outbox.table.field.event.key": "id",
+      "transforms.outbox.route.by.field": "destination_topic"
     }
   }'
 
@@ -30,9 +31,9 @@ curl -X DELETE http://localhost:18083/connectors/activity-outbox-connector
 
 # 카프카 확인용
 docker exec mansour-kafka kafka-topics --bootstrap-server localhost:9092 --list
-docker exec -it mansour-kafka kafka-console-consumer \                                                                                                                                                                                   INT ✘  19:47:37 
+docker exec -it mansour-kafka kafka-console-consumer \
   --bootstrap-server localhost:9092 \
-  --topic outbox.event.InterestAsset \
+  --topic outbox.event.InterestAsset.InterestAssetAddedEvent \
   --from-beginning \
   --property print.key=true \
   --property key.separator=" : "

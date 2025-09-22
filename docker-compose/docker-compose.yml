@@ -46,7 +46,7 @@ services:
       - zookeeper
 
   connect:
-    image: debezium/connect:2.6
+    image: debezium/connect:2.7.3.Final
     container_name: mansour-connect
     ports:
       - "18083:8083" # Kafka Connect REST API
@@ -56,6 +56,10 @@ services:
       CONFIG_STORAGE_TOPIC: debezium_connect_configs
       OFFSET_STORAGE_TOPIC: debezium_connect_offsets
       STATUS_STORAGE_TOPIC: debezium_connect_status
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
     depends_on:
       - kafka
       - postgres
