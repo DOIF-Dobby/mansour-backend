@@ -1,5 +1,6 @@
 package org.mj.mansour.activity.domain.outbox
 
+import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
 import org.mj.mansour.system.data.jpa.BaseOutboxEntity
@@ -19,9 +20,8 @@ class Outbox(
 ) {
 
     @Id
-    val id: UUID = UUID.randomUUID()
+    @Column(name = "id", nullable = false, updatable = false)
+    val uuid: UUID = UUID.randomUUID()
 
-    override fun getId(): String {
-        return id.toString()
-    }
+    override fun getId(): String = uuid.toString()
 }
