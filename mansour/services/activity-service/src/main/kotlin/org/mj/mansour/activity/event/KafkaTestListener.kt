@@ -1,6 +1,7 @@
 package org.mj.mansour.activity.event
 
 import com.fasterxml.jackson.databind.ObjectMapper
+import org.mj.mansour.contract.activity.InterestAssetAddedEvent
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.kafka.support.KafkaHeaders
 import org.springframework.messaging.handler.annotation.Header
@@ -23,19 +24,10 @@ class KafkaTestListener(
         println("innerJsonString = ${innerJsonString}")
 
         // 2. 이제 순수한 JSON 문자열이 되었으므로, 최종 DTO로 변환합니다.
-        val eventDto = objectMapper.readValue(innerJsonString, TestEvent::class.java)
+        val eventDto = objectMapper.readValue(innerJsonString, InterestAssetAddedEvent.Payload::class.java)
 
         println("Successfully parsed DTO = $eventDto")
-        println("DTO's name property = ${eventDto.name}")
         println("dto to string = ${objectMapper.writeValueAsString(eventDto)}")
 
     }
 }
-
-data class TestEvent(
-    val id: Long,
-    val name: String,
-    val market: String,
-    val symbol: String,
-    val assetType: String
-)

@@ -14,5 +14,5 @@ dependencies {
     implementation(project(MansourModules.SYSTEM_WEBMVC))
     implementation(project(MansourModules.SYSTEM_FEIGN_SUPPORT))
 
-    implementation(project(MansourModules.CONTRACTS_USER_API))
+    implementation(project(MansourModules.CONTRACTS_USER_SERVICE))
 }

@@ -8,7 +8,7 @@ import org.mj.mansour.system.web.response.ApiResponse
 class FeignClientExecutor(
     private val objectMapper: ObjectMapper
 ) {
-    
+
     fun <T> run(block: () -> ApiResponse<T>): ApiResponse<T> {
         return try {
             block()
@@ -19,7 +19,7 @@ class FeignClientExecutor(
                 } catch (_: Exception) {
                     makeUnknownErrorResponse()
                 }
-            }.orElse(null)
+            }.orElse(makeUnknownErrorResponse())
         } catch (_: Exception) {
             makeUnknownErrorResponse()
         }

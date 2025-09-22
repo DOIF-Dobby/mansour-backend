@@ -20,4 +20,8 @@ class Outbox(
 
     @Id
     val id: UUID = UUID.randomUUID()
+
+    override fun getId(): String {
+        return id.toString()
+    }
 }
