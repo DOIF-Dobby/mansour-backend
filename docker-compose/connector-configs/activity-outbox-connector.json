@@ -1,0 +1,21 @@
+{
+    "name": "activity-outbox-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.hostname": "postgres",
+        "database.port": "5432",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "activity",
+        "database.server.name": "activity",
+        "topic.prefix": "activity",
+        "table.include.list": "public.outbox",
+        "slot.name": "debezium_slot",
+        "plugin.name": "pgoutput",
+        "tombstones.on.delete": "false",
+        "transforms": "outbox",
+        "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
+        "transforms.outbox.table.field.event.key": "id",
+        "transforms.outbox.route.by.field": "destination_topic"
+    }
+}
