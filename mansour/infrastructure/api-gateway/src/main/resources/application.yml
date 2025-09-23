@@ -12,7 +12,7 @@ spring:
             - id: block-internal-api-route
               uri: no://op
               predicates:
-                - Path=/api/users/internal/**, /api/auth/internal/**
+                - Path=/api/users/internal/**, /api/assets/internal/**
               filters:
                 - SetStatus=404
               order: -1
@@ -48,6 +48,15 @@ spring:
               uri: lb://activity-service
               predicates:
                 - Path=/api/activities/**
+              filters:
+                - StripPrefix=2
+                - Authentication
+
+            # market-data-service
+            - id: market-data-service-route
+              uri: lb://market-data-service
+              predicates:
+                - Path=/api/market-data/**
               filters:
                 - StripPrefix=2
                 - Authentication

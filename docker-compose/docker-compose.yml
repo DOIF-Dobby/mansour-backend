@@ -74,3 +74,14 @@ services:
       - ./connector-configs:/connector-configs
     entrypoint: [ "/bin/sh", "/setup-connector.sh" ]
     restart: "no"
+
+  redis:
+    image: redis/redis-stack:7.4.0-v6
+    container_name: mansour-redis
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - ./redis-data:/data
+    environment:
+      - TZ=Asia/Seoul

@@ -5,6 +5,7 @@ object MansourModules {
     const val SYSTEM_DATA = ":mansour:systems:system-data"
     const val SYSTEM_DATA_JPA = ":mansour:systems:system-data-jpa"
     const val SYSTEM_FEIGN_SUPPORT = ":mansour:systems:system-feign-support"
+    const val SYSTEM_KAFKA = ":mansour:systems:system-kafka"
 
     const val SHARED_DOMAIN = ":mansour:shared-domain"
 

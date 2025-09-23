@@ -60,6 +60,7 @@ class InterestAssetService(
                 interestAssetId = addedInterestAsset.id,
                 assetId = addedInterestAsset.assetId,
                 assetSymbol = assetResponse.symbol,
+                userId = interestAssetGroup.userId
             )
         )
     }
