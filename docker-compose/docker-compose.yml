@@ -63,3 +63,14 @@ services:
     depends_on:
       - kafka
       - postgres
+
+  connector-setup:
+    image: curlimages/curl:8.16.0
+    container_name: mansour-connector-setup
+    depends_on:
+      - connect
+    volumes:
+      - ./setup-connector.sh:/setup-connector.sh
+      - ./connector-configs:/connector-configs
+    entrypoint: [ "/bin/sh", "/setup-connector.sh" ]
+    restart: "no"
