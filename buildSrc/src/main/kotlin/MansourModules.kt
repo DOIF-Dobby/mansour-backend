@@ -4,9 +4,11 @@ object MansourModules {
     const val SYSTEM_WEBMVC = ":mansour:systems:system-webmvc"
     const val SYSTEM_DATA = ":mansour:systems:system-data"
     const val SYSTEM_DATA_JPA = ":mansour:systems:system-data-jpa"
+    const val SYSTEM_FEIGN_SUPPORT = ":mansour:systems:system-feign-support"
 
     const val SHARED_DOMAIN = ":mansour:shared-domain"
 
-    const val CONTRACTS_USER_API = ":mansour:contracts:user-service-contract"
-    const val CONTRACTS_ASSET_API = ":mansour:contracts:asset-service-contract"
+    const val CONTRACTS_USER_SERVICE = ":mansour:contracts:user-service-contract"
+    const val CONTRACTS_ASSET_SERVICE = ":mansour:contracts:asset-service-contract"
+    const val CONTRACTS_ACTIVITY_SERVICE = ":mansour:contracts:activity-service-contract"
 }

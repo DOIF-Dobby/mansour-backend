@@ -10,5 +10,5 @@ dependencies {
     implementation(project(MansourModules.SYSTEM_WEB))
     implementation(project(MansourModules.SYSTEM_WEBMVC))
     implementation(project(MansourModules.SYSTEM_DATA_JPA))
-    implementation(project(MansourModules.CONTRACTS_ASSET_API))
+    implementation(project(MansourModules.CONTRACTS_ASSET_SERVICE))
 }

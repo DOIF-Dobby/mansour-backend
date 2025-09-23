@@ -8,6 +8,7 @@ import org.mj.mansour.auth.oauth2.OAuth2UserInfoFetcher
 import org.mj.mansour.auth.oauth2.exception.OAuth2AuthenticationException
 import org.mj.mansour.auth.oauth2.findClientRegistration
 import org.mj.mansour.contract.user.FindOrCreateUserRequest
+import org.mj.mansour.system.feign.FeignClientExecutor
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository
 import org.springframework.stereotype.Service
 
@@ -18,6 +19,7 @@ class AuthService(
     private val oAuth2UserInfoFetcher: OAuth2UserInfoFetcher,
     private val userServiceClient: UserServiceClient,
     private val jwtTokenProvider: JwtTokenProvider,
+    private val feignClientExecutor: FeignClientExecutor
 ) {
 
     /**
@@ -36,7 +38,8 @@ class AuthService(
             provider = userInfo.provider,
             providerId = userInfo.providerId,
         )
-        val userResponse = userServiceClient.findOrCreateUser(request).data ?: throw OAuth2AuthenticationException()
+        val userResponse = feignClientExecutor.run { userServiceClient.findOrCreateUser(request) }.data
+            ?: throw OAuth2AuthenticationException()
 
         return jwtTokenProvider.generateToken(
             subject = userResponse.userId.toString(),

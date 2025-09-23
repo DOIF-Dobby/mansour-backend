@@ -11,3 +11,55 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
       TZ: Asia/Seoul
+    command: postgres -c wal_level=logical
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.8.0
+    container_name: mansour-zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.8.0
+    container_name: mansour-kafka
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # 1. 리스너 설정: Docker 내부(INTERNAL)와 외부(EXTERNAL) 리스너를 정의
+      KAFKA_LISTENERS: INTERNAL://:9093,EXTERNAL://:9092
+
+      # 2. 외부에 알릴 주소 설정: 내부 통신은 kafka:9093, 외부 통신은 localhost:9092로 알림
+      KAFKA_ADVERTISED_LISTENERS: INTERNAL://kafka:9093,EXTERNAL://localhost:9092
+
+      # 3. 리스너와 프로토콜 매핑
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+
+      # 4. 브로커 간 통신에 사용할 리스너 이름
+      KAFKA_INTER_BROKER_LISTENER_NAME: INTERNAL
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    depends_on:
+      - zookeeper
+
+  connect:
+    image: debezium/connect:2.7.3.Final
+    container_name: mansour-connect
+    ports:
+      - "18083:8083" # Kafka Connect REST API
+    environment:
+      BOOTSTRAP_SERVERS: kafka:9093
+      GROUP_ID: 1
+      CONFIG_STORAGE_TOPIC: debezium_connect_configs
+      OFFSET_STORAGE_TOPIC: debezium_connect_offsets
+      STATUS_STORAGE_TOPIC: debezium_connect_status
+      CONNECT_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONNECT_KEY_CONVERTER_SCHEMAS_ENABLE: "false"
+      CONNECT_VALUE_CONVERTER_SCHEMAS_ENABLE: "false"
+    depends_on:
+      - kafka
+      - postgres
