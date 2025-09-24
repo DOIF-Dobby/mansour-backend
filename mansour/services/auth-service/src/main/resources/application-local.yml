@@ -1,0 +1,3 @@
+jwt:
+  access-token:
+    expiration: PT24H

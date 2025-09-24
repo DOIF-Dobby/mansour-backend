@@ -1,6 +1,6 @@
 package org.mj.mansour.asset.dto
 
-import org.mj.mansour.asset.domain.MarketType
+import org.mansour.shared.domain.enums.MarketType
 
 data class RegisterStockRequest(
     val symbol: String,

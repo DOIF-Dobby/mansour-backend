@@ -44,4 +44,11 @@ class InterestAssetGroup(
         )
         _assets.add(asset)
     }
+
+    /**
+     * 관심 자산을 그룹에서 제거합니다.
+     */
+    fun removeInterestAsset(interestAsset: InterestAsset) {
+        _assets.remove(interestAsset)
+    }
 }

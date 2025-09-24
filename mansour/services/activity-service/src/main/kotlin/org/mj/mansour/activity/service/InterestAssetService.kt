@@ -6,10 +6,13 @@ import org.mj.mansour.activity.domain.InterestAssetGroupRepository
 import org.mj.mansour.activity.domain.InterestAssetRepository
 import org.mj.mansour.activity.dto.AddInterestAssetRequest
 import org.mj.mansour.activity.dto.CreateInterestAssetGroupRequest
+import org.mj.mansour.activity.dto.RemoveInterestAssetRequest
 import org.mj.mansour.activity.exception.InterestAssetNotFoundException
 import org.mj.mansour.activity.exception.InterestGroupNotFoundException
 import org.mj.mansour.activity.exception.InvalidRequestAssetDataException
 import org.mj.mansour.contract.activity.InterestAssetAddedEvent
+import org.mj.mansour.contract.activity.InterestAssetRemovedEvent
+import org.mj.mansour.contract.asset.StockResponse
 import org.mj.mansour.system.feign.FeignClientExecutor
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -40,7 +43,7 @@ class InterestAssetService(
         val assetResponse = feignClientExecutor.run { assetServiceClient.getAssetById(request.assetId) }.data
             ?: throw InvalidRequestAssetDataException()
 
-        // 관심 자산 그룹이 존재하는지 확인
+        // 관심 자산 그룹 조회
         val interestAssetGroup = interestAssetGroupRepository.findByIdOrNull(request.groupId)
             ?: throw InterestGroupNotFoundException()
 
@@ -52,16 +55,59 @@ class InterestAssetService(
         ) ?: throw InterestAssetNotFoundException()
 
         // outbox 레코드 생성
-        outboxService.saveOutboxRecord(
-            aggregateId = addedInterestAsset.id.toString(),
-            aggregateType = InterestAssetAddedEvent.AGGREGATE_TYPE,
-            eventType = InterestAssetAddedEvent.EVENT_TYPE,
-            payload = InterestAssetAddedEvent.Payload(
-                interestAssetId = addedInterestAsset.id,
-                assetId = addedInterestAsset.assetId,
-                assetSymbol = assetResponse.symbol,
-                userId = interestAssetGroup.userId
-            )
-        )
+        when (assetResponse) {
+            is StockResponse -> {
+                outboxService.saveOutboxRecord(
+                    aggregateId = addedInterestAsset.id.toString(),
+                    aggregateType = InterestAssetAddedEvent.AGGREGATE_TYPE,
+                    eventType = InterestAssetAddedEvent.EVENT_TYPE,
+                    payload = InterestAssetAddedEvent.Payload(
+                        groupId = interestAssetGroup.id,
+                        assetId = addedInterestAsset.assetId,
+                        assetSymbol = assetResponse.symbol,
+                        market = assetResponse.market,
+                        userId = interestAssetGroup.userId
+                    )
+                )
+            }
+        }
+    }
+
+    @Transactional
+    fun removeInterestAsset(request: RemoveInterestAssetRequest) {
+        // 자산 정보를 외부 서비스에서 조회
+        val assetResponse = feignClientExecutor.run { assetServiceClient.getAssetById(request.assetId) }.data
+            ?: throw InvalidRequestAssetDataException()
+
+        // 관심 자산 그룹 조회
+        val interestAssetGroup = interestAssetGroupRepository.findByIdOrNull(request.groupId)
+            ?: throw InterestGroupNotFoundException()
+
+        // 삭제할 관심 자산(InterestAsset)이 조회
+        val interestAssetToRemove = interestAssetRepository.findByGroupIdAndAssetId(
+            groupId = interestAssetGroup.id,
+            assetId = request.assetId
+        ) ?: throw InterestAssetNotFoundException()
+
+        // 관심 자산 그룹에 자산을 제거
+        interestAssetGroup.removeInterestAsset(interestAssetToRemove)
+
+        // outbox 레코드 생성
+        when (assetResponse) {
+            is StockResponse -> {
+                outboxService.saveOutboxRecord(
+                    aggregateId = interestAssetToRemove.id.toString(),
+                    aggregateType = InterestAssetRemovedEvent.AGGREGATE_TYPE,
+                    eventType = InterestAssetRemovedEvent.EVENT_TYPE,
+                    payload = InterestAssetRemovedEvent.Payload(
+                        groupId = interestAssetGroup.id,
+                        assetId = request.assetId,
+                        assetSymbol = assetResponse.symbol,
+                        market = assetResponse.market,
+                        userId = interestAssetGroup.userId
+                    )
+                )
+            }
+        }
     }
 }

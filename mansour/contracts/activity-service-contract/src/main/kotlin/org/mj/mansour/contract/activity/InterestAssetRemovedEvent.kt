@@ -2,9 +2,9 @@ package org.mj.mansour.contract.activity
 
 import org.mansour.shared.domain.enums.MarketType
 
-object InterestAssetAddedEvent {
+object InterestAssetRemovedEvent {
     const val AGGREGATE_TYPE = "InterestAsset"
-    const val EVENT_TYPE = "InterestAssetAddedEvent"
+    const val EVENT_TYPE = "InterestAssetRemovedEvent"
     const val TOPIC = "outbox.event.$AGGREGATE_TYPE.$EVENT_TYPE"
 
     data class Payload(
