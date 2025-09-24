@@ -15,7 +15,7 @@ class StockSubscriptionService(
     /**
      * 사용자가 특정 주식에 구독을 시작합니다.
      */
-    fun subscribe(symbol: String, userId: Long, market: MarketType) {
+    fun subscribe(userId: Long, symbol: String, market: MarketType) {
         val subscribersKey = getSubscribersKey(symbol, market)
 
         // 주식별 구독자 Set에 사용자 추가

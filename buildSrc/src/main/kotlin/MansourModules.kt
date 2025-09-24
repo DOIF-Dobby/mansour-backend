@@ -12,4 +12,5 @@ object MansourModules {
     const val CONTRACTS_USER_SERVICE = ":mansour:contracts:user-service-contract"
     const val CONTRACTS_ASSET_SERVICE = ":mansour:contracts:asset-service-contract"
     const val CONTRACTS_ACTIVITY_SERVICE = ":mansour:contracts:activity-service-contract"
+    const val CONTRACTS_MARKET_DATA_SERVICE = ":mansour:contracts:market-data-service-contract"
 }

@@ -1,8 +1,8 @@
-package org.mj.mansour.contract.activity
+package org.mj.mansour.contract.marketdata
 
-object InterestAssetAddedEvent {
+object UndoAddInterestAssetCommand {
     const val AGGREGATE_TYPE = "InterestAsset"
-    const val EVENT_TYPE = "InterestAssetAddedEvent"
+    const val EVENT_TYPE = "UndoAddInterestAssetCommand"
     const val TOPIC = "outbox.event.$AGGREGATE_TYPE.$EVENT_TYPE"
 
     data class Payload(

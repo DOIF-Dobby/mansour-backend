@@ -1,4 +1,4 @@
-package org.mj.mansour.activity.config
+package org.mj.mansour.marketdata.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.mj.mansour.system.feign.FeignClientExecutor

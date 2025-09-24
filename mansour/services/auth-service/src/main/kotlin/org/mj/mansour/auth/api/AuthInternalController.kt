@@ -1,4 +1,4 @@
-package org.mj.mansour.auth.controller
+package org.mj.mansour.auth.api
 
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController

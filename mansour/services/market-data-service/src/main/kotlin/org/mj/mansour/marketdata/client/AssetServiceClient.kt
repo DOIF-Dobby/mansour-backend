@@ -1,4 +1,4 @@
-package org.mj.mansour.activity.client
+package org.mj.mansour.marketdata.client
 
 import org.mj.mansour.contract.asset.AssetResponse
 import org.mj.mansour.system.web.response.ApiResponse

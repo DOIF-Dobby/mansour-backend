@@ -1,4 +1,4 @@
-package org.mj.mansour.asset.controller
+package org.mj.mansour.asset.api
 
 import org.mj.mansour.asset.dto.RegisterStockRequest
 import org.mj.mansour.asset.service.AssetService

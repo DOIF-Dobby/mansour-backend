@@ -1,8 +1,14 @@
 package org.mj.mansour.marketdata.event
 
 import org.mj.mansour.contract.activity.InterestAssetAddedEvent
+import org.mj.mansour.contract.asset.StockResponse
+import org.mj.mansour.contract.marketdata.UndoAddInterestAssetCommand
+import org.mj.mansour.marketdata.client.AssetServiceClient
+import org.mj.mansour.marketdata.exception.InvalidRequestAssetDataException
+import org.mj.mansour.marketdata.service.OutboxService
 import org.mj.mansour.marketdata.service.StockSubscriptionService
 import org.mj.mansour.system.core.logging.log
+import org.mj.mansour.system.feign.FeignClientExecutor
 import org.mj.mansour.system.kafka.DebeziumMessageParser
 import org.mj.mansour.system.kafka.parsePayload
 import org.springframework.kafka.annotation.KafkaListener
@@ -13,18 +19,47 @@ import org.springframework.stereotype.Component
 class InterestAssetAddedEventHandler(
     private val debeziumMessageParser: DebeziumMessageParser,
     private val stockSubscriptionService: StockSubscriptionService,
+    private val assetServiceClient: AssetServiceClient,
+    private val feignClientExecutor: FeignClientExecutor,
+    private val outboxService: OutboxService,
 ) {
 
+    /**
+     * 관심 자산 추가 이벤트를 처리합니다.
+     */
     @KafkaListener(topics = [InterestAssetAddedEvent.TOPIC])
     fun handle(@Payload message: String) {
         val payload = debeziumMessageParser.parsePayload<InterestAssetAddedEvent.Payload>(rawMessage = message)
         log.info { "handle InterestAssetAddedEvent. Received payload: $payload" }
 
-        // TODO: 구독 실패 시, Exception 잡아서 SAGA 패턴으로 사용자 관심 주식 추가 보상 트랜잭션 처리
-        stockSubscriptionService.subscribe(
-            symbol = payload.assetSymbol,
-            userId = payload.userId,
-            market = payload.market,
-        )
+        try {
+            val assetResponse = feignClientExecutor.run { assetServiceClient.getAssetById(payload.assetId) }.data
+                ?: throw InvalidRequestAssetDataException()
+
+            when (assetResponse) {
+                is StockResponse -> {
+                    stockSubscriptionService.subscribe(
+                        userId = payload.userId,
+                        symbol = assetResponse.symbol,
+                        market = assetResponse.market,
+                    )
+                }
+            }
+        } catch (e: Exception) {
+            log.error(e) { "Failed to handle InterestAssetAddedEvent. Message: $message" }
+
+            outboxService.saveOutboxRecord(
+                aggregateId = payload.interestAssetId.toString(),
+                aggregateType = UndoAddInterestAssetCommand.AGGREGATE_TYPE,
+                eventType = UndoAddInterestAssetCommand.EVENT_TYPE,
+                payload = UndoAddInterestAssetCommand.Payload(
+                    groupId = payload.groupId,
+                    assetId = payload.assetId,
+                    userId = payload.userId,
+                    interestAssetId = payload.interestAssetId
+                )
+            )
+        }
+
     }
 }

@@ -1,4 +1,4 @@
-package org.mj.mansour.auth.controller
+package org.mj.mansour.auth.api
 
 import org.mj.mansour.auth.dto.LoginWithOAuth2Request
 import org.mj.mansour.auth.oauth2.OAuth2RedirectUrlResolver

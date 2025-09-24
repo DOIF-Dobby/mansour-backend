@@ -1,4 +1,4 @@
-package org.mj.mansour.user.controller
+package org.mj.mansour.user.api
 
 import org.mj.mansour.contract.user.UserResponse
 import org.mj.mansour.system.core.logging.log

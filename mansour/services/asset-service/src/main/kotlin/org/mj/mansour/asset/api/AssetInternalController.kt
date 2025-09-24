@@ -1,4 +1,4 @@
-package org.mj.mansour.asset.controller
+package org.mj.mansour.asset.api
 
 import org.mj.mansour.asset.service.AssetService
 import org.mj.mansour.contract.asset.AssetResponse
