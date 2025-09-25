@@ -79,11 +79,18 @@ class KisAuthService(
         val duration = Duration.between(now, kisTokenResponse.accessTokenTokenExpired)
 
         val safeDuration = duration.minusMinutes(10) // 10분 여유를 두고 만료 시간을 설정
+        val ttl = when {
+            safeDuration.isNegative || safeDuration.isZero -> {
+                if (duration.isNegative || duration.isZero) Duration.ofSeconds(1) else duration
+            }
+
+            else -> safeDuration
+        }
 
         redisTemplate.opsForValue().set(
             tokenKey,
             kisTokenResponse.accessToken,
-            safeDuration
+            ttl
         )
     }
 }

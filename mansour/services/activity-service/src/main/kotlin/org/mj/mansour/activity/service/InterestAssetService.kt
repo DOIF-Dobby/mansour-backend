@@ -58,9 +58,9 @@ class InterestAssetService(
     }
 
     @Transactional
-    fun removeInterestAsset(groupId: Long, assetId: Long) {
+    fun removeInterestAsset(groupId: Long, assetId: Long, userId: Long) {
         // 관심 자산 그룹 조회
-        val interestAssetGroup = interestAssetGroupRepository.findByIdOrNull(groupId)
+        val interestAssetGroup = interestAssetGroupRepository.findByIdAndUserId(id = groupId, userId = userId)
             ?: throw InterestGroupNotFoundException()
 
         // 삭제할 관심 자산(InterestAsset)이 조회

@@ -39,6 +39,7 @@ class ActivityController(
         assetService.removeInterestAsset(
             groupId = request.groupId,
             assetId = assetId,
+            userId = ApiHeaderUtils.getCurrentUserId()
         )
 
         return ApiResponse.ok()
