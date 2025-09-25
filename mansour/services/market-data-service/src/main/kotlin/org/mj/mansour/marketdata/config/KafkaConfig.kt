@@ -1,7 +1,7 @@
 package org.mj.mansour.marketdata.config
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.mj.mansour.system.kafka.DebeziumMessageParser
+import org.mj.mansour.system.json.DebeziumMessageParser
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

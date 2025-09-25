@@ -3,8 +3,8 @@ package org.mj.mansour.activity.event
 import org.mj.mansour.activity.service.InterestAssetService
 import org.mj.mansour.contract.marketdata.UndoAddInterestAssetCommand
 import org.mj.mansour.system.core.logging.log
-import org.mj.mansour.system.kafka.DebeziumMessageParser
-import org.mj.mansour.system.kafka.parsePayload
+import org.mj.mansour.system.json.DebeziumMessageParser
+import org.mj.mansour.system.json.parsePayload
 import org.springframework.kafka.annotation.KafkaListener
 import org.springframework.messaging.handler.annotation.Payload
 import org.springframework.stereotype.Component

@@ -1,6 +1,7 @@
 package org.mj.mansour.marketdata.service
 
 import org.mansour.shared.domain.enums.MarketType
+import org.mj.mansour.marketdata.redis.MarketDataRedisKeys
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Service
 
@@ -9,14 +10,11 @@ class StockSubscriptionService(
     private val redisTemplate: RedisTemplate<String, String>,
 ) {
 
-    private fun getActiveStocksKey(market: MarketType) = "marketdata:active-stocks:${market.location}"
-    private fun getSubscribersKey(symbol: String, market: MarketType) = "marketdata:stock:${market.location}:$symbol:subscribers"
-
     /**
      * 사용자가 특정 주식에 구독을 시작합니다.
      */
     fun subscribe(userId: Long, symbol: String, market: MarketType) {
-        val subscribersKey = getSubscribersKey(symbol, market)
+        val subscribersKey = MarketDataRedisKeys.getSubscribersKey(symbol, market)
 
         // 주식별 구독자 Set에 사용자 추가
         val isNewSubscriber = redisTemplate.opsForSet().add(subscribersKey, userId.toString()) == 1L
@@ -28,7 +26,8 @@ class StockSubscriptionService(
 
             // 이 사용자가 첫 구독자라면, 활성 주식 목록에 추가
             if (subscriberCount == 1L) {
-                redisTemplate.opsForSet().add(getActiveStocksKey(market), symbol)
+                val activeStocksKey = MarketDataRedisKeys.getActiveStocksKey(market)
+                redisTemplate.opsForSet().add(activeStocksKey, symbol)
             }
         }
     }
@@ -37,7 +36,7 @@ class StockSubscriptionService(
      * 사용자가 특정 주식에 대한 구독을 취소합니다.
      */
     fun unsubscribe(symbol: String, userId: Long, market: MarketType) {
-        val subscribersKey = getSubscribersKey(symbol, market)
+        val subscribersKey = MarketDataRedisKeys.getSubscribersKey(symbol, market)
 
         // 1. 주식별 구독자 Set에서 사용자 제거
         val wasSubscriber = redisTemplate.opsForSet().remove(subscribersKey, userId.toString()) == 1L
@@ -49,7 +48,8 @@ class StockSubscriptionService(
 
             // 4. 마지막 구독자였다면, 활성 주식 목록에서 제거
             if (subscriberCount == 0L) {
-                redisTemplate.opsForSet().remove(getActiveStocksKey(market), symbol)
+                val activeStocksKey = MarketDataRedisKeys.getActiveStocksKey(market)
+                redisTemplate.opsForSet().remove(activeStocksKey, symbol)
             }
         }
     }

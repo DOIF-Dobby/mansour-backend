@@ -1,4 +1,4 @@
-package org.mj.mansour.marketdata.kis
+package org.mj.mansour.marketdata.config.kis
 
 import org.springframework.boot.context.properties.ConfigurationProperties
 

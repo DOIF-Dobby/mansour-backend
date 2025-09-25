@@ -7,10 +7,13 @@ import org.mj.mansour.marketdata.exception.InvalidRequestAssetDataException
 import org.mj.mansour.marketdata.service.StockSubscriptionService
 import org.mj.mansour.system.core.logging.log
 import org.mj.mansour.system.feign.FeignClientExecutor
-import org.mj.mansour.system.kafka.DebeziumMessageParser
-import org.mj.mansour.system.kafka.parsePayload
+import org.mj.mansour.system.json.DebeziumMessageParser
+import org.mj.mansour.system.json.parsePayload
 import org.springframework.kafka.annotation.KafkaListener
+import org.springframework.kafka.annotation.RetryableTopic
+import org.springframework.kafka.retrytopic.DltStrategy
 import org.springframework.messaging.handler.annotation.Payload
+import org.springframework.retry.annotation.Backoff
 import org.springframework.stereotype.Component
 
 @Component
@@ -21,6 +24,11 @@ class InterestAssetRemovedEventHandler(
     private val feignClientExecutor: FeignClientExecutor,
 ) {
 
+    @RetryableTopic(
+        attempts = "4",
+        backoff = Backoff(delay = 1000, multiplier = 2.0),
+        dltStrategy = DltStrategy.FAIL_ON_ERROR
+    )
     @KafkaListener(topics = [InterestAssetRemovedEvent.TOPIC])
     fun handle(@Payload message: String) {
         val payload = debeziumMessageParser.parsePayload<InterestAssetRemovedEvent.Payload>(rawMessage = message)
@@ -28,7 +36,7 @@ class InterestAssetRemovedEventHandler(
 
         val assetResponse = feignClientExecutor.run { assetServiceClient.getAssetById(payload.assetId) }.data
             ?: throw InvalidRequestAssetDataException()
-        
+
         when (assetResponse) {
             is StockResponse -> {
                 stockSubscriptionService.unsubscribe(

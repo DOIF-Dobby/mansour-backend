@@ -1,4 +1,4 @@
-package org.mj.mansour.system.kafka
+package org.mj.mansour.system.json
 
 import com.fasterxml.jackson.databind.ObjectMapper
 

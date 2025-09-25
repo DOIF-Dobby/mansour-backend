@@ -16,7 +16,7 @@ dependencies {
     implementation(project(MansourModules.SYSTEM_WEBMVC))
     implementation(project(MansourModules.SYSTEM_DATA_JPA))
     implementation(project(MansourModules.SYSTEM_FEIGN_SUPPORT))
-    implementation(project(MansourModules.SYSTEM_KAFKA))
+    implementation(project(MansourModules.SYSTEM_JSON))
     implementation(project(MansourModules.CONTRACTS_ACTIVITY_SERVICE))
     implementation(project(MansourModules.CONTRACTS_MARKET_DATA_SERVICE))
 }

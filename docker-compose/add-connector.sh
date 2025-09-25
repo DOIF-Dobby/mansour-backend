@@ -56,9 +56,17 @@ curl -X DELETE http://localhost:18083/connectors/activity-outbox-connector
 
 # 카프카 확인용
 docker exec mansour-kafka kafka-topics --bootstrap-server localhost:9092 --list
+
 docker exec -it mansour-kafka kafka-console-consumer \
   --bootstrap-server localhost:9092 \
   --topic outbox.event.InterestAsset.InterestAssetAddedEvent \
+  --from-beginning \
+  --property print.key=true \
+  --property key.separator=" : "
+
+docker exec -it mansour-kafka kafka-console-consumer \
+  --bootstrap-server localhost:9092 \
+  --topic outbox.event.StockPrice.StockPriceUpdatedEvent \
   --from-beginning \
   --property print.key=true \
   --property key.separator=" : "

@@ -6,6 +6,9 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.kafka:spring-kafka")
 
+    implementation("net.javacrumbs.shedlock:shedlock-spring")
+    implementation("net.javacrumbs.shedlock:shedlock-provider-redis-spring")
+
     testImplementation("org.springframework.kafka:spring-kafka-test")
 
 
@@ -17,7 +20,7 @@ dependencies {
     implementation(project(MansourModules.SYSTEM_WEBMVC))
     implementation(project(MansourModules.SYSTEM_DATA_JPA))
     implementation(project(MansourModules.SYSTEM_FEIGN_SUPPORT))
-    implementation(project(MansourModules.SYSTEM_KAFKA))
+    implementation(project(MansourModules.SYSTEM_JSON))
     implementation(project(MansourModules.CONTRACTS_ACTIVITY_SERVICE))
     implementation(project(MansourModules.CONTRACTS_ASSET_SERVICE))
     implementation(project(MansourModules.CONTRACTS_MARKET_DATA_SERVICE))

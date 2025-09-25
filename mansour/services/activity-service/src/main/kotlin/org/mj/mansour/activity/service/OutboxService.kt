@@ -9,9 +9,8 @@ import org.springframework.transaction.annotation.Transactional
 @Component
 class OutboxService(
     private val outboxRepository: OutboxRepository,
+    private val objectMapper: ObjectMapper,
 ) {
-
-    private val objectMapper = ObjectMapper()
 
     @Transactional
     fun saveOutboxRecord(aggregateType: String, aggregateId: String, eventType: String, payload: Any) {
