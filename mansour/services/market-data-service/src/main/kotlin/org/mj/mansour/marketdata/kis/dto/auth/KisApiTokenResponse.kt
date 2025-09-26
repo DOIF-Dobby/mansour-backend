@@ -1,10 +1,10 @@
-package org.mj.mansour.marketdata.dto.kis
+package org.mj.mansour.marketdata.kis.dto.auth
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDateTime
 
-data class KisTokenResponse(
+data class KisApiTokenResponse(
     @param:JsonProperty("access_token")
     val accessToken: String,
 

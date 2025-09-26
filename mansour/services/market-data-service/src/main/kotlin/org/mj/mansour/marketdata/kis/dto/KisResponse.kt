@@ -1,4 +1,4 @@
-package org.mj.mansour.marketdata.dto.kis
+package org.mj.mansour.marketdata.kis.dto
 
 import com.fasterxml.jackson.annotation.JsonProperty
 
