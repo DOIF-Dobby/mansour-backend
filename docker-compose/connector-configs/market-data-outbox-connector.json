@@ -1,0 +1,21 @@
+{
+    "name": "market-data-outbox-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.hostname": "postgres",
+        "database.port": "5432",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "market_data",
+        "database.server.name": "market_data",
+        "topic.prefix": "market_data",
+        "table.include.list": "public.outbox",
+        "slot.name": "debezium_market_data_slot",
+        "plugin.name": "pgoutput",
+        "tombstones.on.delete": "false",
+        "transforms": "outbox",
+        "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
+        "transforms.outbox.table.field.event.key": "id",
+        "transforms.outbox.route.by.field": "destination_topic"
+    }
+}

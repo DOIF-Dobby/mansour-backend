@@ -6,3 +6,6 @@ GRANT ALL PRIVILEGES ON DATABASE asset TO postgres;
 
 CREATE DATABASE activity;
 GRANT ALL PRIVILEGES ON DATABASE activity TO postgres;
+
+CREATE DATABASE market_data;
+GRANT ALL PRIVILEGES ON DATABASE market_data TO postgres;

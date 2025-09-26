@@ -3,6 +3,7 @@ package org.mj.mansour.contract.asset
 import com.fasterxml.jackson.annotation.JsonSubTypes
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import org.mansour.shared.domain.enums.AssetType
+import org.mansour.shared.domain.enums.MarketType
 
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
@@ -24,6 +25,6 @@ data class StockResponse(
     override val assetType: AssetType = AssetType.STOCK,
     override val symbol: String,
     override val name: String,
-    val market: String
+    val market: MarketType
 ) : AssetResponse
 

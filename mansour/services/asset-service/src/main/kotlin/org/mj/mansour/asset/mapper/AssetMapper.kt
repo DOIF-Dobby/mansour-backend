@@ -12,7 +12,7 @@ fun Asset.toResponse(): AssetResponse {
             id = this.id,
             symbol = this.symbol,
             name = this.name,
-            market = this.market.name,
+            market = this.market,
         )
 
         else -> throw UnsupportedAssetException()

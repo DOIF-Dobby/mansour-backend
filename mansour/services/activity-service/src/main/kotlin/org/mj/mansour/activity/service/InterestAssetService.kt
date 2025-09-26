@@ -1,16 +1,14 @@
 package org.mj.mansour.activity.service
 
-import org.mj.mansour.activity.client.AssetServiceClient
 import org.mj.mansour.activity.domain.InterestAssetGroup
 import org.mj.mansour.activity.domain.InterestAssetGroupRepository
 import org.mj.mansour.activity.domain.InterestAssetRepository
-import org.mj.mansour.activity.dto.AddInterestAssetRequest
 import org.mj.mansour.activity.dto.CreateInterestAssetGroupRequest
 import org.mj.mansour.activity.exception.InterestAssetNotFoundException
 import org.mj.mansour.activity.exception.InterestGroupNotFoundException
-import org.mj.mansour.activity.exception.InvalidRequestAssetDataException
 import org.mj.mansour.contract.activity.InterestAssetAddedEvent
-import org.mj.mansour.system.feign.FeignClientExecutor
+import org.mj.mansour.contract.activity.InterestAssetRemovedEvent
+import org.mj.mansour.system.core.logging.log
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -19,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional
 class InterestAssetService(
     private val interestAssetGroupRepository: InterestAssetGroupRepository,
     private val interestAssetRepository: InterestAssetRepository,
-    private val assetServiceClient: AssetServiceClient,
-    private val feignClientExecutor: FeignClientExecutor,
     private val outboxService: OutboxService
 ) {
 
@@ -35,20 +31,16 @@ class InterestAssetService(
     }
 
     @Transactional
-    fun addInterestAsset(request: AddInterestAssetRequest) {
-        // 자산 정보를 외부 서비스에서 조회
-        val assetResponse = feignClientExecutor.run { assetServiceClient.getAssetById(request.assetId) }.data
-            ?: throw InvalidRequestAssetDataException()
-
-        // 관심 자산 그룹이 존재하는지 확인
-        val interestAssetGroup = interestAssetGroupRepository.findByIdOrNull(request.groupId)
+    fun addInterestAsset(groupId: Long, assetId: Long, userId: Long) {
+        // 관심 자산 그룹 조회
+        val interestAssetGroup = interestAssetGroupRepository.findByIdAndUserId(id = groupId, userId = userId)
             ?: throw InterestGroupNotFoundException()
 
         // 관심 자산 그룹에 자산을 추가
-        interestAssetGroup.addInterestAsset(request.assetId)
+        interestAssetGroup.addInterestAsset(assetId)
         val addedInterestAsset = interestAssetRepository.findByGroupIdAndAssetId(
             groupId = interestAssetGroup.id,
-            assetId = request.assetId
+            assetId = assetId
         ) ?: throw InterestAssetNotFoundException()
 
         // outbox 레코드 생성
@@ -57,10 +49,65 @@ class InterestAssetService(
             aggregateType = InterestAssetAddedEvent.AGGREGATE_TYPE,
             eventType = InterestAssetAddedEvent.EVENT_TYPE,
             payload = InterestAssetAddedEvent.Payload(
-                interestAssetId = addedInterestAsset.id,
+                groupId = interestAssetGroup.id,
                 assetId = addedInterestAsset.assetId,
-                assetSymbol = assetResponse.symbol,
+                userId = interestAssetGroup.userId,
+                interestAssetId = addedInterestAsset.id
             )
         )
+    }
+
+    @Transactional
+    fun removeInterestAsset(groupId: Long, assetId: Long, userId: Long) {
+        // 관심 자산 그룹 조회
+        val interestAssetGroup = interestAssetGroupRepository.findByIdAndUserId(id = groupId, userId = userId)
+            ?: throw InterestGroupNotFoundException()
+
+        // 삭제할 관심 자산(InterestAsset)이 조회
+        val interestAssetToRemove = interestAssetRepository.findByGroupIdAndAssetId(
+            groupId = interestAssetGroup.id,
+            assetId = assetId
+        ) ?: throw InterestAssetNotFoundException()
+
+        // 관심 자산 그룹에 자산을 제거
+        interestAssetGroup.removeInterestAsset(interestAssetToRemove)
+
+        // outbox 레코드 생성
+        outboxService.saveOutboxRecord(
+            aggregateId = interestAssetToRemove.id.toString(),
+            aggregateType = InterestAssetRemovedEvent.AGGREGATE_TYPE,
+            eventType = InterestAssetRemovedEvent.EVENT_TYPE,
+            payload = InterestAssetRemovedEvent.Payload(
+                groupId = interestAssetGroup.id,
+                assetId = assetId,
+                userId = interestAssetGroup.userId
+            )
+        )
+    }
+
+    /**
+     * 관심 자산 추가 작업을 보상합니다.
+     */
+    @Transactional
+    fun compensateAddInterestAsset(groupId: Long, assetId: Long) {
+        // 관심 자산 그룹 조회
+        val interestAssetGroup = interestAssetGroupRepository.findByIdOrNull(groupId)
+            ?: run {
+                log.warn { "Compensation failed: InterestGroup with id $groupId not found." }
+                return
+            }
+
+        // 삭제할 관심 자산 조회
+        val interestAssetToCompensate = interestAssetRepository.findByGroupIdAndAssetId(
+            groupId = interestAssetGroup.id,
+            assetId = assetId
+        ) ?: run {
+            log.warn { "Compensation failed: InterestAsset for assetId $assetId in groupId $groupId not found. Already compensated." }
+            return
+        }
+
+        // 관심 자산 제거
+        interestAssetGroup.removeInterestAsset(interestAssetToCompensate)
+        log.info { "Compensation successful for interestAssetId ${interestAssetToCompensate.id}" }
     }
 }
