@@ -31,9 +31,9 @@ class InterestAssetService(
     }
 
     @Transactional
-    fun addInterestAsset(groupId: Long, assetId: Long) {
+    fun addInterestAsset(groupId: Long, assetId: Long, userId: Long) {
         // 관심 자산 그룹 조회
-        val interestAssetGroup = interestAssetGroupRepository.findByIdOrNull(groupId)
+        val interestAssetGroup = interestAssetGroupRepository.findByIdAndUserId(id = groupId, userId = userId)
             ?: throw InterestGroupNotFoundException()
 
         // 관심 자산 그룹에 자산을 추가

@@ -30,6 +30,7 @@ class ActivityController(
         assetService.addInterestAsset(
             groupId = request.groupId,
             assetId = request.assetId,
+            userId = ApiHeaderUtils.getCurrentUserId()
         )
         return ApiResponse.ok()
     }
