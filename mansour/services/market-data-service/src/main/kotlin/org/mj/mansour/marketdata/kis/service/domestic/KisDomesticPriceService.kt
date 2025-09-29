@@ -1,8 +1,8 @@
-package org.mj.mansour.marketdata.service.kis.domestic
+package org.mj.mansour.marketdata.kis.service.domestic
 
-import org.mj.mansour.marketdata.dto.kis.KisDomesticPriceData
-import org.mj.mansour.marketdata.dto.kis.KisResponse
-import org.mj.mansour.marketdata.service.kis.KisAuthService
+import org.mj.mansour.marketdata.kis.dto.KisDomesticPriceData
+import org.mj.mansour.marketdata.kis.dto.KisResponse
+import org.mj.mansour.marketdata.kis.service.KisAuthService
 import org.springframework.core.ParameterizedTypeReference
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestClient
@@ -14,7 +14,7 @@ class KisDomesticPriceService(
 ) {
 
     fun fetchDomesticPrice(symbol: String): KisDomesticPriceData {
-        val token = kisAuthService.getToken()
+        val token = kisAuthService.getApiToken()
 
         val responseBody = kisRestClient.get()
             .uri {
