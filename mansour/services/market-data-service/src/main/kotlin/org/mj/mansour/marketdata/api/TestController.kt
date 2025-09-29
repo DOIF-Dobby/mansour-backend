@@ -1,10 +1,12 @@
 package org.mj.mansour.marketdata.api
 
 import org.mj.mansour.marketdata.kis.socket.KisDomesticRealtimeWebSocketManager
+import org.springframework.context.annotation.Profile
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 
+@Profile("local")
 @RestController
 class TestController(
     private val kisDomesticRealtimeWebSocketManager: KisDomesticRealtimeWebSocketManager,

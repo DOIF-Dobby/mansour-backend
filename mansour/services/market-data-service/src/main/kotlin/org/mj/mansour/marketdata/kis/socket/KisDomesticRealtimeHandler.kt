@@ -39,7 +39,7 @@ class KisDomesticRealtimeHandler(
             return
         }
 
-        // JSON 형식으로 시작하는 실시간 데이터 메세지 외의 메시지는 무시합니다.
+        // 실시간 데이터 메세지 외의 JSON 형식으로 시작하는 메시지는 무시합니다
         if (payload.startsWith("{")) {
             return
         }
