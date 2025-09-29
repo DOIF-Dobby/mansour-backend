@@ -1,4 +1,4 @@
-package org.mj.mansour.marketdata.event
+package org.mj.mansour.marketdata.event.consumer
 
 import org.mj.mansour.contract.activity.InterestAssetRemovedEvent
 import org.mj.mansour.contract.asset.StockResponse

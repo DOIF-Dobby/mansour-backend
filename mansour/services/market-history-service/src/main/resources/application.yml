@@ -1,0 +1,27 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: market-history-service
+  profiles:
+    default: local
+
+  kafka:
+    consumer:
+      group-id: market-history-service-group
+    streams:
+      application-id: market-history-aggregator
+      properties:
+        # 처음 실행 시, 토픽의 가장 오래된 데이터부터 처리 시작
+        auto.offset.reset: earliest
+        # 기본 Key/Value (역)직렬화 방식을 지정
+        # JsonSerde가 ObjectMapper를 자동으로 사용해줌
+        default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+        default.value.serde: org.springframework.kafka.support.serializer.JsonSerde
+
+eureka:
+  client:
+    enabled: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/

@@ -1,4 +1,4 @@
-package org.mj.mansour.marketdata.event
+package org.mj.mansour.marketdata.event.internal
 
 import org.mj.mansour.contract.marketdata.StockPriceUpdatedEvent
 import org.mj.mansour.marketdata.service.OutboxService
@@ -38,7 +38,8 @@ class RawTickDataReceivedEventHandler(
             high = rawData.highestPrice,
             low = rawData.lowestPrice,
             close = rawData.currentPrice,
-            volume = rawData.accumulatedVolume
+            volume = rawData.accumulatedVolume,
+            tradeVolume = rawData.tradeVolume,
         )
 
         outboxService.saveOutboxRecord(
