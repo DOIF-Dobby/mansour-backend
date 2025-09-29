@@ -3,6 +3,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.apache.kafka:kafka-streams")
+    implementation("com.influxdb:influxdb-client-java")
 
     testImplementation("org.springframework.kafka:spring-kafka-test")
 
