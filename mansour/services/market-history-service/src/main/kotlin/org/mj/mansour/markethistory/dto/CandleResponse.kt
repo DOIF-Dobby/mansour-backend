@@ -1,15 +1,13 @@
-package org.mj.mansour.markethistory.model
+package org.mj.mansour.markethistory.dto
 
 import java.math.BigDecimal
-import java.time.Instant
 
-data class OneMinuteCandle(
+data class CandleResponse(
+    val time: Long,
     val symbol: String,
     val open: BigDecimal,
     val high: BigDecimal,
     val low: BigDecimal,
     val close: BigDecimal,
     val volume: Long,
-    val windowStartTime: Instant,
-    val windowEndTime: Instant,
 )

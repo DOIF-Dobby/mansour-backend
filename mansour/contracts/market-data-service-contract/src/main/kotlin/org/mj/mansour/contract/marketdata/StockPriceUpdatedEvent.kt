@@ -16,6 +16,6 @@ object StockPriceUpdatedEvent {
         val low: BigDecimal,
         val close: BigDecimal,
         val volume: BigDecimal, // 누적 거래량
-        val tradeVolume: BigDecimal = BigDecimal.ZERO, // 체결 거래량
+        val tradeVolume: Long, // 체결 거래량
     )
 }

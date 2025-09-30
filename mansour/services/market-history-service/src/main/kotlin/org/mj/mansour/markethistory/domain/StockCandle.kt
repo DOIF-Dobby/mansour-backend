@@ -6,29 +6,29 @@ import java.math.BigDecimal
 import java.time.Instant
 
 @Measurement(name = "stock_candle")
-class StockCandle(
+data class StockCandle(
     @Column(timestamp = true)
     val windowStartTime: Instant,
 
-    @Column(tag = true)
+    @Column(tag = true, name = "symbol")
     val symbol: String,
 
-    @Column
+    @Column(name = "open")
     val open: BigDecimal,
 
-    @Column
+    @Column(name = "high")
     val high: BigDecimal,
 
-    @Column
+    @Column(name = "low")
     val low: BigDecimal,
 
-    @Column
+    @Column(name = "close")
     val close: BigDecimal,
 
-    @Column
-    val volume: BigDecimal,
+    @Column(name = "volume")
+    val volume: Long,
 
-    @Column
+    @Column(name = "windowEndTime")
     val windowEndTime: Instant,
 ) {
 }

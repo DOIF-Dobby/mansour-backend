@@ -43,7 +43,7 @@ class KisDomesticRealtimePriceParser {
                     lowestPrice = fields[9].toBigDecimal(),
                     askPrice1 = fields[10].toBigDecimal(),
                     bidPrice1 = fields[11].toBigDecimal(),
-                    tradeVolume = fields[12].toBigDecimal(),
+                    tradeVolume = fields[12].toLong(),
                     accumulatedVolume = fields[13].toBigDecimal(),
                     accumulatedTradeValue = fields[14].toBigDecimal(),
                     sellExecutionCount = fields[15].toBigDecimal(),

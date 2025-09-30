@@ -8,5 +8,5 @@ data class OneMinuteCandleAccumulator(
     var high: BigDecimal = BigDecimal.ZERO,
     var low: BigDecimal = BigDecimal.ZERO,
     var close: BigDecimal = BigDecimal.ZERO,
-    var volume: BigDecimal = BigDecimal.ZERO
+    var volume: Long = 0L,
 )

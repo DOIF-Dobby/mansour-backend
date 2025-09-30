@@ -1,6 +1,7 @@
 package org.mj.mansour.markethistory.api
 
 import org.mj.mansour.markethistory.domain.StockCandle
+import org.mj.mansour.markethistory.dto.CandleResponse
 import org.mj.mansour.markethistory.repository.StockPriceRepository
 import org.mj.mansour.system.web.response.ApiResponse
 import org.springframework.context.annotation.Profile
@@ -26,7 +27,7 @@ class TestController(
                 high = BigDecimal.valueOf(84400),
                 low = BigDecimal.valueOf(84400),
                 close = BigDecimal.valueOf(84400),
-                volume = BigDecimal.valueOf(84400),
+                volume = 1234L,
                 windowStartTime = Instant.ofEpochSecond(1759135440),
                 windowEndTime = Instant.ofEpochSecond(1759135500)
             )
@@ -34,8 +35,20 @@ class TestController(
     }
 
     @GetMapping("/test2/{symbol}")
-    fun test2(@PathVariable("symbol") symbol: String): ApiResponse<List<StockCandle>> {
+    fun test2(@PathVariable("symbol") symbol: String): ApiResponse<List<CandleResponse>> {
         val findRecentCandles = stockPriceRepository.findRecentCandles(symbol = symbol)
+            .map { candle ->
+                CandleResponse(
+                    time = candle.windowStartTime.epochSecond,
+                    symbol = candle.symbol,
+                    open = candle.open,
+                    high = candle.high,
+                    low = candle.low,
+                    close = candle.close,
+                    volume = candle.volume,
+                )
+            }
+
         return ApiResponse.ok(data = findRecentCandles)
     }
 }

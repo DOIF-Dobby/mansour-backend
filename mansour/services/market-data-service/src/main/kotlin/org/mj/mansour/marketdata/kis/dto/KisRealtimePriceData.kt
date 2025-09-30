@@ -57,7 +57,7 @@ data class KisRealtimePriceData(
 
     /** 체결 거래량 */
     @param:JsonProperty("CNTG_VOL")
-    val tradeVolume: BigDecimal,
+    val tradeVolume: Long,
 
     /** 누적 거래량 */
     @param:JsonProperty("ACML_VOL")

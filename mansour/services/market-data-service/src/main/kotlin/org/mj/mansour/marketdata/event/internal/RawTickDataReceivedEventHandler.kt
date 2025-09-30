@@ -22,13 +22,11 @@ class RawTickDataReceivedEventHandler(
     fun handle(event: RawTickDataReceivedEvent) {
         val rawData = event.priceData
 
-        val seoulZoneId = ZoneId.of("Asia/Seoul")
-
         val businessDate = LocalDate.parse(rawData.businessDate, dateFormatter)
         val executionTime = LocalTime.parse(rawData.executionTime, timeFormatter)
 
         val localDateTime = LocalDateTime.of(businessDate, executionTime)
-        val zonedDateTime = localDateTime.atZone(seoulZoneId)
+        val zonedDateTime = localDateTime.atZone(ZoneId.systemDefault())
         val timestamp = zonedDateTime.toInstant()
 
         val eventPayload = StockPriceUpdatedEvent.Payload(

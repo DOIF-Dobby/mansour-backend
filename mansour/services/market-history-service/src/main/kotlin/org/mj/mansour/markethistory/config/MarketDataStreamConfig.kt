@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafkaStreams
 import org.springframework.kafka.support.serializer.JsonSerde
-import java.math.BigDecimal
 import java.time.Duration
 import java.time.Instant
 
@@ -39,8 +38,7 @@ class MarketDataStreamConfig {
         streamsBuilder.stream(
             StockPriceUpdatedEvent.TOPIC,
             Consumed.with(stringSerde, stringSerde)
-        )
-            .process(ProcessorSupplier { TickDataProcessor(debeziumMessageParser) })
+        ).process(ProcessorSupplier { TickDataProcessor(debeziumMessageParser) })
             // 2. 그룹화(Group): 종목 코드(symbol)를 기준으로 데이터를 묶습니다.
             .groupBy(
                 { key, value -> value.symbol },
@@ -55,9 +53,9 @@ class MarketDataStreamConfig {
                 // Aggregator: 윈도우에 새로운 체결 데이터(tick)가 들어올 때마다 캔들 상태를 업데이트합니다.
                 { symbol, tick, candle ->
                     candle.symbol = symbol
-                    candle.open = if (candle.volume == BigDecimal.ZERO) tick.close else candle.open
+                    candle.open = if (candle.volume == 0L) tick.close else candle.open
                     candle.high = maxOf(candle.high, tick.close)
-                    candle.low = if (candle.volume == BigDecimal.ZERO) tick.close else minOf(candle.low, tick.close)
+                    candle.low = if (candle.volume == 0L) tick.close else minOf(candle.low, tick.close)
                     candle.close = tick.close
                     candle.volume += tick.tradeVolume
                     candle

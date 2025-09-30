@@ -7,4 +7,4 @@ influxdb:
   url: http://localhost:18086
   token: my-super-secret-auth-token
   org: mansour
-  bucket: market_data
+  bucket: market_history_data
