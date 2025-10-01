@@ -8,4 +8,8 @@ data class InfluxDbProperties(
     val token: String,
     val org: String,
     val bucket: String
-)
+) {
+    override fun toString(): String {
+        return "InfluxDbProperties(url='$url', token='***', org='$org', bucket='$bucket')"
+    }
+}

@@ -14,9 +14,14 @@ class StockPriceRepository(
 ) {
 
     fun save(candle: StockCandle) {
-        val writeApi = influxDBClient.writeApiBlocking
-        writeApi.writeMeasurement(WritePrecision.S, candle)
-        log.info { "Saved candle $candle" }
+        try {
+            val writeApi = influxDBClient.writeApiBlocking
+            writeApi.writeMeasurement(WritePrecision.S, candle)
+            log.info { "Saved candle $candle" }
+        } catch (e: Exception) {
+            log.error(e) { "Failed to save candle $candle" }
+            throw e
+        }
     }
 
 
