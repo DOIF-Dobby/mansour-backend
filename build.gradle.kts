@@ -62,6 +62,7 @@ subprojects {
             dependency("io.github.oshai:kotlin-logging-jvm:7.0.13")
             dependency("net.javacrumbs.shedlock:shedlock-spring:6.10.0")
             dependency("net.javacrumbs.shedlock:shedlock-provider-redis-spring:6.10.0")
+            dependency("com.influxdb:influxdb-client-java:7.3.0")
         }
 
         dependencies {

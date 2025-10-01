@@ -70,3 +70,11 @@ docker exec -it mansour-kafka kafka-console-consumer \
   --from-beginning \
   --property print.key=true \
   --property key.separator=" : "
+
+
+docker exec -it mansour-kafka kafka-console-consumer \
+  --bootstrap-server localhost:9092 \
+  --topic marketdata.candles.1m \
+  --from-beginning \
+  --property print.key=true \
+  --property key.separator=" : "

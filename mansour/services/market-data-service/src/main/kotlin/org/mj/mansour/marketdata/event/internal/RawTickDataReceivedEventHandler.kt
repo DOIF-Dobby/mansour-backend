@@ -1,4 +1,4 @@
-package org.mj.mansour.marketdata.event
+package org.mj.mansour.marketdata.event.internal
 
 import org.mj.mansour.contract.marketdata.StockPriceUpdatedEvent
 import org.mj.mansour.marketdata.service.OutboxService
@@ -22,13 +22,11 @@ class RawTickDataReceivedEventHandler(
     fun handle(event: RawTickDataReceivedEvent) {
         val rawData = event.priceData
 
-        val seoulZoneId = ZoneId.of("Asia/Seoul")
-
         val businessDate = LocalDate.parse(rawData.businessDate, dateFormatter)
         val executionTime = LocalTime.parse(rawData.executionTime, timeFormatter)
 
         val localDateTime = LocalDateTime.of(businessDate, executionTime)
-        val zonedDateTime = localDateTime.atZone(seoulZoneId)
+        val zonedDateTime = localDateTime.atZone(ZoneId.systemDefault())
         val timestamp = zonedDateTime.toInstant()
 
         val eventPayload = StockPriceUpdatedEvent.Payload(
@@ -38,7 +36,8 @@ class RawTickDataReceivedEventHandler(
             high = rawData.highestPrice,
             low = rawData.lowestPrice,
             close = rawData.currentPrice,
-            volume = rawData.accumulatedVolume
+            volume = rawData.accumulatedVolume,
+            tradeVolume = rawData.tradeVolume,
         )
 
         outboxService.saveOutboxRecord(

@@ -1,6 +1,6 @@
 package org.mj.mansour.marketdata.kis.socket
 
-import org.mj.mansour.marketdata.event.RawTickDataReceivedEvent
+import org.mj.mansour.marketdata.event.internal.RawTickDataReceivedEvent
 import org.mj.mansour.marketdata.kis.event.KisDomesticSocketConnectedEvent
 import org.mj.mansour.system.core.logging.log
 import org.springframework.context.ApplicationEventPublisher
@@ -49,7 +49,7 @@ class KisDomesticRealtimeHandler(
         if (response != null) {
             manager.updateLastMessageTime()
             response.data.forEach { priceData ->
-                log.info { "  - Symbol: ${priceData.symbol}, Price: ${priceData.currentPrice}, Time: ${priceData.executionTime}, businessDate: ${priceData.businessDate}" }
+                log.info { "  - Symbol: ${priceData.symbol}, Price: ${priceData.currentPrice}, Time: ${priceData.executionTime}, businessDate: ${priceData.businessDate}, tradeVolume: ${priceData.tradeVolume}" }
                 eventPublisher.publishEvent(RawTickDataReceivedEvent(priceData = priceData))
             }
         }
