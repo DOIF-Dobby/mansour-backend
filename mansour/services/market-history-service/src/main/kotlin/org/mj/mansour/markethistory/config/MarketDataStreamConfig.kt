@@ -52,12 +52,22 @@ class MarketDataStreamConfig {
                 { OneMinuteCandleAccumulator() },
                 // Aggregator: 윈도우에 새로운 체결 데이터(tick)가 들어올 때마다 캔들 상태를 업데이트합니다.
                 { symbol, tick, candle ->
-                    candle.symbol = symbol
-                    candle.open = if (candle.volume == 0L) tick.close else candle.open
-                    candle.high = maxOf(candle.high, tick.close)
-                    candle.low = if (candle.volume == 0L) tick.close else minOf(candle.low, tick.close)
-                    candle.close = tick.close
-                    candle.volume += tick.tradeVolume
+                    if (candle.volume == 0L) {
+                        // 첫 데이터가 들어왔을 때, 캔들의 open, high, low, close를 모두 tick의 close로 설정합니다.
+                        candle.symbol = symbol
+                        candle.open = tick.close
+                        candle.high = tick.close
+                        candle.low = tick.close
+                        candle.close = tick.close
+                        candle.volume = tick.tradeVolume
+                    } else {
+                        // 이후 데이터가 들어올 때, 캔들의 high, low, close를 업데이트합니다.
+                        candle.high = maxOf(candle.high, tick.close)
+                        candle.low = minOf(candle.low, tick.close)
+                        candle.close = tick.close
+                        candle.volume += tick.tradeVolume
+                    }
+
                     candle
                 },
                 // 집계 중간 결과를 저장할 상태 저장소(State Store)를 설정합니다.
