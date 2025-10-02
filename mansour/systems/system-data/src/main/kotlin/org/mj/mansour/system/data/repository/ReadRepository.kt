@@ -2,11 +2,12 @@ package org.mj.mansour.system.data.repository
 
 import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.data.repository.Repository
+import java.util.Optional
 
 @NoRepositoryBean
 interface ReadRepository<T, ID> : Repository<T, ID> {
 
-    fun findById(id: ID): T?
+    fun findById(id: ID): Optional<T>
 
     fun findAll(): Iterable<T>
 

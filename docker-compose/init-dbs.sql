@@ -9,3 +9,6 @@ GRANT ALL PRIVILEGES ON DATABASE activity TO postgres;
 
 CREATE DATABASE market_data;
 GRANT ALL PRIVILEGES ON DATABASE market_data TO postgres;
+
+CREATE DATABASE strategies;
+GRANT ALL PRIVILEGES ON DATABASE strategies TO postgres;
