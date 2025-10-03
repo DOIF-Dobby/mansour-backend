@@ -35,8 +35,3 @@ data class ApiResponse<T>(
     }
 }
 
-typealias UnitApiResponse = ApiResponse<Unit>
-
-fun ApiResponse<*>.isSuccess(): Boolean {
-    return this.code == "OK"
-}

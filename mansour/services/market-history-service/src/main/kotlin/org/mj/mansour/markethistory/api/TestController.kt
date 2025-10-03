@@ -4,6 +4,8 @@ import org.mj.mansour.markethistory.domain.StockCandle
 import org.mj.mansour.markethistory.dto.CandleResponse
 import org.mj.mansour.markethistory.repository.StockPriceRepository
 import org.mj.mansour.system.web.response.ApiResponse
+import org.mj.mansour.system.web.response.ContentApiResponse
+import org.mj.mansour.system.web.response.ok
 import org.springframework.context.annotation.Profile
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,7 +37,7 @@ class TestController(
     }
 
     @GetMapping("/test2/{symbol}")
-    fun test2(@PathVariable("symbol") symbol: String): ApiResponse<List<CandleResponse>> {
+    fun test2(@PathVariable("symbol") symbol: String): ContentApiResponse<CandleResponse> {
         val findRecentCandles = stockPriceRepository.findRecentCandles(symbol = symbol)
             .map { candle ->
                 CandleResponse(
@@ -49,6 +51,6 @@ class TestController(
                 )
             }
 
-        return ApiResponse.ok(data = findRecentCandles)
+        return ApiResponse.ok(content = findRecentCandles)
     }
 }

@@ -1,6 +1,7 @@
 package org.mj.mansour.strategy.service
 
 import org.mansour.contract.strategy.UserStrategyActivatedEvent
+import org.mansour.contract.strategy.UserStrategyDeactivatedEvent
 import org.mj.mansour.strategy.domain.ParameterType
 import org.mj.mansour.strategy.domain.StrategyParameter
 import org.mj.mansour.strategy.domain.StrategyParameterRepository
@@ -102,7 +103,6 @@ class UserStrategyService(
                 parameters = userStrategyToActivate.parameters,
             )
         )
-
     }
 
     /**
@@ -123,6 +123,19 @@ class UserStrategyService(
 
         // 비활성화 상태로 변경
         userStrategyToDeactivate.deactivate()
+
+        // outbox 레코드 생성
+        outboxService.saveOutboxRecord(
+            aggregateId = userStrategyToDeactivate.id.toString(),
+            aggregateType = UserStrategyDeactivatedEvent.AGGREGATE_TYPE,
+            eventType = UserStrategyDeactivatedEvent.EVENT_TYPE,
+            payload = UserStrategyDeactivatedEvent.Payload(
+                userStrategyId = userStrategyToDeactivate.id,
+                userId = userId,
+                strategyId = userStrategyToDeactivate.strategy.id,
+                symbol = userStrategyToDeactivate.symbol,
+            )
+        )
     }
 
     /**

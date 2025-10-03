@@ -6,7 +6,7 @@
         "database.port": "5432",
         "database.user": "postgres",
         "database.password": "postgres",
-        "database.dbname": "strategy",
+        "database.dbname": "strategies",
         "database.server.name": "strategy",
         "topic.prefix": "strategy",
         "table.include.list": "public.outbox",

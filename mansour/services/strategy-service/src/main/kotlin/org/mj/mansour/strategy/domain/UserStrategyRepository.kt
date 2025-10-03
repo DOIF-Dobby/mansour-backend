@@ -25,20 +25,6 @@ interface UserStrategyRepository : NoDeleteJpaRepository<UserStrategy, Long> {
         FROM UserStrategy us
         WHERE us.userId = :userId
         AND us.symbol = :symbol
-        AND us.active = true
-    """
-    )
-    fun hasActiveStrategyForSymbol(
-        @Param("userId") userId: Long,
-        @Param("symbol") symbol: String,
-    ): Boolean
-
-    @Query(
-        """
-        SELECT COUNT(us) > 0
-        FROM UserStrategy us
-        WHERE us.userId = :userId
-        AND us.symbol = :symbol
         AND us.id <> :id
         AND us.active = true
     """

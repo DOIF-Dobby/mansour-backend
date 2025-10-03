@@ -3,10 +3,12 @@ package org.mj.mansour.strategy.domain.outbox
 import jakarta.persistence.Column
 import jakarta.persistence.Entity
 import jakarta.persistence.Id
+import jakarta.persistence.Table
 import org.mj.mansour.system.data.jpa.BaseOutboxEntity
 import java.util.UUID
 
 @Entity
+@Table(name = "outbox")
 class Outbox(
     aggregateType: String,
     aggregateId: String,
