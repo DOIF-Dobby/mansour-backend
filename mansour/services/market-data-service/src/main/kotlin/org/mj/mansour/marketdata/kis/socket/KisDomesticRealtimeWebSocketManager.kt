@@ -23,9 +23,8 @@ class KisDomesticRealtimeWebSocketManager(
     private val kisAuthService: KisAuthService,
     private val parser: KisDomesticRealtimePriceParser,
     private val eventPublisher: ApplicationEventPublisher,
+    private val webSocketClient: StandardWebSocketClient,
 ) {
-
-    private val webSocketClient = StandardWebSocketClient()
 
     private var session: WebSocketSession? = null
 
@@ -122,7 +121,7 @@ class KisDomesticRealtimeWebSocketManager(
         val now = Instant.now()
         return Duration.between(lastTime, now) > idleThreshold
     }
-    
+
     /**
      * 핸들러가 연결 성공 시 호출하여 세션을 저장하는 내부 메서드
      */

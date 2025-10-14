@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service
 class StockSubscriptionService(
     private val stockSubscriptionRepository: StockSubscriptionRepository,
     private val kisDomesticRealtimeWebSocketManager: KisDomesticRealtimeWebSocketManager,
-
-    ) {
+) {
 
     /**
      * 사용자가 특정 주식에 구독을 시작합니다.
