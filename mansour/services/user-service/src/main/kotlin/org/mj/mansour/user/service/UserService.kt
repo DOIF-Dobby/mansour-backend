@@ -1,6 +1,7 @@
 package org.mj.mansour.user.service
 
 import org.mj.mansour.contract.user.UserResponse
+import org.mj.mansour.user.domain.User
 import org.mj.mansour.user.domain.UserRepository
 import org.mj.mansour.user.exception.UserNotFoundException
 import org.mj.mansour.user.mapper.toResponse
@@ -14,13 +15,17 @@ class UserService(
 
     @Transactional(readOnly = true)
     fun getUser(userId: Long): UserResponse {
-        val user = userRepository.findByIdWithAuthentications(userId) ?: throw UserNotFoundException()
+        val user = findUserById(userId)
         return user.toResponse()
     }
 
     @Transactional
     fun deleteUser(userId: Long) {
-        val user = userRepository.findByIdWithAuthentications(userId) ?: throw UserNotFoundException()
+        val user = findUserById(userId)
         user.delete()
+    }
+
+    private fun findUserById(userId: Long): User {
+        return userRepository.findByIdWithAuthentications(userId) ?: throw UserNotFoundException()
     }
 }

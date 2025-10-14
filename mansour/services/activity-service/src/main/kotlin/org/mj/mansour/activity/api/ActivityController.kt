@@ -6,7 +6,7 @@ import org.mj.mansour.activity.dto.RemoveInterestAssetRequest
 import org.mj.mansour.activity.service.InterestAssetService
 import org.mj.mansour.system.web.response.ApiResponse
 import org.mj.mansour.system.web.response.UnitApiResponse
-import org.mj.mansour.system.webmvc.util.ApiHeaderUtils
+import org.mj.mansour.system.webmvc.resolver.UserId
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
@@ -19,28 +19,31 @@ class ActivityController(
 ) {
 
     @PostMapping("/interest/groups")
-    fun createInterestAssetGroup(@RequestBody request: CreateInterestAssetGroupRequest): UnitApiResponse {
-        val currentUserId = ApiHeaderUtils.getCurrentUserId()
-        assetService.createInterestAssetGroup(userId = currentUserId, request = request)
+    fun createInterestAssetGroup(@UserId userId: Long, @RequestBody request: CreateInterestAssetGroupRequest): UnitApiResponse {
+        assetService.createInterestAssetGroup(userId = userId, request = request)
         return ApiResponse.ok()
     }
 
     @PostMapping("/interest/assets")
-    fun addInterestAsset(@RequestBody request: AddInterestAssetRequest): UnitApiResponse {
+    fun addInterestAsset(@UserId userId: Long, @RequestBody request: AddInterestAssetRequest): UnitApiResponse {
         assetService.addInterestAsset(
             groupId = request.groupId,
             assetId = request.assetId,
-            userId = ApiHeaderUtils.getCurrentUserId()
+            userId = userId
         )
         return ApiResponse.ok()
     }
 
     @DeleteMapping("/interest/assets/{assetId}")
-    fun removeInterestAsset(@PathVariable assetId: Long, @RequestBody request: RemoveInterestAssetRequest): UnitApiResponse {
+    fun removeInterestAsset(
+        @UserId userId: Long,
+        @PathVariable assetId: Long,
+        @RequestBody request: RemoveInterestAssetRequest
+    ): UnitApiResponse {
         assetService.removeInterestAsset(
             groupId = request.groupId,
             assetId = assetId,
-            userId = ApiHeaderUtils.getCurrentUserId()
+            userId = userId
         )
 
         return ApiResponse.ok()
