@@ -28,7 +28,7 @@ class KisDomesticRealtimeWebSocketManager(
 
     private var session: WebSocketSession? = null
 
-    private val sessionIsOpen: Boolean
+    val sessionIsOpen: Boolean
         get() = session?.isOpen == true
 
     @Volatile
@@ -47,6 +47,25 @@ class KisDomesticRealtimeWebSocketManager(
         log.info { "Attempting to connect to KIS WebSocket server..." }
         val handler = KisDomesticRealtimeHandler(manager = this, parser = parser, eventPublisher = eventPublisher)
         webSocketClient.execute(handler, kisProperties.wsUrl)
+    }
+
+    /**
+     * WebSocket 서버와의 연결을 종료합니다.
+     * 연결이 이미 닫혀 있다면 아무 작업도 하지 않습니다.
+     */
+    fun disconnect() {
+        if (!sessionIsOpen) {
+            log.warn { "WebSocket session is not open. Nothing to disconnect." }
+            return
+        }
+
+        try {
+            session?.close()
+            unregisterSession()
+            log.info { "WebSocket session closed successfully." }
+        } catch (e: Exception) {
+            log.error(e) { "Failed to close WebSocket session." }
+        }
     }
 
     /**

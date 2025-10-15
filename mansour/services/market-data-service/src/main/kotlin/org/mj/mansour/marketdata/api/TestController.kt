@@ -17,6 +17,11 @@ class TestController(
         kisDomesticRealtimeWebSocketManager.connect()
     }
 
+    @GetMapping("/disconnect")
+    fun disconnect() {
+        kisDomesticRealtimeWebSocketManager.disconnect()
+    }
+
     @GetMapping("/subscribe/{symbol}")
     fun subscribe(@PathVariable symbol: String) {
         kisDomesticRealtimeWebSocketManager.subscribe(symbol)
