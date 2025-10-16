@@ -1,5 +1,6 @@
 package org.mj.mansour.system.webmvc.resolver
 
+import org.mj.mansour.system.webmvc.util.ApiHeaderUtils
 import org.springframework.core.MethodParameter
 import org.springframework.web.bind.support.WebDataBinderFactory
 import org.springframework.web.context.request.NativeWebRequest
@@ -18,8 +19,8 @@ class UserIdArgumentResolver : HandlerMethodArgumentResolver {
         webRequest: NativeWebRequest,
         binderFactory: WebDataBinderFactory?
     ): Any? {
-        require(parameter.parameterType == Long::class.java) {
-            "@UserId annotation can only be used with Long type parameters"
+        if (parameter.parameterType == Long::class.java) {
+            return ApiHeaderUtils.getCurrentUserId()
         }
         return null
     }
