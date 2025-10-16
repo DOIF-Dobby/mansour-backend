@@ -19,4 +19,10 @@ class AssetInternalController(
         val assetResponse = assetService.getAssetById(assetId)
         return ApiResponse.ok(data = assetResponse)
     }
+
+    @GetMapping("/symbol/{symbol}")
+    fun getAssetBySymbol(@PathVariable symbol: String): ApiResponse<AssetResponse> {
+        val assetResponse = assetService.getAssetBySymbol(symbol)
+        return ApiResponse.ok(data = assetResponse)
+    }
 }

@@ -3,6 +3,7 @@ package org.mj.mansour.marketdata.event.consumer
 import org.mj.mansour.contract.activity.InterestAssetRemovedEvent
 import org.mj.mansour.contract.asset.StockResponse
 import org.mj.mansour.marketdata.client.AssetServiceClient
+import org.mj.mansour.marketdata.enums.SubscriptionSourceType
 import org.mj.mansour.marketdata.exception.InvalidRequestAssetDataException
 import org.mj.mansour.marketdata.service.StockSubscriptionService
 import org.mj.mansour.system.core.logging.log
@@ -43,6 +44,8 @@ class InterestAssetRemovedEventHandler(
                     userId = payload.userId,
                     symbol = assetResponse.symbol,
                     market = assetResponse.market,
+                    sourceType = SubscriptionSourceType.INTEREST_ASSET,
+                    sourceId = payload.interestAssetId
                 )
             }
         }

@@ -4,6 +4,7 @@ import org.mj.mansour.contract.activity.InterestAssetAddedEvent
 import org.mj.mansour.contract.asset.StockResponse
 import org.mj.mansour.contract.marketdata.UndoAddInterestAssetCommand
 import org.mj.mansour.marketdata.client.AssetServiceClient
+import org.mj.mansour.marketdata.enums.SubscriptionSourceType
 import org.mj.mansour.marketdata.exception.InvalidRequestAssetDataException
 import org.mj.mansour.marketdata.service.OutboxService
 import org.mj.mansour.marketdata.service.StockSubscriptionService
@@ -42,6 +43,8 @@ class InterestAssetAddedEventHandler(
                         userId = payload.userId,
                         symbol = assetResponse.symbol,
                         market = assetResponse.market,
+                        sourceType = SubscriptionSourceType.INTEREST_ASSET,
+                        sourceId = payload.interestAssetId
                     )
                 }
             }

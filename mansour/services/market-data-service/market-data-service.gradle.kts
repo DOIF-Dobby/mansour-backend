@@ -25,4 +25,5 @@ dependencies {
     implementation(project(MansourModules.CONTRACTS_ACTIVITY_SERVICE))
     implementation(project(MansourModules.CONTRACTS_ASSET_SERVICE))
     implementation(project(MansourModules.CONTRACTS_MARKET_DATA_SERVICE))
+    implementation(project(MansourModules.CONTRACTS_STRATEGY_SERVICE))
 }

@@ -9,5 +9,6 @@ object InterestAssetRemovedEvent {
         val groupId: Long,
         val assetId: Long,
         val userId: Long,
+        val interestAssetId: Long,
     )
 }
