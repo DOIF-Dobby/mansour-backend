@@ -11,7 +11,11 @@ class JsonConverter(
 ) : AttributeConverter<Map<String, Any>, String> {
 
     override fun convertToDatabaseColumn(attribute: Map<String, Any>?): String? {
-        return objectMapper.writeValueAsString(attribute)
+        return if (attribute != null) {
+            objectMapper.writeValueAsString(attribute)
+        } else {
+            null
+        }
     }
 
     override fun convertToEntityAttribute(dbData: String?): Map<String, Any>? {

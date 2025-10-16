@@ -4,6 +4,7 @@ import org.mj.mansour.strategy.domain.TradingStrategy
 import org.mj.mansour.strategy.domain.TradingStrategyRepository
 import org.mj.mansour.strategy.dto.CreateTradingStrategyRequest
 import org.mj.mansour.strategy.dto.TradingStrategyResponse
+import org.mj.mansour.strategy.exception.DuplicateTradingStrategyIdException
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -17,6 +18,10 @@ class TradingStrategyService(
      */
     @Transactional
     fun createTradingStrategy(request: CreateTradingStrategyRequest) {
+
+        if (tradingStrategyRepository.existsById(request.id)) {
+            throw DuplicateTradingStrategyIdException(request.id)
+        }
 
         val tradingStrategy = TradingStrategy(
             id = request.id,
