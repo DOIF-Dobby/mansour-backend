@@ -1,5 +1,6 @@
 package org.mj.mansour.markethistory.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.KeyValue
 import org.apache.kafka.streams.StreamsBuilder
@@ -13,7 +14,6 @@ import org.apache.kafka.streams.processor.api.ProcessorSupplier
 import org.mj.mansour.contract.marketdata.StockPriceUpdatedEvent
 import org.mj.mansour.markethistory.model.OneMinuteCandle
 import org.mj.mansour.markethistory.model.OneMinuteCandleAccumulator
-import org.mj.mansour.system.json.DebeziumMessageParser
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafkaStreams
@@ -26,7 +26,7 @@ import java.time.Instant
 class MarketDataStreamConfig {
 
     @Bean
-    fun kStreamTopology(streamsBuilder: StreamsBuilder, debeziumMessageParser: DebeziumMessageParser): StreamsBuilder {
+    fun kStreamTopology(streamsBuilder: StreamsBuilder, objectMapper: ObjectMapper): StreamsBuilder {
         // 사용할 Serde(직렬화/역직렬화기)를 명시적으로 정의합니다.
         val stringSerde = Serdes.String()
         val tickPayloadSerde = JsonSerde(StockPriceUpdatedEvent.Payload::class.java)
@@ -38,7 +38,7 @@ class MarketDataStreamConfig {
         streamsBuilder.stream(
             StockPriceUpdatedEvent.TOPIC,
             Consumed.with(stringSerde, stringSerde)
-        ).process(ProcessorSupplier { TickDataProcessor(debeziumMessageParser) })
+        ).process(ProcessorSupplier { TickDataProcessor(objectMapper) })
             // 2. 그룹화(Group): 종목 코드(symbol)를 기준으로 데이터를 묶습니다.
             .groupBy(
                 { key, value -> value.symbol },

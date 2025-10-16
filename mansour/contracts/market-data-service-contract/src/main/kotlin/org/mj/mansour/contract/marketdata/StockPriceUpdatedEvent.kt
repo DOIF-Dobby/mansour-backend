@@ -4,9 +4,7 @@ import java.math.BigDecimal
 import java.time.Instant
 
 object StockPriceUpdatedEvent {
-    const val AGGREGATE_TYPE = "StockPrice"
-    const val EVENT_TYPE = "StockPriceUpdatedEvent"
-    const val TOPIC = "outbox.event.$AGGREGATE_TYPE.$EVENT_TYPE"
+    const val TOPIC = "stock.price.updated"
 
     data class Payload(
         val timestamp: Instant,

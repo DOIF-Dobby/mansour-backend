@@ -90,7 +90,7 @@ docker exec -it mansour-kafka kafka-console-consumer \
 
 docker exec -it mansour-kafka kafka-console-consumer \
   --bootstrap-server localhost:9092 \
-  --topic outbox.event.StockPrice.StockPriceUpdatedEvent \
+  --topic stock.price.updated \
   --from-beginning \
   --property print.key=true \
   --property key.separator=" : "
