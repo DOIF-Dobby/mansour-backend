@@ -1,8 +1,8 @@
 package org.mj.mansour.asset.domain
 
-import org.springframework.data.jpa.repository.JpaRepository
+import org.mj.mansour.system.data.jpa.repository.NoDeleteJpaRepository
 
-interface AssetRepository : JpaRepository<Asset, Long> {
+interface AssetRepository : NoDeleteJpaRepository<Asset, Long> {
 
     fun findBySymbol(symbol: String): Asset?
 }

@@ -47,9 +47,33 @@ curl -i -X POST -H "Content-Type: application/json" --data '{
     }
 }' http://localhost:18083/connectors
 
+# strategy-outbox-connector 를 추가합니다.
+curl -i -X POST -H "Content-Type: application/json" --data '{
+    "name": "strategy-outbox-connector",
+    "config": {
+        "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
+        "database.hostname": "postgres",
+        "database.port": "5432",
+        "database.user": "postgres",
+        "database.password": "postgres",
+        "database.dbname": "strategies",
+        "database.server.name": "strategy",
+        "topic.prefix": "strategy",
+        "table.include.list": "public.outbox",
+        "slot.name": "debezium_strategy_slot",
+        "plugin.name": "pgoutput",
+        "tombstones.on.delete": "false",
+        "transforms": "outbox",
+        "transforms.outbox.type": "io.debezium.transforms.outbox.EventRouter",
+        "transforms.outbox.table.field.event.key": "id",
+        "transforms.outbox.route.by.field": "destination_topic"
+    }
+}' http://localhost:18083/connectors
+
 # 확인용
 curl http://localhost:18083/connectors/activity-outbox-connector/status
 curl http://localhost:18083/connectors/market-data-outbox-connector/status
+curl http://localhost:18083/connectors/strategy-outbox-connector/status
 
 # 삭제
 curl -X DELETE http://localhost:18083/connectors/activity-outbox-connector
@@ -66,7 +90,7 @@ docker exec -it mansour-kafka kafka-console-consumer \
 
 docker exec -it mansour-kafka kafka-console-consumer \
   --bootstrap-server localhost:9092 \
-  --topic outbox.event.StockPrice.StockPriceUpdatedEvent \
+  --topic stock.price.updated \
   --from-beginning \
   --property print.key=true \
   --property key.separator=" : "
@@ -75,6 +99,14 @@ docker exec -it mansour-kafka kafka-console-consumer \
 docker exec -it mansour-kafka kafka-console-consumer \
   --bootstrap-server localhost:9092 \
   --topic marketdata.candles.1m \
+  --from-beginning \
+  --property print.key=true \
+  --property key.separator=" : "
+
+
+docker exec -it mansour-kafka kafka-console-consumer \
+  --bootstrap-server localhost:9092 \
+  --topic outbox.event.UserStrategy.UserStrategyActivatedEvent \
   --from-beginning \
   --property print.key=true \
   --property key.separator=" : "

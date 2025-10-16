@@ -4,6 +4,8 @@ import org.mj.mansour.markethistory.dto.CandleResponse
 import org.mj.mansour.markethistory.dto.CandleSearchCondition
 import org.mj.mansour.markethistory.repository.StockChartRepository
 import org.mj.mansour.system.web.response.ApiResponse
+import org.mj.mansour.system.web.response.ContentApiResponse
+import org.mj.mansour.system.web.response.ok
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.ModelAttribute
 import org.springframework.web.bind.annotation.RestController
@@ -14,7 +16,7 @@ class StockChartController(
 ) {
 
     @GetMapping("/stock/chart")
-    fun getStockChart(@ModelAttribute condition: CandleSearchCondition): ApiResponse<List<CandleResponse>> {
+    fun getStockChart(@ModelAttribute condition: CandleSearchCondition): ContentApiResponse<CandleResponse> {
         val findCandles = stockChartRepository.findCandles(
             symbol = condition.symbol,
             resolution = condition.resolution,
@@ -32,6 +34,6 @@ class StockChartController(
             )
         }
 
-        return ApiResponse.ok(data = findCandles)
+        return ApiResponse.ok(content = findCandles)
     }
 }

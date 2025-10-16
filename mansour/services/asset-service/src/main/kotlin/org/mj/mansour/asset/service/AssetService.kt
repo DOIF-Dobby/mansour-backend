@@ -7,7 +7,7 @@ import org.mj.mansour.asset.exception.AssetNotFoundException
 import org.mj.mansour.asset.exception.DuplicateAssetException
 import org.mj.mansour.asset.mapper.toResponse
 import org.mj.mansour.contract.asset.AssetResponse
-import org.springframework.data.repository.findByIdOrNull
+import org.mj.mansour.system.data.extension.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 

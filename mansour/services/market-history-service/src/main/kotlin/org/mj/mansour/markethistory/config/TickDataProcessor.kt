@@ -1,15 +1,14 @@
 package org.mj.mansour.markethistory.config
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.kafka.streams.processor.api.Processor
 import org.apache.kafka.streams.processor.api.ProcessorContext
 import org.apache.kafka.streams.processor.api.Record
 import org.mj.mansour.contract.marketdata.StockPriceUpdatedEvent
 import org.mj.mansour.system.core.logging.log
-import org.mj.mansour.system.json.DebeziumMessageParser
-import org.mj.mansour.system.json.parsePayload
 
 class TickDataProcessor(
-    private val parser: DebeziumMessageParser
+    private val objectMapper: ObjectMapper,
 ) : Processor<String, String, String, StockPriceUpdatedEvent.Payload> {
 
     private lateinit var context: ProcessorContext<String, StockPriceUpdatedEvent.Payload>
@@ -20,11 +19,11 @@ class TickDataProcessor(
 
     override fun process(record: Record<String, String>) {
         try {
-            // 1. 이중 포장된 JSON 문자열을 가져옵니다.
-            val doublyEncodedJson = record.value()
+            // 1. JSON 문자열을 가져옵니다.
+            val encodedJson = record.value()
 
-            // 2. DebeziumMessageParser를 사용해 Payload 객체로 파싱합니다.
-            val payload = parser.parsePayload<StockPriceUpdatedEvent.Payload>(doublyEncodedJson)
+            // 2. Payload 객체로 파싱합니다.
+            val payload = objectMapper.readValue(encodedJson, StockPriceUpdatedEvent.Payload::class.java)
 
             // 3. 파싱된 객체에서 실제 이벤트 시간을 추출합니다.
             val eventTime = payload.timestamp.toEpochMilli()

@@ -1,6 +1,7 @@
 package org.mj.mansour.marketdata.repository
 
 import org.mansour.shared.domain.enums.MarketType
+import org.mj.mansour.marketdata.enums.SubscriptionSourceType
 import org.springframework.data.redis.core.RedisTemplate
 import org.springframework.stereotype.Repository
 
@@ -17,9 +18,16 @@ class StockSubscriptionRepository(
      * 특정 종목의 구독자 Set에 사용자를 추가합니다.
      * @return 새로운 구독자이면 true, 이미 구독 중이었으면 false
      */
-    fun addSubscriber(symbol: String, market: MarketType, userId: Long): Boolean {
+    fun addSubscriber(
+        symbol: String,
+        market: MarketType,
+        userId: Long,
+        sourceType: SubscriptionSourceType,
+        sourceId: Long
+    ): Boolean {
         val subscribersKey = getSubscribersKey(symbol, market)
-        return redisTemplate.opsForSet().add(subscribersKey, userId.toString()) == 1L
+        val value = createSubscriberValue(userId, sourceType, sourceId)
+        return redisTemplate.opsForSet().add(subscribersKey, value) == 1L
     }
 
     /**
@@ -42,9 +50,16 @@ class StockSubscriptionRepository(
      * 특정 종목의 구독자 Set에서 사용자를 제거합니다.
      * @return 성공적으로 제거되었으면 true, 원래 구독자가 아니었으면 false
      */
-    fun removeSubscriber(symbol: String, market: MarketType, userId: Long): Boolean {
+    fun removeSubscriber(
+        symbol: String,
+        market: MarketType,
+        userId: Long,
+        sourceType: SubscriptionSourceType,
+        sourceId: Long
+    ): Boolean {
         val subscribersKey = getSubscribersKey(symbol, market)
-        return redisTemplate.opsForSet().remove(subscribersKey, userId.toString()) == 1L
+        val value = createSubscriberValue(userId, sourceType, sourceId)
+        return redisTemplate.opsForSet().remove(subscribersKey, value) == 1L
     }
 
     /**
@@ -60,5 +75,16 @@ class StockSubscriptionRepository(
      */
     fun getActiveDomesticStocks(): Set<String> {
         return redisTemplate.opsForSet().members(getActiveDomesticStocksKey()) ?: emptySet()
+    }
+
+    /**
+     * 구독자 값 생성: "userId:sourceType:sourceId"
+     */
+    private fun createSubscriberValue(
+        userId: Long,
+        sourceType: SubscriptionSourceType,
+        sourceId: Long
+    ): String {
+        return "$userId:$sourceType:$sourceId"
     }
 }

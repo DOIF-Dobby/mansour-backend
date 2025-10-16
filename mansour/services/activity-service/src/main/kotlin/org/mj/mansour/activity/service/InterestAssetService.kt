@@ -80,7 +80,8 @@ class InterestAssetService(
             payload = InterestAssetRemovedEvent.Payload(
                 groupId = interestAssetGroup.id,
                 assetId = assetId,
-                userId = interestAssetGroup.userId
+                userId = interestAssetGroup.userId,
+                interestAssetId = interestAssetToRemove.id
             )
         )
     }

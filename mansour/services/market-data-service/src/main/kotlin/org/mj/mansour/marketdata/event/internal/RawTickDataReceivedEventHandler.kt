@@ -1,8 +1,10 @@
 package org.mj.mansour.marketdata.event.internal
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import org.mj.mansour.contract.marketdata.StockPriceUpdatedEvent
-import org.mj.mansour.marketdata.service.OutboxService
+import org.mj.mansour.system.core.logging.log
 import org.springframework.context.event.EventListener
+import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -12,7 +14,8 @@ import java.time.format.DateTimeFormatter
 
 @Component
 class RawTickDataReceivedEventHandler(
-    private val outboxService: OutboxService,
+    private val objectMapper: ObjectMapper,
+    private val kafkaTemplate: KafkaTemplate<String, String>
 ) {
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
@@ -40,11 +43,15 @@ class RawTickDataReceivedEventHandler(
             tradeVolume = rawData.tradeVolume,
         )
 
-        outboxService.saveOutboxRecord(
-            aggregateId = eventPayload.symbol,
-            aggregateType = StockPriceUpdatedEvent.AGGREGATE_TYPE,
-            eventType = StockPriceUpdatedEvent.EVENT_TYPE,
-            payload = eventPayload
-        )
+        try {
+            kafkaTemplate.send(
+                StockPriceUpdatedEvent.TOPIC,
+                objectMapper.writeValueAsString(eventPayload)
+            )
+        } catch (_: Exception) {
+            log.error { "Failed to send message to Kafka topic" }
+        }
+
+
     }
 }

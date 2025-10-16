@@ -1,6 +1,7 @@
 package org.mj.mansour.marketdata.service
 
 import org.mansour.shared.domain.enums.MarketType
+import org.mj.mansour.marketdata.enums.SubscriptionSourceType
 import org.mj.mansour.marketdata.kis.socket.KisDomesticRealtimeWebSocketManager
 import org.mj.mansour.marketdata.repository.StockSubscriptionRepository
 import org.springframework.stereotype.Service
@@ -9,15 +10,26 @@ import org.springframework.stereotype.Service
 class StockSubscriptionService(
     private val stockSubscriptionRepository: StockSubscriptionRepository,
     private val kisDomesticRealtimeWebSocketManager: KisDomesticRealtimeWebSocketManager,
-
-    ) {
+) {
 
     /**
      * 사용자가 특정 주식에 구독을 시작합니다.
      */
-    fun subscribe(userId: Long, symbol: String, market: MarketType) {
+    fun subscribe(
+        userId: Long,
+        symbol: String,
+        market: MarketType,
+        sourceType: SubscriptionSourceType,
+        sourceId: Long
+    ) {
         // 주식별 구독자 Set에 사용자 추가
-        val isNewSubscriber = stockSubscriptionRepository.addSubscriber(symbol, market, userId)
+        val isNewSubscriber = stockSubscriptionRepository.addSubscriber(
+            symbol = symbol,
+            market = market,
+            userId = userId,
+            sourceType = sourceType,
+            sourceId = sourceId
+        )
 
         // 새로운 구독자인 경우
         if (isNewSubscriber) {
@@ -35,9 +47,21 @@ class StockSubscriptionService(
     /**
      * 사용자가 특정 주식에 대한 구독을 취소합니다.
      */
-    fun unsubscribe(symbol: String, userId: Long, market: MarketType) {
+    fun unsubscribe(
+        symbol: String,
+        userId: Long,
+        market: MarketType,
+        sourceType: SubscriptionSourceType,
+        sourceId: Long
+    ) {
         // 1. 주식별 구독자 Set에서 사용자 제거
-        val wasSubscriber = stockSubscriptionRepository.removeSubscriber(symbol, market, userId)
+        val wasSubscriber = stockSubscriptionRepository.removeSubscriber(
+            symbol = symbol,
+            market = market,
+            userId = userId,
+            sourceType = sourceType,
+            sourceId = sourceId
+        )
 
         // 2. 실제로 구독자였던 경우에만 로직 실행
         if (wasSubscriber) {

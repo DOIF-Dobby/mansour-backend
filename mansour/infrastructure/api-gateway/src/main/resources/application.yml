@@ -61,6 +61,24 @@ spring:
                 - StripPrefix=2
                 - Authentication
 
+            # strategy-service
+            - id: strategy-service-route
+              uri: lb://strategy-service
+              predicates:
+                - Path=/api/strategies/**
+              filters:
+                - StripPrefix=2
+                - Authentication
+
+            # strategy-evaluation-service
+            - id: strategy-evaluation-service-route
+              uri: lb://strategy-evaluation-service
+              predicates:
+                - Path=/api/strategy-evaluation/**
+              filters:
+                - StripPrefix=2
+                - Authentication
+
 eureka:
   client:
     enabled: true # 유레카 클라이언트 활성화

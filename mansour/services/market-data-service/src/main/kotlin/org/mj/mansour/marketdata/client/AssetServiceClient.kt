@@ -11,4 +11,7 @@ interface AssetServiceClient {
 
     @GetMapping("/internal/api/assets/{assetId}")
     fun getAssetById(@PathVariable assetId: Long): ApiResponse<AssetResponse>
+
+    @GetMapping("/internal/api/assets/symbol/{symbol}")
+    fun getAssetBySymbol(@PathVariable symbol: String): ApiResponse<AssetResponse>
 }

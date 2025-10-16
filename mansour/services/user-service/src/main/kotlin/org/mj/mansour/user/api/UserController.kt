@@ -4,7 +4,7 @@ import org.mj.mansour.contract.user.UserResponse
 import org.mj.mansour.system.core.logging.log
 import org.mj.mansour.system.web.response.ApiResponse
 import org.mj.mansour.system.web.response.UnitApiResponse
-import org.mj.mansour.system.webmvc.util.ApiHeaderUtils
+import org.mj.mansour.system.webmvc.resolver.UserId
 import org.mj.mansour.user.service.UserService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,26 +16,21 @@ class UserController(
 ) {
 
     @GetMapping("/hello")
-    fun hello(): UnitApiResponse {
-        val currentUserId = ApiHeaderUtils.getCurrentUserId()
-        log.info { "currentUserId = $currentUserId" }
+    fun hello(@UserId userId: Long): UnitApiResponse {
+        log.info { "currentUserId = $userId" }
 
         return ApiResponse.ok()
     }
 
     @GetMapping
-    fun getUser(): ApiResponse<UserResponse> {
-        val currentUserId = ApiHeaderUtils.getCurrentUserId()
-        val user = userService.getUser(userId = currentUserId)
-
+    fun getUser(@UserId userId: Long): ApiResponse<UserResponse> {
+        val user = userService.getUser(userId = userId)
         return ApiResponse.ok(data = user)
     }
 
     @DeleteMapping
-    fun deleteUser(): UnitApiResponse {
-        val currentUserId = ApiHeaderUtils.getCurrentUserId()
-        userService.deleteUser(userId = currentUserId)
-
+    fun deleteUser(@UserId userId: Long): UnitApiResponse {
+        userService.deleteUser(userId = userId)
         return ApiResponse.ok()
     }
 }
