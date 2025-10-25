@@ -30,5 +30,4 @@ data class StockCandle(
 
     @Column(name = "windowEndTime")
     val windowEndTime: Instant,
-) {
-}
+)

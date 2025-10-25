@@ -6,7 +6,7 @@ data class UserResponse(
     val userId: Long,
     val email: String,
     val username: String,
-    val authentications: List<UserAuthenticationResponse>
+    val authentications: List<UserAuthenticationResponse>,
 )
 
 data class UserAuthenticationResponse(

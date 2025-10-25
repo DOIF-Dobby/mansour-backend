@@ -17,5 +17,4 @@ class OAuth2UserInfoFetcher {
 
         return oAuth2User.attributes
     }
-
 }

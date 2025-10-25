@@ -14,9 +14,9 @@ class SecurityConfig {
             .csrf { it.disable() } // 테스트 및 stateless API에서는 보통 비활성화
             .authorizeHttpRequests { auth ->
                 auth
-                    .anyRequest().permitAll()
+                    .anyRequest()
+                    .permitAll()
             }
-
 
         return http.build()
     }

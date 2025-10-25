@@ -78,12 +78,12 @@ class UserStrategyService(
         if (userStrategyRepository.hasActiveStrategyForSymbol(
                 userId = userStrategyToActivate.userId,
                 symbol = userStrategyToActivate.symbol,
-                id = userStrategyToActivate.id
+                id = userStrategyToActivate.id,
             )
         ) {
             throw DuplicateActiveStrategyException(
                 symbol = userStrategyToActivate.symbol,
-                strategyName = userStrategyToActivate.strategy.name
+                strategyName = userStrategyToActivate.strategy.name,
             )
         }
 
@@ -101,7 +101,7 @@ class UserStrategyService(
                 strategyId = userStrategyToActivate.strategy.id,
                 symbol = userStrategyToActivate.symbol,
                 parameters = userStrategyToActivate.parameters,
-            )
+            ),
         )
     }
 
@@ -134,7 +134,7 @@ class UserStrategyService(
                 userId = userId,
                 strategyId = userStrategyToDeactivate.strategy.id,
                 symbol = userStrategyToDeactivate.symbol,
-            )
+            ),
         )
     }
 
@@ -198,5 +198,4 @@ class UserStrategyService(
             }
         }
     }
-
 }

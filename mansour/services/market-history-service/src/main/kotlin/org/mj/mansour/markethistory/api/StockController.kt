@@ -16,8 +16,12 @@ class StockController(
 ) {
 
     @GetMapping("/stock/recent/{symbol}")
-    fun getRecentStocks(@PathVariable symbol: String, @RequestParam limit: Int): ContentApiResponse<CandleResponse> {
-        val findRecentCandles = stockPriceRepository.findRecentCandles(symbol = symbol, limit = limit)
+    fun getRecentStocks(
+        @PathVariable symbol: String,
+        @RequestParam limit: Int,
+    ): ContentApiResponse<CandleResponse> {
+        val findRecentCandles = stockPriceRepository
+            .findRecentCandles(symbol = symbol, limit = limit)
             .map { candle ->
                 CandleResponse(
                     time = candle.windowStartTime.epochSecond,

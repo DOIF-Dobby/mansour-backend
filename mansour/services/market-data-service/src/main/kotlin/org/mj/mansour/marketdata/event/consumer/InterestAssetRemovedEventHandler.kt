@@ -28,10 +28,12 @@ class InterestAssetRemovedEventHandler(
     @RetryableTopic(
         attempts = "4",
         backoff = Backoff(delay = 1000, multiplier = 2.0),
-        dltStrategy = DltStrategy.FAIL_ON_ERROR
+        dltStrategy = DltStrategy.FAIL_ON_ERROR,
     )
     @KafkaListener(topics = [InterestAssetRemovedEvent.TOPIC])
-    fun handle(@Payload message: String) {
+    fun handle(
+        @Payload message: String,
+    ) {
         val payload = debeziumMessageParser.parsePayload<InterestAssetRemovedEvent.Payload>(rawMessage = message)
         log.info { "handle InterestAssetRemovedEvent. Received payload: $payload" }
 
@@ -45,10 +47,9 @@ class InterestAssetRemovedEventHandler(
                     symbol = assetResponse.symbol,
                     market = assetResponse.market,
                     sourceType = SubscriptionSourceType.INTEREST_ASSET,
-                    sourceId = payload.interestAssetId
+                    sourceId = payload.interestAssetId,
                 )
             }
         }
-
     }
 }

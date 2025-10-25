@@ -10,5 +10,5 @@ data class KisRealtimeTokenRequest(
     val appKey: String,
 
     @param:JsonProperty("secretkey")
-    val secretKey: String
+    val secretKey: String,
 )

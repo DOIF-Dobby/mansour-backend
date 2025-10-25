@@ -12,7 +12,7 @@ interface UserStrategyRepository : NoDeleteJpaRepository<UserStrategy, Long> {
         FROM UserStrategy us
         WHERE us.id = :id
         AND us.userId = :userId
-        """
+        """,
     )
     fun findByIdAndUserId(
         @Param("id") id: Long,
@@ -27,7 +27,7 @@ interface UserStrategyRepository : NoDeleteJpaRepository<UserStrategy, Long> {
         AND us.symbol = :symbol
         AND us.id <> :id
         AND us.active = true
-    """
+    """,
     )
     fun hasActiveStrategyForSymbol(
         @Param("userId") userId: Long,

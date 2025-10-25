@@ -17,15 +17,19 @@ class AuthController(
 ) {
 
     @GetMapping("/url/{provider}")
-    fun getOAuth2RedirectUrl(@PathVariable provider: String): ApiResponse<String> {
+    fun getOAuth2RedirectUrl(
+        @PathVariable provider: String,
+    ): ApiResponse<String> {
         val resolveRedirectUrl = oAuth2RedirectUrlResolver.resolveRedirectUrl(provider)
         return ApiResponse.ok(data = resolveRedirectUrl)
     }
 
     @PostMapping("/login/{provider}")
-    fun loginWithOAuth2(@PathVariable provider: String, @RequestBody request: LoginWithOAuth2Request): ApiResponse<String> {
+    fun loginWithOAuth2(
+        @PathVariable provider: String,
+        @RequestBody request: LoginWithOAuth2Request,
+    ): ApiResponse<String> {
         val token = authService.loginWithOAuth2(provider, request.authorizationCode)
         return ApiResponse.ok(data = token)
     }
 }
-

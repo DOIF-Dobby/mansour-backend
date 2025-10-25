@@ -20,7 +20,7 @@ class StockSubscriptionService(
         symbol: String,
         market: MarketType,
         sourceType: SubscriptionSourceType,
-        sourceId: Long
+        sourceId: Long,
     ) {
         // 주식별 구독자 Set에 사용자 추가
         val isNewSubscriber = stockSubscriptionRepository.addSubscriber(
@@ -28,7 +28,7 @@ class StockSubscriptionService(
             market = market,
             userId = userId,
             sourceType = sourceType,
-            sourceId = sourceId
+            sourceId = sourceId,
         )
 
         // 새로운 구독자인 경우
@@ -52,7 +52,7 @@ class StockSubscriptionService(
         userId: Long,
         market: MarketType,
         sourceType: SubscriptionSourceType,
-        sourceId: Long
+        sourceId: Long,
     ) {
         // 1. 주식별 구독자 Set에서 사용자 제거
         val wasSubscriber = stockSubscriptionRepository.removeSubscriber(
@@ -60,7 +60,7 @@ class StockSubscriptionService(
             market = market,
             userId = userId,
             sourceType = sourceType,
-            sourceId = sourceId
+            sourceId = sourceId,
         )
 
         // 2. 실제로 구독자였던 경우에만 로직 실행
@@ -75,5 +75,4 @@ class StockSubscriptionService(
             }
         }
     }
-
 }

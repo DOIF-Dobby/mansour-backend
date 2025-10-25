@@ -5,7 +5,7 @@ import org.mj.mansour.system.core.message.getBundleMessage
 data class ApiResponse<T>(
     val code: String,
     val message: String,
-    val data: T? = null
+    val data: T? = null,
 ) {
 
     companion object {
@@ -13,7 +13,7 @@ data class ApiResponse<T>(
             return ApiResponse(
                 code = "OK",
                 message = message,
-                data = Unit
+                data = Unit,
             )
         }
 
@@ -21,7 +21,7 @@ data class ApiResponse<T>(
             return ApiResponse(
                 code = "OK",
                 message = message,
-                data = data
+                data = data,
             )
         }
 
@@ -29,9 +29,8 @@ data class ApiResponse<T>(
             return ApiResponse(
                 code = "FAIL",
                 message = message,
-                data = data
+                data = data,
             )
         }
     }
 }
-

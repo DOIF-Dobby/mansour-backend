@@ -29,7 +29,9 @@ class InterestAssetAddedEventHandler(
      * 관심 자산 추가 이벤트를 처리합니다.
      */
     @KafkaListener(topics = [InterestAssetAddedEvent.TOPIC])
-    fun handle(@Payload message: String) {
+    fun handle(
+        @Payload message: String,
+    ) {
         val payload = debeziumMessageParser.parsePayload<InterestAssetAddedEvent.Payload>(rawMessage = message)
         log.info { "handle InterestAssetAddedEvent. Received payload: $payload" }
 
@@ -44,7 +46,7 @@ class InterestAssetAddedEventHandler(
                         symbol = assetResponse.symbol,
                         market = assetResponse.market,
                         sourceType = SubscriptionSourceType.INTEREST_ASSET,
-                        sourceId = payload.interestAssetId
+                        sourceId = payload.interestAssetId,
                     )
                 }
             }
@@ -59,10 +61,9 @@ class InterestAssetAddedEventHandler(
                     groupId = payload.groupId,
                     assetId = payload.assetId,
                     userId = payload.userId,
-                    interestAssetId = payload.interestAssetId
-                )
+                    interestAssetId = payload.interestAssetId,
+                ),
             )
         }
-
     }
 }

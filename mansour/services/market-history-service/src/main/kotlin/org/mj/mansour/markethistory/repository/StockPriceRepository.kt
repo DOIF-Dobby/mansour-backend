@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class StockPriceRepository(
     private val influxDBClient: InfluxDBClient,
-    private val stockCandleMapper: StockCandleMapper
+    private val stockCandleMapper: StockCandleMapper,
 ) {
 
     fun save(candle: StockCandle) {
@@ -23,7 +23,6 @@ class StockPriceRepository(
             throw e
         }
     }
-
 
     fun findRecentCandles(symbol: String, limit: Int = 100): List<StockCandle> {
         return InfluxQueryBuilder("market_history_data", stockCandleMapper)

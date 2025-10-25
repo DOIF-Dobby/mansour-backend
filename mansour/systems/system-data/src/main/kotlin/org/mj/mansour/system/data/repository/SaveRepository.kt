@@ -9,5 +9,4 @@ interface SaveRepository<T, ID> : Repository<T, ID> {
     fun <S : T> save(entity: S): S
 
     fun <S : T> saveAll(entities: Iterable<S>): Iterable<S>
-
 }

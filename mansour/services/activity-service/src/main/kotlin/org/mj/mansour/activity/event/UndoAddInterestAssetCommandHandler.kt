@@ -20,13 +20,15 @@ class UndoAddInterestAssetCommandHandler(
      * 이 명령은 관심 자산 추가를 취소하는 역할을 합니다.
      */
     @KafkaListener(topics = [UndoAddInterestAssetCommand.TOPIC])
-    fun handle(@Payload message: String) {
+    fun handle(
+        @Payload message: String,
+    ) {
         val payload = debeziumMessageParser.parsePayload<UndoAddInterestAssetCommand.Payload>(rawMessage = message)
         log.info { "handle UndoAddInterestAssetCommand. Received payload: $payload" }
 
         interestAssetService.compensateAddInterestAsset(
             groupId = payload.groupId,
-            assetId = payload.assetId
+            assetId = payload.assetId,
         )
     }
 }

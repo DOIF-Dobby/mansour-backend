@@ -5,7 +5,7 @@ import org.mansour.shared.domain.exception.InvalidEmailException
 
 @Embeddable
 data class Email(
-    val address: String
+    val address: String,
 ) {
     init {
         require(REGEX.matches(address)) { throw InvalidEmailException() }

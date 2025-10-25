@@ -21,7 +21,7 @@ class StockCandleMapper : FluxRecordMapper<StockCandle> {
             low = record.getDouble("low").toBigDecimal(),
             close = record.getDouble("close").toBigDecimal(),
             volume = record.getLong("volume"),
-            windowEndTime = record.getInstantFromString("windowEndTime")
+            windowEndTime = record.getInstantFromString("windowEndTime"),
         )
     }
 }

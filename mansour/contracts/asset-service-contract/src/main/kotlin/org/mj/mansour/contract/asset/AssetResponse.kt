@@ -8,10 +8,10 @@ import org.mansour.shared.domain.enums.MarketType
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME,
     include = JsonTypeInfo.As.PROPERTY,
-    property = "assetType"
+    property = "assetType",
 )
 @JsonSubTypes(
-    JsonSubTypes.Type(value = StockResponse::class, name = "STOCK")
+    JsonSubTypes.Type(value = StockResponse::class, name = "STOCK"),
 )
 interface AssetResponse {
     val id: Long
@@ -25,6 +25,5 @@ data class StockResponse(
     override val assetType: AssetType = AssetType.STOCK,
     override val symbol: String,
     override val name: String,
-    val market: MarketType
+    val market: MarketType,
 ) : AssetResponse
-

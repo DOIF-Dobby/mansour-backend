@@ -378,5 +378,5 @@ data class KisDomesticPriceData(
 
     /** 관리종목여부 (Y/N) */
     @param:JsonProperty("mang_issu_cls_code")
-    val isManagementIssue: String
+    val isManagementIssue: String,
 )

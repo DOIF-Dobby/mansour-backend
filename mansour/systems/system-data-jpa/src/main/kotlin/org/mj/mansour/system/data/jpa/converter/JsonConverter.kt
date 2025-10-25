@@ -7,7 +7,7 @@ import jakarta.persistence.Converter
 
 @Converter
 class JsonConverter(
-    private val objectMapper: ObjectMapper
+    private val objectMapper: ObjectMapper,
 ) : AttributeConverter<Map<String, Any>, String> {
 
     override fun convertToDatabaseColumn(attribute: Map<String, Any>?): String? {

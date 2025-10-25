@@ -14,7 +14,7 @@ class InfluxDbConfig {
             properties.url,
             properties.token.toCharArray(),
             properties.org,
-            properties.bucket
+            properties.bucket,
         )
     }
 }

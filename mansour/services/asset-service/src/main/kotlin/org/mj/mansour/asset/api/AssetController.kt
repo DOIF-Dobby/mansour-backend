@@ -13,17 +13,21 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class AssetController(
-    private val assetService: AssetService
+    private val assetService: AssetService,
 ) {
 
     @PostMapping("/stocks")
-    fun registerStock(@RequestBody request: RegisterStockRequest): UnitApiResponse {
+    fun registerStock(
+        @RequestBody request: RegisterStockRequest,
+    ): UnitApiResponse {
         assetService.registerStock(request)
         return ApiResponse.ok()
     }
 
     @GetMapping("/{symbol}")
-    fun getAssetBySymbol(@PathVariable symbol: String): ApiResponse<AssetResponse> {
+    fun getAssetBySymbol(
+        @PathVariable symbol: String,
+    ): ApiResponse<AssetResponse> {
         val stockBySymbol = assetService.getAssetBySymbol(symbol)
         return ApiResponse.ok(data = stockBySymbol)
     }

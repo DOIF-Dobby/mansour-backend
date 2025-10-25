@@ -19,7 +19,7 @@ class AuthService(
     private val oAuth2UserInfoFetcher: OAuth2UserInfoFetcher,
     private val userServiceClient: UserServiceClient,
     private val jwtTokenProvider: JwtTokenProvider,
-    private val feignClientExecutor: FeignClientExecutor
+    private val feignClientExecutor: FeignClientExecutor,
 ) {
 
     /**
@@ -46,8 +46,8 @@ class AuthService(
             claims = mapOf(
                 "email" to userResponse.email,
                 "username" to userResponse.username,
-                "authentications" to userResponse.authentications
-            )
+                "authentications" to userResponse.authentications,
+            ),
         )
     }
 }

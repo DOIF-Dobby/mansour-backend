@@ -16,20 +16,26 @@ class UserController(
 ) {
 
     @GetMapping("/hello")
-    fun hello(@UserId userId: Long): UnitApiResponse {
+    fun hello(
+        @UserId userId: Long,
+    ): UnitApiResponse {
         log.info { "currentUserId = $userId" }
 
         return ApiResponse.ok()
     }
 
     @GetMapping
-    fun getUser(@UserId userId: Long): ApiResponse<UserResponse> {
+    fun getUser(
+        @UserId userId: Long,
+    ): ApiResponse<UserResponse> {
         val user = userService.getUser(userId = userId)
         return ApiResponse.ok(data = user)
     }
 
     @DeleteMapping
-    fun deleteUser(@UserId userId: Long): UnitApiResponse {
+    fun deleteUser(
+        @UserId userId: Long,
+    ): UnitApiResponse {
         userService.deleteUser(userId = userId)
         return ApiResponse.ok()
     }

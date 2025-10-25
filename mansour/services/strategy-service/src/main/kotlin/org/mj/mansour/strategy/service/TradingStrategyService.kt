@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional
 
 @Service
 class TradingStrategyService(
-    private val tradingStrategyRepository: TradingStrategyRepository
+    private val tradingStrategyRepository: TradingStrategyRepository,
 ) {
 
     /**
@@ -18,7 +18,6 @@ class TradingStrategyService(
      */
     @Transactional
     fun createTradingStrategy(request: CreateTradingStrategyRequest) {
-
         if (tradingStrategyRepository.existsById(request.id)) {
             throw DuplicateTradingStrategyIdException(request.id)
         }
@@ -38,13 +37,14 @@ class TradingStrategyService(
      */
     @Transactional(readOnly = true)
     fun getAllTradingStrategies(): List<TradingStrategyResponse> {
-        return tradingStrategyRepository.findAll()
+        return tradingStrategyRepository
+            .findAll()
             .map { tradingStrategy ->
                 TradingStrategyResponse(
                     tradingStrategyId = tradingStrategy.id,
                     name = tradingStrategy.name,
                     description = tradingStrategy.description,
-                    type = tradingStrategy.type
+                    type = tradingStrategy.type,
                 )
             }
     }

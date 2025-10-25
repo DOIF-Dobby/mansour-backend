@@ -21,7 +21,8 @@ class TradingStrategy(
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     val type: TradingStrategyType,
-) : BaseDeletedEntity(), Persistable<String> {
+) : BaseDeletedEntity(),
+    Persistable<String> {
 
     @Id
     @Column(name = "trading_strategy_id")

@@ -6,5 +6,5 @@ import java.time.Duration
 @ConfigurationProperties(prefix = "jwt.access-token")
 data class JwtTokenProperties(
     val privateKeyPath: String,
-    var expiration: Duration = Duration.ofMinutes(60L)
+    var expiration: Duration = Duration.ofMinutes(60L),
 )

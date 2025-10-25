@@ -17,11 +17,10 @@ class RecentlyViewedAsset(
     val assetId: Long,
 
     @Column(nullable = false)
-    var viewedAt: LocalDateTime
+    var viewedAt: LocalDateTime,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recently_viewed_asset_id")
     val id: Long = 0L
-
 }

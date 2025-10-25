@@ -49,7 +49,9 @@ class KisDomesticRealtimeHandler(
         if (response != null) {
             manager.updateLastMessageTime()
             response.data.forEach { priceData ->
-                log.info { "  - Symbol: ${priceData.symbol}, Price: ${priceData.currentPrice}, Time: ${priceData.executionTime}, businessDate: ${priceData.businessDate}, tradeVolume: ${priceData.tradeVolume}" }
+                log.info {
+                    "  - Symbol: ${priceData.symbol}, Price: ${priceData.currentPrice}, Time: ${priceData.executionTime}, businessDate: ${priceData.businessDate}, tradeVolume: ${priceData.tradeVolume}"
+                }
                 eventPublisher.publishEvent(RawTickDataReceivedEvent(priceData = priceData))
             }
         }

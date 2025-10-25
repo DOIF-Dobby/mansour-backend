@@ -23,12 +23,16 @@ class TestController(
     }
 
     @GetMapping("/subscribe/{symbol}")
-    fun subscribe(@PathVariable symbol: String) {
+    fun subscribe(
+        @PathVariable symbol: String,
+    ) {
         kisDomesticRealtimeWebSocketManager.subscribe(symbol)
     }
 
     @GetMapping("/unsubscribe/{symbol}")
-    fun unsubscribe(@PathVariable symbol: String) {
+    fun unsubscribe(
+        @PathVariable symbol: String,
+    ) {
         kisDomesticRealtimeWebSocketManager.unsubscribe(symbol)
     }
 }

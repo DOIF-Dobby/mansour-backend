@@ -9,6 +9,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver
  * 메세지 소스
  */
 class BaseResourceMessageSource : ResourceBundleMessageSource() {
+
     init {
         val messageBundle = getMessageBundle()
         setBasenames(*messageBundle)
@@ -16,6 +17,7 @@ class BaseResourceMessageSource : ResourceBundleMessageSource() {
     }
 
     companion object {
+
         fun getAccessor(): MessageSourceAccessor {
             return MessageSourceAccessor(BaseResourceMessageSource())
         }
@@ -27,24 +29,30 @@ class BaseResourceMessageSource : ResourceBundleMessageSource() {
             val resolver = PathMatchingResourcePatternResolver()
             val resources = resolver.getResources("classpath*:messages/*.properties")
 
-            return resources.map { resource ->
+            return resources
+                .map { resource ->
 
-                val resourcePath = resource.uri.toString()
-                val messageResource = if (resourcePath.startsWith("jar:")) {
-                    PathResource(resourcePath.drop(4))
-                } else {
-                    resource
-                }
+                    val resourcePath = resource.uri.toString()
+                    val messageResource = if (resourcePath.startsWith("jar:")) {
+                        PathResource(resourcePath.drop(4))
+                    } else {
+                        resource
+                    }
 
-                val nameWithoutExtension = messageResource.file.nameWithoutExtension
-                val basename = nameWithoutExtension.take(nameWithoutExtension.lastIndexOf("_"))
-                "messages/$basename"
-            }.toSet().toTypedArray()
+                    val nameWithoutExtension = messageResource.file.nameWithoutExtension
+                    val basename = nameWithoutExtension.take(nameWithoutExtension.lastIndexOf("_"))
+                    "messages/$basename"
+                }.toSet()
+                .toTypedArray()
         }
     }
 }
 
-fun getBundleMessage(code: String, args: Array<Any>? = null, defaultMessage: String = ""): String {
+fun getBundleMessage(
+    code: String,
+    args: Array<Any>? = null,
+    defaultMessage: String = "",
+): String {
     return BaseResourceMessageSource
         .getAccessor()
         .getMessage(code, args, defaultMessage)

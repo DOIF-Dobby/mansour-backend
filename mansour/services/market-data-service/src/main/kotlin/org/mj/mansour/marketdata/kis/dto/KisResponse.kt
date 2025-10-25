@@ -13,5 +13,5 @@ data class KisResponse<T>(
     val messageCode: String,
 
     @param:JsonProperty("msg1")
-    val message: String
+    val message: String,
 )

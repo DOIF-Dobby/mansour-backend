@@ -11,7 +11,9 @@ class StockSubscriptionRepository(
 ) {
 
     private fun getActiveStocksKey(market: MarketType) = "marketdata:active-stocks:${market.location}"
+
     private fun getSubscribersKey(symbol: String, market: MarketType) = "marketdata:stock:${market.location}:$symbol:subscribers"
+
     private fun getActiveDomesticStocksKey() = "marketdata:active-stocks:domestic"
 
     /**
@@ -23,7 +25,7 @@ class StockSubscriptionRepository(
         market: MarketType,
         userId: Long,
         sourceType: SubscriptionSourceType,
-        sourceId: Long
+        sourceId: Long,
     ): Boolean {
         val subscribersKey = getSubscribersKey(symbol, market)
         val value = createSubscriberValue(userId, sourceType, sourceId)
@@ -55,7 +57,7 @@ class StockSubscriptionRepository(
         market: MarketType,
         userId: Long,
         sourceType: SubscriptionSourceType,
-        sourceId: Long
+        sourceId: Long,
     ): Boolean {
         val subscribersKey = getSubscribersKey(symbol, market)
         val value = createSubscriberValue(userId, sourceType, sourceId)
@@ -83,7 +85,7 @@ class StockSubscriptionRepository(
     private fun createSubscriberValue(
         userId: Long,
         sourceType: SubscriptionSourceType,
-        sourceId: Long
+        sourceId: Long,
     ): String {
         return "$userId:$sourceType:$sourceId"
     }

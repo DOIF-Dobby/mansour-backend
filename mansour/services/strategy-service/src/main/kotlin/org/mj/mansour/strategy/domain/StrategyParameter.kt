@@ -20,9 +20,9 @@ import org.mj.mansour.system.data.jpa.BaseDeletedEntity
     uniqueConstraints = [
         UniqueConstraint(
             name = "uk_strategy_parameter_name",
-            columnNames = ["trading_strategy_id", "parameter_name"]
-        )
-    ]
+            columnNames = ["trading_strategy_id", "parameter_name"],
+        ),
+    ],
 )
 class StrategyParameter(
     @ManyToOne(fetch = FetchType.LAZY)

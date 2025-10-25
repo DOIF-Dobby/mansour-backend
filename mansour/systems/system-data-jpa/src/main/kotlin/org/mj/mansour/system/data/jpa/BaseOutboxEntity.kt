@@ -20,7 +20,8 @@ abstract class BaseOutboxEntity(
     @JdbcTypeCode(SqlTypes.JSON)
     @Column(columnDefinition = "JSONB", nullable = false)
     val payload: String,
-) : BaseEntity(), Persistable<String> {
+) : BaseEntity(),
+    Persistable<String> {
 
     @Column(name = "destination_topic", nullable = false)
     private val destinationTopic: String = "$aggregateType.$eventType"

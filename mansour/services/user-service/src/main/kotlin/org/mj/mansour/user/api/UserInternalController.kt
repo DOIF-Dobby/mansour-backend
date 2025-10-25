@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/internal/api/users")
 class UserInternalController(
-    private val userInternalService: UserInternalService
+    private val userInternalService: UserInternalService,
 ) {
 
     @PostMapping("/find-or-create")
-    fun findOrCreateUser(@RequestBody request: FindOrCreateUserRequest): ApiResponse<UserResponse> {
+    fun findOrCreateUser(
+        @RequestBody request: FindOrCreateUserRequest,
+    ): ApiResponse<UserResponse> {
         val userResponse = userInternalService.findOrCreateUser(request)
         return ApiResponse.ok(data = userResponse)
     }

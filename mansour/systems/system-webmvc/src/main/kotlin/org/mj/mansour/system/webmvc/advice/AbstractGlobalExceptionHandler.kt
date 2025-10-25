@@ -23,7 +23,8 @@ abstract class AbstractGlobalExceptionHandler {
     open fun handleException(e: Exception): ResponseEntity<UnitApiResponse> {
         log.error { "${e::class.simpleName}: ${e.message}" }
 
-        return ResponseEntity.internalServerError()
+        return ResponseEntity
+            .internalServerError()
             .body(ApiResponse.Companion.fail())
     }
 
@@ -32,14 +33,17 @@ abstract class AbstractGlobalExceptionHandler {
      */
     @ExceptionHandler(ApiException::class)
     open fun handleApiException(e: ApiException): ResponseEntity<UnitApiResponse> {
-        log.error { "${e::class.simpleName}: ${e.message} | localizedMessage: ${e.localizedMessage} | code: ${e.code} | httpStatus: ${e.httpStatus}" }
+        log.error {
+            "${e::class.simpleName}: ${e.message} | localizedMessage: ${e.localizedMessage} | code: ${e.code} | httpStatus: ${e.httpStatus}"
+        }
 
-        return ResponseEntity.status(e.httpStatus)
+        return ResponseEntity
+            .status(e.httpStatus)
             .body(
                 ApiResponse(
                     code = e.code,
-                    message = e.localizedMessage
-                )
+                    message = e.localizedMessage,
+                ),
             )
     }
 
@@ -50,12 +54,13 @@ abstract class AbstractGlobalExceptionHandler {
     open fun handleBaseException(e: BaseException): ResponseEntity<UnitApiResponse> {
         log.error { "${e::class.simpleName}: ${e.message} | localizedMessage: ${e.localizedMessage} | code: ${e.code}" }
 
-        return ResponseEntity.badRequest()
+        return ResponseEntity
+            .badRequest()
             .body(
                 ApiResponse(
                     code = e.code,
-                    message = e.localizedMessage
-                )
+                    message = e.localizedMessage,
+                ),
             )
     }
 
@@ -73,13 +78,13 @@ abstract class AbstractGlobalExceptionHandler {
             invalidFieldMap[it.field] = it.defaultMessage ?: ""
         }
 
-
-        return ResponseEntity.badRequest()
+        return ResponseEntity
+            .badRequest()
             .body(
                 ApiResponse.Companion.fail(
                     data = invalidFieldMap,
-                    message = getBundleMessage("webmvc.error.invalid-request-data")
-                )
+                    message = getBundleMessage("webmvc.error.invalid-request-data"),
+                ),
             )
     }
 
@@ -114,12 +119,13 @@ abstract class AbstractGlobalExceptionHandler {
             }
         }
 
-        return ResponseEntity.badRequest()
+        return ResponseEntity
+            .badRequest()
             .body(
                 ApiResponse.Companion.fail(
                     data = invalidFieldMap,
-                    message = getBundleMessage("webmvc.error.invalid-request-data")
-                )
+                    message = getBundleMessage("webmvc.error.invalid-request-data"),
+                ),
             )
     }
 
@@ -127,11 +133,12 @@ abstract class AbstractGlobalExceptionHandler {
     open fun handleNoResourceFoundException(e: NoResourceFoundException): ResponseEntity<UnitApiResponse> {
         log.error { "${e::class.simpleName}: ${e.message}" }
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+        return ResponseEntity
+            .status(HttpStatus.NOT_FOUND)
             .body(
                 ApiResponse.Companion.fail(
-                    message = getBundleMessage("webmvc.error.not-found")
-                )
+                    message = getBundleMessage("webmvc.error.not-found"),
+                ),
             )
     }
 }

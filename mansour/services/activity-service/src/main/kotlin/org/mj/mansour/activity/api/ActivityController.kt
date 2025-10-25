@@ -19,17 +19,23 @@ class ActivityController(
 ) {
 
     @PostMapping("/interest/groups")
-    fun createInterestAssetGroup(@UserId userId: Long, @RequestBody request: CreateInterestAssetGroupRequest): UnitApiResponse {
+    fun createInterestAssetGroup(
+        @UserId userId: Long,
+        @RequestBody request: CreateInterestAssetGroupRequest,
+    ): UnitApiResponse {
         assetService.createInterestAssetGroup(userId = userId, request = request)
         return ApiResponse.ok()
     }
 
     @PostMapping("/interest/assets")
-    fun addInterestAsset(@UserId userId: Long, @RequestBody request: AddInterestAssetRequest): UnitApiResponse {
+    fun addInterestAsset(
+        @UserId userId: Long,
+        @RequestBody request: AddInterestAssetRequest,
+    ): UnitApiResponse {
         assetService.addInterestAsset(
             groupId = request.groupId,
             assetId = request.assetId,
-            userId = userId
+            userId = userId,
         )
         return ApiResponse.ok()
     }
@@ -38,12 +44,12 @@ class ActivityController(
     fun removeInterestAsset(
         @UserId userId: Long,
         @PathVariable assetId: Long,
-        @RequestBody request: RemoveInterestAssetRequest
+        @RequestBody request: RemoveInterestAssetRequest,
     ): UnitApiResponse {
         assetService.removeInterestAsset(
             groupId = request.groupId,
             assetId = assetId,
-            userId = userId
+            userId = userId,
         )
 
         return ApiResponse.ok()

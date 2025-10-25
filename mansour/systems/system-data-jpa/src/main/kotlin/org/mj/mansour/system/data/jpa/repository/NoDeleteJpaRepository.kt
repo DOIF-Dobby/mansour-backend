@@ -8,8 +8,10 @@ import org.springframework.data.repository.NoRepositoryBean
 import org.springframework.data.repository.query.QueryByExampleExecutor
 
 @NoRepositoryBean
-interface NoDeleteJpaRepository<T, ID>
-    : ListReadSaveRepository<T, ID>, ListPagingAndSortingRepository<T, ID>, QueryByExampleExecutor<T> {
+interface NoDeleteJpaRepository<T, ID> :
+    ListReadSaveRepository<T, ID>,
+    ListPagingAndSortingRepository<T, ID>,
+    QueryByExampleExecutor<T> {
 
     fun flush()
 

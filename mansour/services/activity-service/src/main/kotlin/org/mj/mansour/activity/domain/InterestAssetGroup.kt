@@ -40,7 +40,7 @@ class InterestAssetGroup(
 
         val asset = InterestAsset(
             group = this,
-            assetId = assetId
+            assetId = assetId,
         )
         _assets.add(asset)
     }

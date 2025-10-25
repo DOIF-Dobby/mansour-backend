@@ -34,7 +34,6 @@ class KisDomesticRealtimeWebSocketManager(
     @Volatile
     private var lastMessageTime: Instant? = null
 
-
     /**
      * WebSocket 서버에 연결을 시도합니다.
      * 연결이 이미 열려 있다면 아무 작업도 하지 않습니다.
@@ -80,12 +79,11 @@ class KisDomesticRealtimeWebSocketManager(
         try {
             val payload = createSubscriptionPayload(
                 transactionType = KisRealtimeTransactionType.SUBSCRIBE,
-                symbol = symbol
+                symbol = symbol,
             )
 
             session?.sendMessage(TextMessage(payload))
             log.info { "Subscription message sent for symbol: $symbol" }
-
         } catch (e: Exception) {
             log.error(e) { "Failed to send subscription message for symbol: $symbol" }
         }
@@ -103,12 +101,11 @@ class KisDomesticRealtimeWebSocketManager(
         try {
             val payload = createSubscriptionPayload(
                 transactionType = KisRealtimeTransactionType.UNSUBSCRIBE,
-                symbol = symbol
+                symbol = symbol,
             )
 
             session?.sendMessage(TextMessage(payload))
             log.info { "Unsubscription message sent for symbol: $symbol" }
-
         } catch (e: Exception) {
             log.error(e) { "Failed to send unsubscription message for symbol: $symbol" }
         }
@@ -171,19 +168,16 @@ class KisDomesticRealtimeWebSocketManager(
                 "approval_key" to kisAuthService.getRealtimeToken(),
                 "custtype" to "P",
                 "tr_type" to transactionType.code,
-                "content-type" to "utf-8"
+                "content-type" to "utf-8",
             ),
             "body" to mapOf(
                 "input" to mapOf(
                     "tr_id" to KisRealtimeTransactionId.DOMESTIC_REALTIME_TRADE_TOTAL,
-                    "tr_key" to symbol
-                )
-            )
+                    "tr_key" to symbol,
+                ),
+            ),
         )
 
         return objectMapper.writeValueAsString(payload)
     }
-
 }
-
-

@@ -16,18 +16,18 @@ class KisDomesticPriceService(
     fun fetchDomesticPrice(symbol: String): KisDomesticPriceData {
         val token = kisAuthService.getApiToken()
 
-        val responseBody = kisRestClient.get()
+        val responseBody = kisRestClient
+            .get()
             .uri {
-                it.path("/uapi/domestic-stock/v1/quotations/inquire-price")
+                it
+                    .path("/uapi/domestic-stock/v1/quotations/inquire-price")
                     .queryParam("fid_cond_mrkt_div_code", "J")
                     .queryParam("fid_input_iscd", symbol)
                     .build()
-            }
-            .headers {
+            }.headers {
                 it.set("authorization", "Bearer $token")
                 it.set("tr_id", "FHKST01010100")
-            }
-            .retrieve()
+            }.retrieve()
             .body(object : ParameterizedTypeReference<KisResponse<KisDomesticPriceData>>() {})
 
         return responseBody?.output ?: throw RuntimeException("Failed to fetch domestic price for symbol: $symbol")

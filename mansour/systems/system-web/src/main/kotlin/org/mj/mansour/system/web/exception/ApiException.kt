@@ -10,10 +10,8 @@ abstract class ApiException(
     messageProperty: String,
     messageArguments: Array<Any>? = null,
 ) : BaseException(
-    code = code,
-    message = message,
-    messageProperty = messageProperty,
-    messageArguments = messageArguments,
-)
-
-
+        code = code,
+        message = message,
+        messageProperty = messageProperty,
+        messageArguments = messageArguments,
+    )

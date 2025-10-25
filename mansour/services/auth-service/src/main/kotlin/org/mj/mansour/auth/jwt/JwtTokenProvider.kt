@@ -11,13 +11,16 @@ import java.util.Date
 
 @Component
 class JwtTokenProvider(
-    private val properties: JwtTokenProperties
+    private val properties: JwtTokenProperties,
 ) {
 
     private val privateKey: PrivateKey by lazy {
         val resource = ClassPathResource(properties.privateKeyPath.removePrefix("classpath:"))
 
-        val privateKeyBase64 = resource.inputStream.readBytes().toString(Charsets.UTF_8).trim()
+        val privateKeyBase64 = resource.inputStream
+            .readBytes()
+            .toString(Charsets.UTF_8)
+            .trim()
 
         val keyBytes = Base64.getDecoder().decode(privateKeyBase64)
         val keySpec = PKCS8EncodedKeySpec(keyBytes)
@@ -29,7 +32,8 @@ class JwtTokenProvider(
         val expiredMills = issuedAt.time + properties.expiration.toMillis()
         val expiration = Date(expiredMills)
 
-        return Jwts.builder()
+        return Jwts
+            .builder()
             .subject(subject)
             .claims(claims)
             .issuedAt(issuedAt)
@@ -37,5 +41,4 @@ class JwtTokenProvider(
             .signWith(privateKey)
             .compact()
     }
-
 }

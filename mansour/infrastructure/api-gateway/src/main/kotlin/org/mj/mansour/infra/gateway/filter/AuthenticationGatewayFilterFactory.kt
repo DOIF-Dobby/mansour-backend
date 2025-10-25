@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 
 @Component
 class AuthenticationGatewayFilterFactory(
-    private val jwtTokenValidator: JwtTokenValidator
+    private val jwtTokenValidator: JwtTokenValidator,
 ) : AbstractGatewayFilterFactory<AuthenticationGatewayFilterFactory.Config>(Config::class.java) {
 
     class Config
@@ -28,10 +28,10 @@ class AuthenticationGatewayFilterFactory(
 
             val token = authHeader.substring(7)
 
-
             try {
                 val subject = jwtTokenValidator.getSubject(token)
-                val mutatedRequest = request.mutate()
+                val mutatedRequest = request
+                    .mutate()
                     .header(ApiHeaders.X_USER_ID, subject)
                     .build()
 
@@ -39,11 +39,14 @@ class AuthenticationGatewayFilterFactory(
             } catch (e: Exception) {
                 onError(exchange, "Invalid token: ${e.message}", HttpStatus.UNAUTHORIZED)
             }
-
         }
     }
 
-    private fun onError(exchange: ServerWebExchange, errorMessage: String, httpStatus: HttpStatus): Mono<Void> {
+    private fun onError(
+        exchange: ServerWebExchange,
+        errorMessage: String,
+        httpStatus: HttpStatus,
+    ): Mono<Void> {
         val response = exchange.response
         response.statusCode = httpStatus
 

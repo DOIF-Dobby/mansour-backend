@@ -25,7 +25,7 @@ abstract class Asset(
 
     @Enumerated(EnumType.STRING)
     @Column(name = "asset_type", insertable = false, updatable = false)
-    val assetType: AssetType
+    val assetType: AssetType,
 ) : BaseEntity() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

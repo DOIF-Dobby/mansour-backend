@@ -17,7 +17,7 @@ class UserIdArgumentResolver : HandlerMethodArgumentResolver {
         parameter: MethodParameter,
         mavContainer: ModelAndViewContainer?,
         webRequest: NativeWebRequest,
-        binderFactory: WebDataBinderFactory?
+        binderFactory: WebDataBinderFactory?,
     ): Any? {
         if (parameter.parameterType == Long::class.java) {
             return ApiHeaderUtils.getCurrentUserId()

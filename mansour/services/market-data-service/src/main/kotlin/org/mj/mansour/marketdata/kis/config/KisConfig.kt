@@ -6,18 +6,18 @@ import org.springframework.web.client.RestClient
 
 @Configuration
 class KisConfig(
-    private val kisProperties: KisProperties
+    private val kisProperties: KisProperties,
 ) {
 
     @Bean
     fun kisRestClient(): RestClient {
-        return RestClient.builder()
+        return RestClient
+            .builder()
             .baseUrl(kisProperties.url)
             .defaultHeaders {
                 it.set("Content-Type", "application/json")
                 it.set("appkey", kisProperties.appKey)
                 it.set("appsecret", kisProperties.appSecret)
-            }
-            .build()
+            }.build()
     }
 }

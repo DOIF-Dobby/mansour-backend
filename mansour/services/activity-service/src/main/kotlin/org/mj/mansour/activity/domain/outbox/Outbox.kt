@@ -11,13 +11,13 @@ class Outbox(
     aggregateType: String,
     aggregateId: String,
     eventType: String,
-    payload: String
+    payload: String,
 ) : BaseOutboxEntity(
-    aggregateType = aggregateType,
-    aggregateId = aggregateId,
-    eventType = eventType,
-    payload = payload
-) {
+        aggregateType = aggregateType,
+        aggregateId = aggregateId,
+        eventType = eventType,
+        payload = payload,
+    ) {
 
     @Id
     @Column(name = "id", nullable = false, updatable = false)

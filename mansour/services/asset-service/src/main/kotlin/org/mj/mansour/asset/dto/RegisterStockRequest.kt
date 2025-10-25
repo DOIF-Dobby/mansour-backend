@@ -5,5 +5,5 @@ import org.mansour.shared.domain.enums.MarketType
 data class RegisterStockRequest(
     val symbol: String,
     val name: String,
-    val market: MarketType
+    val market: MarketType,
 )

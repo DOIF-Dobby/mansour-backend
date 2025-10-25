@@ -31,14 +31,17 @@ class TestController(
                 close = BigDecimal.valueOf(84400),
                 volume = 1234L,
                 windowStartTime = Instant.ofEpochSecond(1759135440),
-                windowEndTime = Instant.ofEpochSecond(1759135500)
-            )
+                windowEndTime = Instant.ofEpochSecond(1759135500),
+            ),
         )
     }
 
     @GetMapping("/test2/{symbol}")
-    fun test2(@PathVariable("symbol") symbol: String): ContentApiResponse<CandleResponse> {
-        val findRecentCandles = stockPriceRepository.findRecentCandles(symbol = symbol)
+    fun test2(
+        @PathVariable("symbol") symbol: String,
+    ): ContentApiResponse<CandleResponse> {
+        val findRecentCandles = stockPriceRepository
+            .findRecentCandles(symbol = symbol)
             .map { candle ->
                 CandleResponse(
                     time = candle.windowStartTime.epochSecond,

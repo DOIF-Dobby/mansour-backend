@@ -17,21 +17,25 @@ import org.springframework.transaction.annotation.Transactional
 class InterestAssetService(
     private val interestAssetGroupRepository: InterestAssetGroupRepository,
     private val interestAssetRepository: InterestAssetRepository,
-    private val outboxService: OutboxService
+    private val outboxService: OutboxService,
 ) {
 
     @Transactional
     fun createInterestAssetGroup(userId: Long, request: CreateInterestAssetGroupRequest) {
         val interestAssetGroup = InterestAssetGroup(
             userId = userId,
-            name = request.name
+            name = request.name,
         )
 
         interestAssetGroupRepository.save(interestAssetGroup)
     }
 
     @Transactional
-    fun addInterestAsset(groupId: Long, assetId: Long, userId: Long) {
+    fun addInterestAsset(
+        groupId: Long,
+        assetId: Long,
+        userId: Long,
+    ) {
         // 관심 자산 그룹 조회
         val interestAssetGroup = interestAssetGroupRepository.findByIdAndUserId(id = groupId, userId = userId)
             ?: throw InterestGroupNotFoundException()
@@ -40,7 +44,7 @@ class InterestAssetService(
         interestAssetGroup.addInterestAsset(assetId)
         val addedInterestAsset = interestAssetRepository.findByGroupIdAndAssetId(
             groupId = interestAssetGroup.id,
-            assetId = assetId
+            assetId = assetId,
         ) ?: throw InterestAssetNotFoundException()
 
         // outbox 레코드 생성
@@ -52,13 +56,17 @@ class InterestAssetService(
                 groupId = interestAssetGroup.id,
                 assetId = addedInterestAsset.assetId,
                 userId = interestAssetGroup.userId,
-                interestAssetId = addedInterestAsset.id
-            )
+                interestAssetId = addedInterestAsset.id,
+            ),
         )
     }
 
     @Transactional
-    fun removeInterestAsset(groupId: Long, assetId: Long, userId: Long) {
+    fun removeInterestAsset(
+        groupId: Long,
+        assetId: Long,
+        userId: Long,
+    ) {
         // 관심 자산 그룹 조회
         val interestAssetGroup = interestAssetGroupRepository.findByIdAndUserId(id = groupId, userId = userId)
             ?: throw InterestGroupNotFoundException()
@@ -66,7 +74,7 @@ class InterestAssetService(
         // 삭제할 관심 자산(InterestAsset)이 조회
         val interestAssetToRemove = interestAssetRepository.findByGroupIdAndAssetId(
             groupId = interestAssetGroup.id,
-            assetId = assetId
+            assetId = assetId,
         ) ?: throw InterestAssetNotFoundException()
 
         // 관심 자산 그룹에 자산을 제거
@@ -81,8 +89,8 @@ class InterestAssetService(
                 groupId = interestAssetGroup.id,
                 assetId = assetId,
                 userId = interestAssetGroup.userId,
-                interestAssetId = interestAssetToRemove.id
-            )
+                interestAssetId = interestAssetToRemove.id,
+            ),
         )
     }
 
@@ -101,7 +109,7 @@ class InterestAssetService(
         // 삭제할 관심 자산 조회
         val interestAssetToCompensate = interestAssetRepository.findByGroupIdAndAssetId(
             groupId = interestAssetGroup.id,
-            assetId = assetId
+            assetId = assetId,
         ) ?: run {
             log.warn { "Compensation failed: InterestAsset for assetId $assetId in groupId $groupId not found. Already compensated." }
             return

@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter
 @Component
 class RawTickDataReceivedEventHandler(
     private val objectMapper: ObjectMapper,
-    private val kafkaTemplate: KafkaTemplate<String, String>
+    private val kafkaTemplate: KafkaTemplate<String, String>,
 ) {
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyyMMdd")
@@ -46,12 +46,10 @@ class RawTickDataReceivedEventHandler(
         try {
             kafkaTemplate.send(
                 StockPriceUpdatedEvent.TOPIC,
-                objectMapper.writeValueAsString(eventPayload)
+                objectMapper.writeValueAsString(eventPayload),
             )
         } catch (_: Exception) {
             log.error { "Failed to send message to Kafka topic" }
         }
-
-
     }
 }

@@ -3,7 +3,9 @@ package org.mj.mansour.system.data.repository
 import org.springframework.data.repository.NoRepositoryBean
 
 @NoRepositoryBean
-interface ListReadSaveRepository<T, ID> : ReadRepository<T, ID>, SaveRepository<T, ID> {
+interface ListReadSaveRepository<T, ID> :
+    ReadRepository<T, ID>,
+    SaveRepository<T, ID> {
 
     override fun findAll(): List<T>
 

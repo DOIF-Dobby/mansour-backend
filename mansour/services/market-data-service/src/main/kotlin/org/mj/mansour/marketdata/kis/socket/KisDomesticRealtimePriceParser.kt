@@ -76,7 +76,7 @@ class KisDomesticRealtimePriceParser {
                     previousDaySameTimeVolumeRate = fields[42].toBigDecimal(),
                     hourClassCode = fields[43],
                     marketTerminationCode = fields[44],
-                    staticViStandardPrice = fields[45].toBigDecimal()
+                    staticViStandardPrice = fields[45].toBigDecimal(),
                 )
             }
 
@@ -90,5 +90,4 @@ class KisDomesticRealtimePriceParser {
     companion object {
         private const val NUM_OF_FIELDS_PER_RECORD = 46
     }
-
 }

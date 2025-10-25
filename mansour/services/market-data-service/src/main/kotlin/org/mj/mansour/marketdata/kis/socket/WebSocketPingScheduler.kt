@@ -7,7 +7,7 @@ import java.time.Duration
 
 @Component
 class WebSocketPingScheduler(
-    private val webSocketManager: KisDomesticRealtimeWebSocketManager
+    private val webSocketManager: KisDomesticRealtimeWebSocketManager,
 ) {
 
     @Scheduled(fixedRate = 10_000)
@@ -21,6 +21,5 @@ class WebSocketPingScheduler(
     companion object {
         // 마지막 메세지 수신 후 일정 시간 동안 메세지가 수신되지 않으면 Ping을 보냅니다.
         private val IDLE_THRESHOLD = Duration.ofSeconds(20)
-
     }
 }

@@ -33,16 +33,16 @@ class MarketDataStreamConfig {
         val accumulatorSerde = JsonSerde(OneMinuteCandleAccumulator::class.java)
         val finalCandleSerde = JsonSerde(OneMinuteCandle::class.java)
 
-
         // 1. 소스(Source): 실시간 체결가 토픽에서 데이터를 읽습니다.
-        streamsBuilder.stream(
-            StockPriceUpdatedEvent.TOPIC,
-            Consumed.with(stringSerde, stringSerde)
-        ).process(ProcessorSupplier { TickDataProcessor(objectMapper) })
+        streamsBuilder
+            .stream(
+                StockPriceUpdatedEvent.TOPIC,
+                Consumed.with(stringSerde, stringSerde),
+            ).process(ProcessorSupplier { TickDataProcessor(objectMapper) })
             // 2. 그룹화(Group): 종목 코드(symbol)를 기준으로 데이터를 묶습니다.
             .groupBy(
                 { key, value -> value.symbol },
-                Grouped.with(stringSerde, tickPayloadSerde)
+                Grouped.with(stringSerde, tickPayloadSerde),
             )
             // 3. 윈도우(Window): 1분 단위의 겹치지 않는 시간 창으로 그룹을 나눕니다. 5초의 유예 기간을 설정하여, 윈도우가 닫힌 후에도 5초 동안 추가 데이터가 들어올 수 있도록 합니다.
             .windowedBy(TimeWindows.ofSizeAndGrace(Duration.ofMinutes(1), Duration.ofSeconds(5)))
@@ -71,7 +71,7 @@ class MarketDataStreamConfig {
                     candle
                 },
                 // 집계 중간 결과를 저장할 상태 저장소(State Store)를 설정합니다.
-                Materialized.with(stringSerde, accumulatorSerde)
+                Materialized.with(stringSerde, accumulatorSerde),
             )
             // 👇 윈도우가 닫힐 때까지 중간 결과 방출을 억제하고, 최종 결과만 내보냅니다.
             .suppress(Suppressed.untilWindowCloses(Suppressed.BufferConfig.unbounded()))
@@ -86,17 +86,15 @@ class MarketDataStreamConfig {
                     close = accumulator.close,
                     volume = accumulator.volume,
                     windowStartTime = Instant.ofEpochMilli(windowedKey.window().start()),
-                    windowEndTime = Instant.ofEpochMilli(windowedKey.window().end())
+                    windowEndTime = Instant.ofEpochMilli(windowedKey.window().end()),
                 )
                 KeyValue(windowedKey.key(), finalCandle)
-            }
-            .to(
+            }.to(
                 CANDLE_TOPIC,
-                Produced.with(stringSerde, finalCandleSerde)
+                Produced.with(stringSerde, finalCandleSerde),
             )
 
         return streamsBuilder
-
     }
 
     companion object {

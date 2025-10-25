@@ -10,5 +10,5 @@ data class KisApiTokenRequest(
     val appKey: String,
 
     @param:JsonProperty("appsecret")
-    val appSecret: String
+    val appSecret: String,
 )

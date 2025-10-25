@@ -20,7 +20,7 @@ class User(
     val email: Email,
 
     @Column(nullable = false)
-    var username: String
+    var username: String,
 ) : BaseDeletedEntity() {
 
     @Id
@@ -49,9 +49,8 @@ class User(
         val authentication = UserAuthentication(
             user = this,
             provider = provider,
-            providerId = providerId
+            providerId = providerId,
         )
         _authentications.add(authentication)
     }
-
 }

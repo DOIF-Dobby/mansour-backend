@@ -10,8 +10,12 @@ import org.springframework.web.bind.annotation.PathVariable
 interface AssetServiceClient {
 
     @GetMapping("/internal/api/assets/{assetId}")
-    fun getAssetById(@PathVariable assetId: Long): ApiResponse<AssetResponse>
+    fun getAssetById(
+        @PathVariable assetId: Long,
+    ): ApiResponse<AssetResponse>
 
     @GetMapping("/internal/api/assets/symbol/{symbol}")
-    fun getAssetBySymbol(@PathVariable symbol: String): ApiResponse<AssetResponse>
+    fun getAssetBySymbol(
+        @PathVariable symbol: String,
+    ): ApiResponse<AssetResponse>
 }

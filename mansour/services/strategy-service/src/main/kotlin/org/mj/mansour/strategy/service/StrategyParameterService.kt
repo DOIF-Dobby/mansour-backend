@@ -40,7 +40,8 @@ class StrategyParameterService(
         val tradingStrategy = tradingStrategyRepository.findByIdOrNull(strategyId)
             ?: throw TradingStrategyNotFoundException(strategyId)
 
-        return strategyParameterRepository.findAllByStrategy(tradingStrategy)
+        return strategyParameterRepository
+            .findAllByStrategy(tradingStrategy)
             .map { strategyParameter ->
                 StrategyParameterResponse(
                     strategyId = strategyParameter.strategy.id,
@@ -50,7 +51,7 @@ class StrategyParameterService(
                     parameterType = strategyParameter.parameterType,
                     required = strategyParameter.required,
                     minValue = strategyParameter.minValue,
-                    maxValue = strategyParameter.maxValue
+                    maxValue = strategyParameter.maxValue,
                 )
             }
     }

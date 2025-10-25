@@ -12,7 +12,6 @@ class DebeziumMessageParser(
     }
 }
 
-
 inline fun <reified T> DebeziumMessageParser.parsePayload(rawMessage: String): T {
     return this.parseDebeziumPayload(rawMessage, T::class.java)
 }

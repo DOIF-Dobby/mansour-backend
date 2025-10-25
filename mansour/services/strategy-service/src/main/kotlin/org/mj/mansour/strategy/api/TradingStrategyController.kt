@@ -21,7 +21,9 @@ class TradingStrategyController(
      * 트레이딩 전략을 생성합니다.
      */
     @PostMapping
-    fun createTradingStrategy(@RequestBody request: CreateTradingStrategyRequest): UnitApiResponse {
+    fun createTradingStrategy(
+        @RequestBody request: CreateTradingStrategyRequest,
+    ): UnitApiResponse {
         tradingStrategyService.createTradingStrategy(request)
 
         return ApiResponse.ok()

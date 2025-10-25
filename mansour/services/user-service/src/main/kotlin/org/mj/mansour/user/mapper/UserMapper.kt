@@ -10,13 +10,13 @@ fun User.toResponse(): UserResponse {
         userId = this.id,
         email = this.email.address,
         username = this.username,
-        authentications = this.authentications.map { it.toResponse() }
+        authentications = this.authentications.map { it.toResponse() },
     )
 }
 
 fun UserAuthentication.toResponse(): UserAuthenticationResponse {
     return UserAuthenticationResponse(
         provider = this.provider,
-        providerId = this.providerId
+        providerId = this.providerId,
     )
 }

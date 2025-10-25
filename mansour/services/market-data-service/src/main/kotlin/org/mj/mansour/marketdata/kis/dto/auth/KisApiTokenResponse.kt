@@ -16,5 +16,5 @@ data class KisApiTokenResponse(
     val tokenType: String,
 
     @param:JsonProperty("expires_in")
-    val expiresIn: Long
+    val expiresIn: Long,
 )

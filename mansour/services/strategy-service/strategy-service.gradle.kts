@@ -11,5 +11,4 @@ dependencies {
     implementation(project(MansourModules.SYSTEM_WEBMVC))
     implementation(project(MansourModules.SYSTEM_DATA_JPA))
     implementation(project(MansourModules.CONTRACTS_STRATEGY_SERVICE))
-
 }

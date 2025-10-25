@@ -14,9 +14,9 @@ class Stock(
     name: String,
 
     @Enumerated(EnumType.STRING)
-    val market: MarketType
+    val market: MarketType,
 ) : Asset(
-    symbol = symbol,
-    name = name,
-    assetType = AssetType.STOCK
-)
+        symbol = symbol,
+        name = name,
+        assetType = AssetType.STOCK,
+    )

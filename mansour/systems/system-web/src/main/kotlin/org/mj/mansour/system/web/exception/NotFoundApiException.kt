@@ -8,9 +8,9 @@ abstract class NotFoundApiException(
     messageProperty: String,
     messageArguments: Array<Any>? = null,
 ) : ApiException(
-    code = code,
-    httpStatus = HttpStatus.NOT_FOUND,
-    message = message,
-    messageProperty = messageProperty,
-    messageArguments = messageArguments,
-)
+        code = code,
+        httpStatus = HttpStatus.NOT_FOUND,
+        message = message,
+        messageProperty = messageProperty,
+        messageArguments = messageArguments,
+    )

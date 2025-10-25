@@ -7,7 +7,6 @@ dependencies {
 
     testImplementation("org.springframework.kafka:spring-kafka-test")
 
-
     runtimeOnly("org.postgresql:postgresql")
 
     implementation(project(MansourModules.SHARED_DOMAIN))

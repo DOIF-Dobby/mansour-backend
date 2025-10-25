@@ -13,13 +13,18 @@ class OutboxService(
 ) {
 
     @Transactional
-    fun saveOutboxRecord(aggregateType: String, aggregateId: String, eventType: String, payload: Any) {
+    fun saveOutboxRecord(
+        aggregateType: String,
+        aggregateId: String,
+        eventType: String,
+        payload: Any,
+    ) {
         val payloadString = objectMapper.writeValueAsString(payload)
         val outbox = Outbox(
             aggregateType = aggregateType,
             aggregateId = aggregateId,
             eventType = eventType,
-            payload = payloadString
+            payload = payloadString,
         )
         outboxRepository.save(outbox)
     }

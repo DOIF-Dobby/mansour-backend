@@ -11,17 +11,21 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/internal/api/assets")
 class AssetInternalController(
-    private val assetService: AssetService
+    private val assetService: AssetService,
 ) {
 
     @GetMapping("/{assetId}")
-    fun getAssetById(@PathVariable assetId: Long): ApiResponse<AssetResponse> {
+    fun getAssetById(
+        @PathVariable assetId: Long,
+    ): ApiResponse<AssetResponse> {
         val assetResponse = assetService.getAssetById(assetId)
         return ApiResponse.ok(data = assetResponse)
     }
 
     @GetMapping("/symbol/{symbol}")
-    fun getAssetBySymbol(@PathVariable symbol: String): ApiResponse<AssetResponse> {
+    fun getAssetBySymbol(
+        @PathVariable symbol: String,
+    ): ApiResponse<AssetResponse> {
         val assetResponse = assetService.getAssetBySymbol(symbol)
         return ApiResponse.ok(data = assetResponse)
     }

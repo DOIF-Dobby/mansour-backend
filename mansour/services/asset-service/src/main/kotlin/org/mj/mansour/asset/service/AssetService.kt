@@ -22,11 +22,10 @@ class AssetService(
             throw DuplicateAssetException(symbol = request.symbol)
         }
 
-
         val stock = Stock(
             symbol = request.symbol,
             name = request.name,
-            market = request.market
+            market = request.market,
         )
 
         assetRepository.save(stock)

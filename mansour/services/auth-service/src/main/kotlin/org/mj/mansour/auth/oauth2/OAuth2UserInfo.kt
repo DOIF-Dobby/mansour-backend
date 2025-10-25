@@ -6,7 +6,7 @@ data class OAuth2UserInfo(
     val provider: AuthProvider,
     val providerId: String,
     val email: String,
-    val username: String
+    val username: String,
 ) {
 
     companion object {
@@ -21,7 +21,7 @@ data class OAuth2UserInfo(
                 provider = AuthProvider.GOOGLE,
                 providerId = attributes["sub"] as String,
                 email = attributes["email"] as String,
-                username = attributes["name"] as String
+                username = attributes["name"] as String,
             )
         }
     }

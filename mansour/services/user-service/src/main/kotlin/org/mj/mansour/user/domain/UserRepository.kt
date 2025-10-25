@@ -12,7 +12,7 @@ interface UserRepository : NoDeleteJpaRepository<User, Long> {
         left join fetch u._authentications a
         where u.email.address = :email
         and u.deleted = false
-    """
+    """,
     )
     fun findByEmailWithAuthentications(email: String): User?
 
@@ -23,7 +23,7 @@ interface UserRepository : NoDeleteJpaRepository<User, Long> {
         left join fetch u._authentications a
         where u.id = :userId
         and u.deleted = false
-    """
+    """,
     )
     fun findByIdWithAuthentications(userId: Long): User?
 }

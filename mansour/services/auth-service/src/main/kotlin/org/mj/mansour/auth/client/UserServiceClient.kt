@@ -11,5 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody
 interface UserServiceClient {
 
     @PostMapping("/internal/api/users/find-or-create")
-    fun findOrCreateUser(@RequestBody request: FindOrCreateUserRequest): ApiResponse<UserResponse>
+    fun findOrCreateUser(
+        @RequestBody request: FindOrCreateUserRequest,
+    ): ApiResponse<UserResponse>
 }

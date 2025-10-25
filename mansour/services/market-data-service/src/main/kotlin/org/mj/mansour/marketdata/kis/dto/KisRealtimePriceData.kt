@@ -189,5 +189,5 @@ data class KisRealtimePriceData(
 
     /** 정적VI발동기준가 */
     @param:JsonProperty("VI_STND_PRC")
-    val staticViStandardPrice: BigDecimal
+    val staticViStandardPrice: BigDecimal,
 )

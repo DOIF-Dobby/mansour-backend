@@ -81,11 +81,12 @@ class KisAuthService(
         log.info { "Issue kis token" }
         val request = KisApiTokenRequest(
             appKey = kisProperties.appKey,
-            appSecret = kisProperties.appSecret
+            appSecret = kisProperties.appSecret,
         )
 
         try {
-            return kisRestClient.post()
+            return kisRestClient
+                .post()
                 .uri("/oauth2/tokenP")
                 .body(request)
                 .retrieve()
@@ -103,11 +104,12 @@ class KisAuthService(
         log.info { "Issue kis realtime token" }
         val request = KisRealtimeTokenRequest(
             appKey = kisProperties.appKey,
-            secretKey = kisProperties.appSecret
+            secretKey = kisProperties.appSecret,
         )
 
         try {
-            return kisRestClient.post()
+            return kisRestClient
+                .post()
                 .uri("/oauth2/Approval")
                 .body(request)
                 .retrieve()
@@ -144,7 +146,7 @@ class KisAuthService(
         redisTemplate.opsForValue().set(
             KisTokenType.API.tokenKey,
             tokenResponse.accessToken,
-            ttl
+            ttl,
         )
     }
 
@@ -158,7 +160,7 @@ class KisAuthService(
         redisTemplate.opsForValue().set(
             KisTokenType.REALTIME.tokenKey,
             tokenResponse.approvalKey,
-            duration
+            duration,
         )
     }
 }

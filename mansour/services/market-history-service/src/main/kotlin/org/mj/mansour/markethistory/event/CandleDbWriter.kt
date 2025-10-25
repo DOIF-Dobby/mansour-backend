@@ -29,8 +29,8 @@ class CandleDbWriter(
                 close = candle.close,
                 volume = candle.volume,
                 windowStartTime = candle.windowStartTime,
-                windowEndTime = candle.windowEndTime
-            )
+                windowEndTime = candle.windowEndTime,
+            ),
         )
     }
 }

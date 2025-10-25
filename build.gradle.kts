@@ -98,6 +98,13 @@ subprojects {
         }
     }
 
+    // directory가 아닌 서브 모듈은 ktlint 적용
+    if (project.path !in directoryModules) {
+        apply {
+            plugin("org.jlleitschuh.gradle.ktlint")
+        }
+    }
+
     // 스프링 부트 애플리케이션이 될 모듈들의 부모 경로 목록 정의
     val bootModuleParentPaths =
         listOf(

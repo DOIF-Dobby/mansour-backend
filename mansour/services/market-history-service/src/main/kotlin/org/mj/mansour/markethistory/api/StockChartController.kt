@@ -16,23 +16,26 @@ class StockChartController(
 ) {
 
     @GetMapping("/stock/chart")
-    fun getStockChart(@ModelAttribute condition: CandleSearchCondition): ContentApiResponse<CandleResponse> {
-        val findCandles = stockChartRepository.findCandles(
-            symbol = condition.symbol,
-            resolution = condition.resolution,
-            from = condition.from,
-            to = condition.to,
-        ).map { candle ->
-            CandleResponse(
-                time = candle.windowStartTime.epochSecond,
-                symbol = candle.symbol,
-                open = candle.open,
-                high = candle.high,
-                low = candle.low,
-                close = candle.close,
-                volume = candle.volume,
-            )
-        }
+    fun getStockChart(
+        @ModelAttribute condition: CandleSearchCondition,
+    ): ContentApiResponse<CandleResponse> {
+        val findCandles = stockChartRepository
+            .findCandles(
+                symbol = condition.symbol,
+                resolution = condition.resolution,
+                from = condition.from,
+                to = condition.to,
+            ).map { candle ->
+                CandleResponse(
+                    time = candle.windowStartTime.epochSecond,
+                    symbol = candle.symbol,
+                    open = candle.open,
+                    high = candle.high,
+                    low = candle.low,
+                    close = candle.close,
+                    volume = candle.volume,
+                )
+            }
 
         return ApiResponse.ok(content = findCandles)
     }

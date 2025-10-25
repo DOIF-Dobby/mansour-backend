@@ -22,7 +22,9 @@ class StrategyParameterController(
      * 트레이딩 전략 파라미터를 생성합니다.
      */
     @PostMapping("/parameters")
-    fun createTradingStrategyParameters(@RequestBody request: CreateStrategyParameterRequest): UnitApiResponse {
+    fun createTradingStrategyParameters(
+        @RequestBody request: CreateStrategyParameterRequest,
+    ): UnitApiResponse {
         strategyParameterService.createStrategyParameter(request)
 
         return ApiResponse.ok()
@@ -32,7 +34,9 @@ class StrategyParameterController(
      * 특정 트레이딩 전략에 대한 파라미터를 조회합니다.
      */
     @GetMapping("/parameters")
-    fun getParameters(@RequestParam("strategyId") strategyId: String): ContentApiResponse<StrategyParameterResponse> {
+    fun getParameters(
+        @RequestParam("strategyId") strategyId: String,
+    ): ContentApiResponse<StrategyParameterResponse> {
         val parameters = strategyParameterService.getParametersByStrategy(strategyId)
 
         return ApiResponse.ok(content = parameters)

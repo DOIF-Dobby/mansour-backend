@@ -12,13 +12,16 @@ import java.util.Base64
 
 @Component
 class JwtTokenValidator(
-    private val properties: JwtTokenProperties
+    private val properties: JwtTokenProperties,
 ) {
 
     private val publicKey: PublicKey by lazy {
         val resource = ClassPathResource(properties.publicKeyPath.removePrefix("classpath:"))
 
-        val publicKeyBase64 = resource.inputStream.readBytes().toString(Charsets.UTF_8).trim()
+        val publicKeyBase64 = resource.inputStream
+            .readBytes()
+            .toString(Charsets.UTF_8)
+            .trim()
 
         val keyBytes = Base64.getDecoder().decode(publicKeyBase64)
         val keySpec = X509EncodedKeySpec(keyBytes)
@@ -30,7 +33,8 @@ class JwtTokenValidator(
      * 이 과정에서 서명, 만료 시간 등이 올바르지 않으면 예외 발생
      */
     fun getClaims(token: String): Jws<Claims> {
-        return Jwts.parser()
+        return Jwts
+            .parser()
             .verifyWith(publicKey)
             .build()
             .parseSignedClaims(token)

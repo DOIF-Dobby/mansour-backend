@@ -8,9 +8,9 @@ abstract class BadRequestApiException(
     messageProperty: String,
     messageArguments: Array<Any>? = null,
 ) : ApiException(
-    code = code,
-    httpStatus = HttpStatus.BAD_REQUEST,
-    message = message,
-    messageProperty = messageProperty,
-    messageArguments = messageArguments,
-)
+        code = code,
+        httpStatus = HttpStatus.BAD_REQUEST,
+        message = message,
+        messageProperty = messageProperty,
+        messageArguments = messageArguments,
+    )
